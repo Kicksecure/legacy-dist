@@ -1,3 +1,0 @@
-unlink /usr/bin/whonix-torbrowser || true
-
-

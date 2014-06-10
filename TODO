@@ -1,0 +1,5 @@
+- unlink /usr/bin/whonix-torbrowser || true
+- torchat IP change
+- xchat IP change
+- swapoff ⁄swapfile1 ⁄etc⁄fstab changes
+- sources.list
