@@ -3,3 +3,4 @@
 - xchat IP change
 - swapoff ⁄swapfile1 ⁄etc⁄fstab changes
 - sources.list
+- delete /etc/init.d/whonixcheckd
