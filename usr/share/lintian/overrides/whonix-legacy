@@ -1,0 +1,2 @@
+# This package cleans up local diversions that were added in earlier Whonix versions.
+whonix-legacy: package-uses-local-diversion *
