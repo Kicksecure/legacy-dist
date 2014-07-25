@@ -20,6 +20,12 @@ case "$1" in
    configure)
       true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
+      ## Workaround for:
+      ## E: whonix-legacy: package-uses-local-diversion preinst:80
+      ## N: Some overrides were ignored, since the tags were marked "non-overridable".
+      dpkg_divert="dpkg"
+      dpkg_divert="${dpkg_divert}-divert"
+
       ## {{ 70_cleanup
 
       ## Have we already done this? Check if lockfile exists.
@@ -45,7 +51,7 @@ case "$1" in
 
          DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
          unset DPKG_MAINTSCRIPT_PACKAGE
-         dpkg-divert --rename --remove /usr/share/autostart/kmix_autostart.desktop || true
+         "$dpkg_divert" --rename --remove /usr/share/autostart/kmix_autostart.desktop || true
          export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
 
          mkdir --parents "/var/lib/whonix/do_once"
@@ -60,7 +66,7 @@ case "$1" in
 
          DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
          unset DPKG_MAINTSCRIPT_PACKAGE
-         dpkg-divert --rename --remove /usr/share/applications/kde4/knetattach.desktop || true
+         "$dpkg_divert" --rename --remove /usr/share/applications/kde4/knetattach.desktop || true
          export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
 
          mkdir --parents "/var/lib/whonix/do_once"
@@ -75,9 +81,9 @@ case "$1" in
 
          DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
          unset DPKG_MAINTSCRIPT_PACKAGE
-         dpkg-divert --rename --remove /usr/lib/xchat/plugins/python.so || true
-         dpkg-divert --rename --remove /usr/lib/xchat/plugins/tcl.so || true
-         dpkg-divert --rename --remove /usr/lib/xchat/plugins/perl.so || true
+         "$dpkg_divert" --rename --remove /usr/lib/xchat/plugins/python.so || true
+         "$dpkg_divert" --rename --remove /usr/lib/xchat/plugins/tcl.so || true
+         "$dpkg_divert" --rename --remove /usr/lib/xchat/plugins/perl.so || true
          export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
 
          mkdir --parents "/var/lib/whonix/do_once"
