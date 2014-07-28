@@ -1,8 +1,10 @@
 # Prepare older Build Versions of Whonix for Upgrade #
 
-Required for upgrading from Whonix 8.x to Whonix 9.x or above.
+A metapackage, required for upgrading from Whonix 8.x to Whonix 9.x or above.
 
 Upgrades from Whonix 7.x or older versions is still unsupported.
+
+Safe to remove.
 
 (This package description has been [automatically](https://github.com/Whonix/whonix-developer-meta-files/blob/master/debug-steps/packaging-helper-script) extracted and mirrored from `debian/control`.)
 
