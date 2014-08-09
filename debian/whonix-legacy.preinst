@@ -16,81 +16,153 @@ true "
 ####################################################################
 "
 
+eight_dot_x_to_nine_dot_x() {
+   ## Workaround for:
+   ## E: whonix-legacy: package-uses-local-diversion preinst:80
+   ## N: Some overrides were ignored, since the tags were marked "non-overridable".
+   dpkg_divert="dpkg"
+   dpkg_divert="${dpkg_divert}-divert"
+
+   ## {{ 70_cleanup
+   ## Have we already done this? Check if lockfile exists.
+   if [ ! -f "/var/lib/whonix/do_once/remove_apper_desktop_icon" ]; then
+      ## Required for Whonix Build Version 7, because we no longer install
+      ## Apper by default.
+      if [ -f "/home/user/Desktop/apper.desktop" ]; then
+         ## || true in case it's not a symlink for some strange reason.
+         unlink "/home/user/Desktop/apper.desktop" || true
+      fi
+      ## Create lockfile.
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_apper_desktop_icon"
+   fi
+   ## }} 70_cleanup
+
+   ## {{ 70_deactivate_kmix_autostart
+   if [ ! -f "/var/lib/whonix/do_once/remove_kmix_autostart_diversion" ]; then
+      if [ -f "/usr/share/autostart/kmix_autostart.desktop" ]; then
+         DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
+         unset DPKG_MAINTSCRIPT_PACKAGE
+         "$dpkg_divert" --rename --remove "/usr/share/autostart/kmix_autostart.desktop" || true
+         export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_kmix_autostart_diversion"
+   fi
+   ## }} 70_deactivate_kmix_autostart
+
+   ## {{ 70_knetattach
+   if [ ! -f "/var/lib/whonix/do_once/remove_knetattach_diversion" ]; then
+      if [ -f "/usr/share/applications/kde4/knetattach.desktop" ]; then
+         DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
+         unset DPKG_MAINTSCRIPT_PACKAGE
+         "$dpkg_divert" --rename --remove "/usr/share/applications/kde4/knetattach.desktop" || true
+         export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_knetattach_diversion"
+   fi
+   ## }} 70_knetattach
+
+   ## {{ 70_xchat
+   if [ ! -f "/var/lib/whonix/do_once/remove_xchat_plugins_diversion" ]; then
+      DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
+      unset DPKG_MAINTSCRIPT_PACKAGE
+      if [ -f "/usr/lib/xchat/plugins/python.so" ]; then
+         "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/python.so" || true
+      fi
+      if [ -f "/usr/lib/xchat/plugins/tcl.so" ]; then
+         "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/tcl.so" || true
+      fi
+      if [ -f "/usr/lib/xchat/plugins/perl.so" ]; then
+         "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/perl.so" || true
+      fi
+      export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_xchat_plugins_diversion"
+   fi
+   ## }} 70_xchat
+
+   if [ ! -f "/var/lib/whonix/do_once/unlink_usr_bin_whonix-torbrowser" ]; then
+      if [ -f /usr/bin/whonix-torbrowser ]; then
+         unlink /usr/bin/whonix-torbrowser || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/unlink_usr_bin_whonix-torbrowser"
+   fi
+
+   if [ ! -f "/var/lib/whonix/do_once/remove_etc_init_d_whonixcheckd" ]; then
+      if [ -f /etc/init.d/whonixcheckd ]; then
+         rm --force /etc/init.d/whonixcheckd || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_etc_init_d_whonixcheckd"
+   fi
+
+   ## {{ 70_create_swap_file
+   if [ ! -f "/var/lib/whonix/do_once/remove_chroot_post_script_swapfile1" ]; then
+      if [ -f "⁄swapfile1" ]; then
+         swapoff "⁄swapfile1" || true
+         rm --force "⁄swapfile1" || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_chroot_post_script_swapfile1"
+   fi
+   if [ ! -f "/var/lib/whonix/do_once/remove_cps_swapfile_from_etc_fstab" ]; then
+      if [ -f "/etc/fstab" ]; then
+         sed -i '/## Whonix \/etc\/fstab changes./d' "/etc/fstab" || true
+         sed -i '/## Swap file created by Whonix./d' "/etc/fstab" || true
+         sed -i '/## UUID=0615ba72-85b0-4183-8d54-300bb0d2e491/d' "/etc/fstab" || true
+         sed -i '/\/swapfile1 swap swap defaults 0 0/d' "/etc/fstab" || true
+         sed -i '/## End of Whonix \/etc\/fstab changes./d' "/etc/fstab" || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_cps_swapfile_from_etc_fstab"
+   fi
+   ## }}
+
+   if [ ! -f "/var/lib/whonix/do_once/update-locale" ]; then
+      update-locale LANGUAGE="en_US:en" LANG="en_US.UTF-8" || true
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/update-locale"
+   fi
+
+   if [ ! -f "/var/lib/whonix/do_once/update_torchat_ip" ]; then
+      if [ -f "/home/user/.torchat/torchat.ini" ]; then
+         sed -i 's/192.168.0.10/10.152.152.10/g' "/home/user/.torchat/torchat.ini" || true
+         sed -i 's/192.168.0.11/10.152.152.11/g' "/home/user/.torchat/torchat.ini" || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/update_torchat_ip"
+   fi
+
+   if [ ! -f "/var/lib/whonix/do_once/update_xchat_ip" ]; then
+      if [ -f "/home/user/.xchat2/xchat.conf" ]; then
+         sed -i 's/192.168.0.10/10.152.152.10/g' "/home/user/.xchat2/xchat.conf" || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/update_xchat_ip"
+   fi
+
+   if [ ! -f "/var/lib/whonix/do_once/remove_etc_apt_sources_list" ]; then
+      if [ -f "/etc/apt/sources.list" ]; then
+         cp --preserve /etc/apt/sources.list /etc/apt/sources.list.backup_whonix-legacy
+         rm --force /etc/apt/sources.list
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_etc_apt_sources_list"
+   fi
+
+
+}
+
 case "$1" in
    configure)
       true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
-      ## Workaround for:
-      ## E: whonix-legacy: package-uses-local-diversion preinst:80
-      ## N: Some overrides were ignored, since the tags were marked "non-overridable".
-      dpkg_divert="dpkg"
-      dpkg_divert="${dpkg_divert}-divert"
-
-      ## {{ 70_cleanup
-
-      ## Have we already done this? Check if lockfile exists.
-      if [ ! -f "/var/lib/whonix/do_once/remove_apper_desktop_icon" ]; then
-
-         ## Required for Whonix Build Version 7, because we no longer install
-         ## Apper by default.
-         if [ -f "/home/user/Desktop/apper.desktop" ]; then
-            ## || true in case it's not a symlink for some strange reason.
-            unlink /home/user/Desktop/apper.desktop || true
-         fi
-
-         ## Create lockfile.
-         mkdir --parents "/var/lib/whonix/do_once"
-         touch "/var/lib/whonix/do_once/remove_apper_desktop_icon"
+      if [ -f "/usr/share/whonix/build_version" ]; then
+         eight_dot_x_to_nine_dot_x
       fi
-
-      ## }} 70_cleanup
-
-      ## {{ 70_deactivate_kmix_autostart
-
-      if [ ! -f "/var/lib/whonix/do_once/remove_kmix_autostart_diversion" ]; then
-
-         DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
-         unset DPKG_MAINTSCRIPT_PACKAGE
-         "$dpkg_divert" --rename --remove /usr/share/autostart/kmix_autostart.desktop || true
-         export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
-
-         mkdir --parents "/var/lib/whonix/do_once"
-         touch "/var/lib/whonix/do_once/remove_kmix_autostart_diversion"
-      fi
-
-      ## }} 70_deactivate_kmix_autostart
-
-      ## {{ 70_knetattach
-
-      if [ ! -f "/var/lib/whonix/do_once/remove_knetattach_diversion" ]; then
-
-         DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
-         unset DPKG_MAINTSCRIPT_PACKAGE
-         "$dpkg_divert" --rename --remove /usr/share/applications/kde4/knetattach.desktop || true
-         export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
-
-         mkdir --parents "/var/lib/whonix/do_once"
-         touch "/var/lib/whonix/do_once/remove_knetattach_diversion"
-      fi
-
-      ## }} 70_knetattach
-
-      ## {{ 70_xchat
-
-      if [ ! -f "/var/lib/whonix/do_once/remove_xchat_plugins_diversions" ]; then
-
-         DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
-         unset DPKG_MAINTSCRIPT_PACKAGE
-         "$dpkg_divert" --rename --remove /usr/lib/xchat/plugins/python.so || true
-         "$dpkg_divert" --rename --remove /usr/lib/xchat/plugins/tcl.so || true
-         "$dpkg_divert" --rename --remove /usr/lib/xchat/plugins/perl.so || true
-         export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
-
-         mkdir --parents "/var/lib/whonix/do_once"
-         touch "/var/lib/whonix/do_once/remove_xchat_plugins_diversions"
-      fi
-
-      ## }} 70_xchat
 
       true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 

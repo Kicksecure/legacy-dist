@@ -1,7 +1,0 @@
-- unlink /usr/bin/whonix-torbrowser || true
-- torchat IP change
-- xchat IP change
-- swapoff ⁄swapfile1 ⁄etc⁄fstab changes
-- sources.list
-- delete /etc/init.d/whonixcheckd
-- update-locale LANGUAGE="en_US:en" LANG="en_US.UTF-8"
