@@ -91,14 +91,6 @@ eight_dot_x_to_nine_dot_x() {
       touch "/var/lib/whonix/do_once/unlink_usr_bin_whonix-torbrowser"
    fi
 
-   if [ ! -f "/var/lib/whonix/do_once/remove_etc_init_d_whonixcheckd" ]; then
-      if [ -f /etc/init.d/whonixcheckd ]; then
-         rm --force /etc/init.d/whonixcheckd || true
-      fi
-      mkdir --parents "/var/lib/whonix/do_once"
-      touch "/var/lib/whonix/do_once/remove_etc_init_d_whonixcheckd"
-   fi
-
    ## {{ 70_create_swap_file
    if [ ! -f "/var/lib/whonix/do_once/remove_chroot_post_script_swapfile1" ]; then
       if [ -f "⁄swapfile1" ]; then
@@ -153,7 +145,37 @@ eight_dot_x_to_nine_dot_x() {
       touch "/var/lib/whonix/do_once/remove_etc_apt_sources_list"
    fi
 
+   if [ ! -f "/var/lib/whonix/do_once/remove_old_init_scripts" ]; then
+      if [ -f /etc/init.d/whonixcheckd ]; then
+         update-rc.d whonixcheckd remove || true
+         rm --force /etc/init.d/whonixcheckd || true
+      fi
+      if [ -f /etc/init.d/controlportfiltd ]; then
+         update-rc.d controlportfiltd remove || true
+         rm --force /etc/init.d/controlportfiltd || true
+      fi
+      if [ -f /etc/init.d/backgroundd ]; then
+         update-rc.d backgroundd remove || true
+         rm --force /etc/init.d/backgroundd || true
+      fi
+      if [ -f /etc/init.d/timesyncd ]; then
+         update-rc.d timesyncd remove || true
+         rm --force /etc/init.d/timesyncd || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_old_init_scripts"
+   fi
 
+   if [ ! -f "/var/lib/whonix/do_once/remove_old_profile_d_scripts" ]; then
+      if [ -f /etc/profile.d/20_mesg.sh ]; then
+         rm --force /etc/profile.d/20_mesg.sh
+      fi
+      if [ -f /etc/profile.d/25_first_run_initializer.sh ]; then
+         rm --force /etc/profile.d/25_first_run_initializer.sh
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_old_profile_d_scripts"
+   fi
 }
 
 case "$1" in
