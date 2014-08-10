@@ -16,6 +16,31 @@ true "
 ####################################################################
 "
 
+get_build_version() {
+   ## fallback
+   whonix_build_version="Could not read Whonix Build Version File. (Code: 3) Please report this bug!"
+
+   local build_version_file
+   if [ -f "/usr/share/whonix/build_version" ]; then
+      build_version_file="/usr/share/whonix/build_version"
+   elif [ -f "/var/lib/anon-dist/build_version" ]; then
+      build_version_file="/var/lib/anon-dist/build_version"
+   fi
+
+   if [ "$build_version_file" = "" ]; then
+      whonix_build_version="There is no Whonix Build Version File. (Code: 4) Please report this bug!"
+   else
+      if [ -f "$build_version_file" ]; then
+         whonix_build_version="$(cat "$build_version_file")"
+      fi
+   fi
+
+   ## fallback
+   if [ "$whonix_build_version" = "" ]; then
+      whonix_build_version="Could not read Whonix Build Version File. (Code: 5) Please report this bug!"
+   fi
+}
+
 eight_dot_x_to_nine_dot_x() {
    ## Workaround for:
    ## E: whonix-legacy: package-uses-local-diversion preinst:80
@@ -176,13 +201,25 @@ eight_dot_x_to_nine_dot_x() {
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/remove_old_profile_d_scripts"
    fi
+
+   if [ ! -f "/var/lib/whonix/do_once/create_first_run_initializer_done_file" ]; then
+      mkdir --parents "/root/.whonix/"
+      touch "/root/.whonix/first_run_initializer.done"
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/create_first_run_initializer_done_file"
+   fi
 }
 
 case "$1" in
-   configure)
+   install)
       true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
-      if [ -f "/usr/share/whonix/build_version" ]; then
+      get_build_version
+
+      dpkg_compare_versions_exit_code="0"
+      dpkg --compare-versions "$whonix_build_version" lt "8.5.0.0" 2>/dev/null|| { dpkg_compare_versions_exit_code="$?" ; true; };
+
+      if [ "$dpkg_compare_versions_exit_code" = "0" ]; then
          eight_dot_x_to_nine_dot_x
       fi
 
