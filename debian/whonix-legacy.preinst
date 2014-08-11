@@ -210,26 +210,21 @@ eight_dot_x_to_nine_dot_x() {
    fi
 }
 
-case "$1" in
-   install)
-      true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
+true "1: $1"
+true "2: $2"
 
-      get_build_version
+true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
-      dpkg_compare_versions_exit_code="0"
-      dpkg --compare-versions "$whonix_build_version" lt "8.5.0.0" 2>/dev/null|| { dpkg_compare_versions_exit_code="$?" ; true; };
+get_build_version
 
-      if [ "$dpkg_compare_versions_exit_code" = "0" ]; then
-         eight_dot_x_to_nine_dot_x
-      fi
+dpkg_compare_versions_exit_code="0"
+dpkg --compare-versions "$whonix_build_version" lt "8.5.0.0" 2>/dev/null|| { dpkg_compare_versions_exit_code="$?" ; true; };
 
-      true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
+if [ "$dpkg_compare_versions_exit_code" = "0" ]; then
+   eight_dot_x_to_nine_dot_x
+fi
 
-      ;;
-
-   *)
-      ;;
-esac
+true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
 true "INFO: debhelper beginning here."
 
