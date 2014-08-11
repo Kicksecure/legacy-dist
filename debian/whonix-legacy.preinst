@@ -65,12 +65,10 @@ eight_dot_x_to_nine_dot_x() {
 
    ## {{ 70_deactivate_kmix_autostart
    if [ ! -f "/var/lib/whonix/do_once/remove_kmix_autostart_diversion" ]; then
-      if [ -f "/usr/share/autostart/kmix_autostart.desktop" ]; then
-         DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
-         unset DPKG_MAINTSCRIPT_PACKAGE
-         "$dpkg_divert" --rename --remove "/usr/share/autostart/kmix_autostart.desktop" || true
-         export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
-      fi
+      DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
+      unset DPKG_MAINTSCRIPT_PACKAGE
+      "$dpkg_divert" --rename --remove "/usr/share/autostart/kmix_autostart.desktop" || true
+      export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/remove_kmix_autostart_diversion"
    fi
@@ -78,12 +76,10 @@ eight_dot_x_to_nine_dot_x() {
 
    ## {{ 70_knetattach
    if [ ! -f "/var/lib/whonix/do_once/remove_knetattach_diversion" ]; then
-      if [ -f "/usr/share/applications/kde4/knetattach.desktop" ]; then
-         DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
-         unset DPKG_MAINTSCRIPT_PACKAGE
-         "$dpkg_divert" --rename --remove "/usr/share/applications/kde4/knetattach.desktop" || true
-         export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
-      fi
+      DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
+      unset DPKG_MAINTSCRIPT_PACKAGE
+      "$dpkg_divert" --rename --remove "/usr/share/applications/kde4/knetattach.desktop" || true
+      export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/remove_knetattach_diversion"
    fi
@@ -93,15 +89,9 @@ eight_dot_x_to_nine_dot_x() {
    if [ ! -f "/var/lib/whonix/do_once/remove_xchat_plugins_diversion" ]; then
       DPKG_MAINTSCRIPT_PACKAGE_BACKUP="$DPKG_MAINTSCRIPT_PACKAGE"
       unset DPKG_MAINTSCRIPT_PACKAGE
-      if [ -f "/usr/lib/xchat/plugins/python.so" ]; then
-         "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/python.so" || true
-      fi
-      if [ -f "/usr/lib/xchat/plugins/tcl.so" ]; then
-         "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/tcl.so" || true
-      fi
-      if [ -f "/usr/lib/xchat/plugins/perl.so" ]; then
-         "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/perl.so" || true
-      fi
+      "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/python.so" || true
+      "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/tcl.so" || true
+      "$dpkg_divert" --rename --remove "/usr/lib/xchat/plugins/perl.so" || true
       export DPKG_MAINTSCRIPT_PACKAGE="$DPKG_MAINTSCRIPT_PACKAGE_BACKUP"
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/remove_xchat_plugins_diversion"
