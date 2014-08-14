@@ -50,16 +50,29 @@ eight_dot_x_to_nine_dot_x() {
 
    ## {{ 70_cleanup
    ## Have we already done this? Check if lockfile exists.
-   if [ ! -f "/var/lib/whonix/do_once/remove_apper_desktop_icon" ]; then
-      ## Required for Whonix Build Version 7, because we no longer install
-      ## Apper by default.
-      if [ -f "/home/user/Desktop/apper.desktop" ]; then
-         ## || true in case it's not a symlink for some strange reason.
-         unlink "/home/user/Desktop/apper.desktop" || true
-      fi
+   if [ ! -f "/var/lib/whonix/do_once/remove_old_8_desktop_icons" ]; then
+      local old_desktop_icons_list old_desktop_icon
+      old_desktop_icons_list="
+         /home/user/Desktop/whonix-whonixcheck.desktop
+         /home/user/Desktop/whonix-contribute.desktop
+         /home/user/Desktop/whonix-timesync.desktop
+         /home/user/Desktop/whonix-torbrowser.desktop
+         /home/user/Desktop/whonix-torbrowser_update.desktop
+         /home/user/Desktop/whonix-forum.desktop
+         /home/user/Desktop/whonix-mailinglist.desktop
+         /home/user/Desktop/whonix-documentation.desktop
+         /home/user/Desktop/whonix-tbrecommend.desktop
+         /home/user/Desktop/whonix-donate.desktop
+      "
+      for old_desktop_icon in $old_desktop_icons_list; do
+         if [ -h "$old_desktop_icon" ]; then
+            ## || true in case it fails for some strange reason.
+            unlink "$old_desktop_icon" || true
+         fi
+      done
       ## Create lockfile.
       mkdir --parents "/var/lib/whonix/do_once"
-      touch "/var/lib/whonix/do_once/remove_apper_desktop_icon"
+      touch "/var/lib/whonix/do_once/remove_old_8_desktop_icons"
    fi
    ## }} 70_cleanup
 
