@@ -211,6 +211,19 @@ eight_dot_x_to_nine_dot_x() {
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/create_first_run_initializer_done_file"
    fi
+
+   if [ ! -f "/var/lib/whonix/do_once/8_kickoff" ]; then
+      local kickoffrc_file
+      kickoffrc_file="/home/user/.kde/share/config/kickoffrcrc"
+      if [ -f "$kickoffrc_file" ]; then
+         sed -i "s:/usr/share/applications/whonix/whonix-torbrowser.desktop:/usr/share/applications/anondist-torbrowser.desktop:g" "$kickoffrc_file" || true
+         sed -i "s:/usr/share/applications/whonix/whonix-documentation.desktop:/usr/share/applications/whonix-documentation.desktop:g" "$kickoffrc_file" || true
+         sed -i "s:/usr/share/applications/whonix/whonix-whonixcheck.desktop:/usr/share/applications/whonixcheck.desktop:g" "$kickoffrc_file" || true
+         sed -i "s:/usr/share/applications/whonix/whonix-timesync.desktop:/usr/share/applications/timesync.desktop:g" "$kickoffrc_file" || true
+      fi
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/8_kickoffrc"
+   fi
 }
 
 true "1: $1"
