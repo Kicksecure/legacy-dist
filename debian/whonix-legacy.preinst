@@ -63,6 +63,17 @@ eight_dot_x_to_nine_dot_x() {
          /home/user/Desktop/whonix-documentation.desktop
          /home/user/Desktop/whonix-tbrecommend.desktop
          /home/user/Desktop/whonix-donate.desktop
+         /home/user/Desktop/whonix-arm.desktop
+         /home/user/Desktop/whonix-firewall30default.desktop
+         /home/user/Desktop/whonix-firewall50user.desktop
+         /home/user/Desktop/whonix-firsttimesetup.desktop
+         /home/user/Desktop/whonix-reloadfirewall.desktop
+         /home/user/Desktop/whonix-reloadtor.desktop
+         /home/user/Desktop/whonix-repository.desktop
+         /home/user/Desktop/whonix-restarttor.desktop
+         /home/user/Desktop/whonix-stoptor.desktop
+         /home/user/Desktop/whonix-torrc.desktop
+         /home/user/Desktop/whonix-torrcexamples.desktop
       "
       for old_desktop_icon in $old_desktop_icons_list; do
          if [ -h "$old_desktop_icon" ]; then
