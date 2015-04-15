@@ -1,3 +1,15 @@
+commit eff76a81deb9a99f52518e9d6253f92bf5777b05
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 15 21:33:25 2015 +0000
+
+    fix broken gateway-firsttimesetup.desktop desktop icon after Whonix 9 -> Whonix 10 upgrade - https://phabricator.whonix.org/T265
+
+commit 3be10458b068c70f7130a30fc5181e871c1557e2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Apr 7 17:43:12 2015 +0000
+
+    bumped changelog version
+
 commit 91ff83e3df7b67f9461a12bdb49ec890055cc35d
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 2 18:41:42 2015 +0000
