@@ -1,3 +1,15 @@
+commit 150871c964f6be413ef2bfc8f104687cd3317af1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 16 16:33:42 2015 +0000
+
+    fix "Warning: Could not find '/usr/lib/whonixsetup', starting '/bin/bash' instead.  Please check your profile settings." by deleting obsolete /etc/xdg/autostart/whonixsetup.desktop - https://www.whonix.org/forum/index.php/topic,971.0.html
+
+commit e0dde889ea5754b8065952d2134a770ca412201e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 16 14:44:59 2015 +0000
+
+    bumped changelog version
+
 commit 942a9912906d1bf99c39100fe69175852b078ef9
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 16 14:44:25 2015 +0000
