@@ -254,6 +254,14 @@ nine_dot_x_fixes() {
       touch "/var/lib/whonix/do_once/remove_old_9_desktop_icons"
    fi
    ## }}
+
+   ## {{ remove_old_whonixsetup_desktop_file
+   if [ ! -f "/var/lib/whonix/do_once/remove_old_whonixsetup_desktop_file" ]; then
+      rm --force "/etc/xdg/autostart/whonixsetup.desktop" || true
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_old_whonixsetup_desktop_file"
+   fi
+   ## }}
 }
 
 true "1: $1"
