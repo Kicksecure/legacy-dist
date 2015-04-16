@@ -48,11 +48,10 @@ eight_dot_x_to_nine_dot_x() {
    dpkg_divert="dpkg"
    dpkg_divert="${dpkg_divert}-divert"
 
-   local old_desktop_icons_list old_desktop_icon
-
    ## {{ 70_cleanup
    ## Have we already done this? Check if lockfile exists.
    if [ ! -f "/var/lib/whonix/do_once/remove_old_8_desktop_icons" ]; then
+      local old_desktop_icons_list old_desktop_icon
       old_desktop_icons_list="
          /home/user/Desktop/whonix-whonixcheck.desktop
          /home/user/Desktop/whonix-contribute.desktop
@@ -87,23 +86,6 @@ eight_dot_x_to_nine_dot_x() {
       touch "/var/lib/whonix/do_once/remove_old_8_desktop_icons"
    fi
    ## }} 70_cleanup
-
-   ## {{ remove_old_9_desktop_icons
-   if [ ! -f "/var/lib/whonix/do_once/remove_old_9_desktop_icons" ]; then
-      old_desktop_icons_list="
-         /home/user/Desktop/gateway-firsttimesetup.desktop
-      "
-      for old_desktop_icon in $old_desktop_icons_list; do
-         if [ -h "$old_desktop_icon" ]; then
-            ## || true in case it fails for some strange reason.
-            unlink "$old_desktop_icon" || true
-         fi
-      done
-      ## Create lockfile.
-      mkdir --parents "/var/lib/whonix/do_once"
-      touch "/var/lib/whonix/do_once/remove_old_9_desktop_icons"
-   fi
-   ## }}
 
    ## {{ 70_deactivate_kmix_autostart
    if [ ! -f "/var/lib/whonix/do_once/remove_kmix_autostart_diversion" ]; then
@@ -255,6 +237,25 @@ eight_dot_x_to_nine_dot_x() {
    fi
 }
 
+nine_dot_x_fixes() {
+   ## {{ remove_old_9_desktop_icons
+   if [ ! -f "/var/lib/whonix/do_once/remove_old_9_desktop_icons" ]; then
+      local old_desktop_icons_list old_desktop_icon
+      old_desktop_icons_list="
+         /home/user/Desktop/gateway-firsttimesetup.desktop
+      "
+      for old_desktop_icon in $old_desktop_icons_list; do
+         if [ -h "$old_desktop_icon" ]; then
+            ## || true in case it fails for some strange reason.
+            unlink "$old_desktop_icon" || true
+         fi
+      done
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/remove_old_9_desktop_icons"
+   fi
+   ## }}
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -264,6 +265,10 @@ get_build_version
 
 if dpkg --compare-versions "$whonix_build_version" lt "8.5.0.0" 2>/dev/null ; then
    eight_dot_x_to_nine_dot_x
+fi
+
+if dpkg --compare-versions "$whonix_build_version" le "9.9.9.9" 2>/dev/null ; then
+   nine_dot_x_fixes
 fi
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
