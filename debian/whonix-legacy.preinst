@@ -264,6 +264,17 @@ nine_dot_x_fixes() {
    ## }}
 }
 
+ten_dot_x_to_eleven_dot_x() {
+   if [ ! -f "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x" ]; then
+      ## anon-gw-first-run-notice has been deprecated, merged into whonix-setup-wizard
+      rm --force "/etc/xdg/autostart/gateway_first_run_notice.desktop" || true
+      ## moved from /etc/grub.d/30_apparmor.cfg to /etc/default/grub.d/30_apparmor.cfg since the path has changed since release of jessie
+      rm --force "/etc/grub.d/30_apparmor.cfg" || true
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x"
+   fi
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -277,6 +288,10 @@ fi
 
 if dpkg --compare-versions "$whonix_build_version" le "9.9.9.9" 2>/dev/null ; then
    nine_dot_x_fixes
+fi
+
+if dpkg --compare-versions "$whonix_build_version" lt "11" 2>/dev/null ; then
+   ten_dot_x_to_eleven_dot_x
 fi
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
