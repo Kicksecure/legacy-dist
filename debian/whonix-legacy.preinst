@@ -273,6 +273,12 @@ ten_dot_x_to_eleven_dot_x() {
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x"
    fi
+   if [ ! -f "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_grub_cleanup" ]; then
+      sed -i "s/apparmor=1 security=apparmor//g" "/etc/default/grub"  || true
+      rm --force "/etc/default/grub.anondist" || true
+      mkdir --parents "/var/lib/whonix/do_once"
+      touch "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_grub_cleanup"
+   fi
 }
 
 true "1: $1"
