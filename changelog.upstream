@@ -1,3 +1,21 @@
+commit e06b3a882cda7373a46a72219739bae677158124
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jun 14 19:02:56 2015 +0000
+
+    rads cleanup
+
+commit ba1ee2ad8fcd24ed1ef8e698d3e887c713b81c18
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jun 12 17:21:12 2015 +0000
+
+    /etc/default/grub(.anondist) cleanup
+
+commit e45626f2c7f9bf328ce12b7a5612cc76ff4f52ba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jun 9 22:21:29 2015 +0000
+
+    bumped changelog version
+
 commit 9b50b5c33acee1a260acae2c1abccbef8f47663f
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Jun 9 22:19:13 2015 +0000
