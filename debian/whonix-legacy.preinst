@@ -274,22 +274,25 @@ ten_dot_x_to_eleven_dot_x() {
       touch "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x"
    fi
    if [ ! -f "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_grub_cleanup" ]; then
-      sed -i "s/apparmor=1 security=apparmor//g" "/etc/default/grub"  || true
-      rm --force "/etc/default/grub.anondist" || true
+      sed -i "s/apparmor=1 security=apparmor//g" "/etc/default/grub" || true
+      sed -i "s/vga=0x0317//g" "/etc/default/grub" || true
+      ## Not good. Prevents removal of dpkg-diversion through config-package-dev.
+      #rm --force "/etc/default/grub.anondist" || true
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_grub_cleanup"
    fi
-   if [ ! -f "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_rads_cleanup" ]; then
-      if [ -f "/etc/inittab" ]; then
-         cp --no-clobber "/etc/inittab" "/etc/inittab.backup" || true
-      fi
-      if [ -f "/etc/inittab.anondist-orig" ]; then
-         cp "/etc/inittab.anondist-orig" "/etc/inittab" || true
-         rm --force "/etc/inittab.anondist-orig" || true
-      fi
-      mkdir --parents "/var/lib/whonix/do_once"
-      touch "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_rads_cleanup"
-   fi
+   #if [ ! -f "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_rads_cleanup" ]; then
+      ## Not good. Prevents removal of dpkg-diversion through config-package-dev.
+      #if [ -f "/etc/inittab" ]; then
+         #cp --no-clobber "/etc/inittab" "/etc/inittab.backup" || true
+      #fi
+      #if [ -f "/etc/inittab.anondist-orig" ]; then
+         #cp "/etc/inittab.anondist-orig" "/etc/inittab" || true
+         #rm --force "/etc/inittab.anondist-orig" || true
+      #fi
+      #mkdir --parents "/var/lib/whonix/do_once"
+      #touch "/var/lib/whonix/do_once/ten_dot_x_to_eleven_dot_x_rads_cleanup"
+   #fi
 }
 
 true "1: $1"
