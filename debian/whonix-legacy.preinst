@@ -295,6 +295,27 @@ ten_dot_x_to_eleven_dot_x() {
    #fi
 }
 
+eleven_dot_x_to_twelve_dot_x() {
+   if [ ! -f "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x" ]; then
+      mkdir --parents "/var/lib/whonix/do_once"
+      timedatectl set-ntp false >/dev/null 2>&1 || true
+      for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
+         if [ ! -f "${broken_file}.anondist" ]; then
+            continue
+         fi
+         chattr -i "${broken_file}" >/dev/null 2>&1 || true
+         unlink "${broken_file}" >/dev/null 2>&1 || true
+         rm -f "${broken_file}" >/dev/null 2>&1 || true
+         ln -s "${broken_file}.anondist" "${broken_file}" || true
+      done
+      for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
+         ## Debugging / Info.
+         ls -la "$broken_file" || true
+      done
+      touch "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x"
+   fi
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -312,6 +333,10 @@ fi
 
 if dpkg --compare-versions "$whonix_build_version" lt "11" 2>/dev/null ; then
    ten_dot_x_to_eleven_dot_x
+fi
+
+if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
+   eleven_dot_x_to_twelve_dot_x
 fi
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
