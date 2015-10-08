@@ -296,7 +296,7 @@ ten_dot_x_to_eleven_dot_x() {
 }
 
 eleven_dot_x_to_twelve_dot_x() {
-   if [ ! -f "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x" ]; then
+   if [ ! -f "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x_version_2" ]; then
       mkdir --parents "/var/lib/whonix/do_once"
       timedatectl set-ntp false >/dev/null 2>&1 || true
       for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
@@ -312,7 +312,13 @@ eleven_dot_x_to_twelve_dot_x() {
          ## Debugging / Info.
          ls -la "$broken_file" || true
       done
-      touch "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x"
+      if [ -e "/etc/apparmor.d/usr.bin.torbrowser" ] ; then
+         rm -f "/etc/apparmor.d/disable/usr.bin.torbrowser" || true
+         rm -f "/etc/apparmor.d/force-complain/usr.bin.torbrowser" || true
+         rm -f "/etc/apparmor.d/local/usr.bin.torbrowser" || true
+         rmdir /etc/apparmor.d/local 2>/dev/null || true
+      fi
+      touch "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x_version_2"
    fi
 }
 
