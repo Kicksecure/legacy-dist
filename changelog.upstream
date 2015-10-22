@@ -1,3 +1,21 @@
+commit b8a6153736358d367624dc8b830be3689e898950
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 8 14:57:16 2015 +0000
+
+    delete deprecated usr.bin.torbrowser apparmor profile
+
+commit fadcbc324980ae43534f4c413226a47128f53aab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 19 16:13:20 2015 +0000
+
+    Whonix 11 -> Whonix 12 upgrades
+
+commit 96e1908821b297ef5aa67712587a330ce31e274b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 25 14:08:35 2015 +0000
+
+    bumped changelog version
+
 commit de04dbcb2512cfd211eae50a7517e69baa06462c
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jun 15 00:01:47 2015 +0000
