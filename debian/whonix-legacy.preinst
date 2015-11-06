@@ -296,7 +296,7 @@ ten_dot_x_to_eleven_dot_x() {
 }
 
 eleven_dot_x_to_twelve_dot_x() {
-   if [ ! -f "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x_version_2" ]; then
+   if [ ! -f "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x_version_3" ]; then
       mkdir --parents "/var/lib/whonix/do_once"
       timedatectl set-ntp false >/dev/null 2>&1 || true
       for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
@@ -318,7 +318,15 @@ eleven_dot_x_to_twelve_dot_x() {
          rm -f "/etc/apparmor.d/local/usr.bin.torbrowser" || true
          rmdir /etc/apparmor.d/local 2>/dev/null || true
       fi
-      touch "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x_version_2"
+      if [ -e /etc/qubes/protected-files.d/qubes-whonix ]; then
+         rm --force /etc/qubes/protected-files.d/qubes-whonix || true
+      fi
+      for deprecated_symlink in /etc/systemd/system/qubes-firewall.service /etc/systemd/system/tor.service /etc/systemd/system/multi-user.target.wants/qubes-whonix-tor.service ; do
+         if [ -e "$deprecated_symlink" ]; then
+            unlink "$deprecated_symlink" || true
+         fi
+      done
+      touch "/var/lib/whonix/do_once/eleven_dot_x_to_twelve_dot_x_version_3"
    fi
 }
 
