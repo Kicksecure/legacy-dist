@@ -1,3 +1,15 @@
+commit ab480ea015e52c588aaee0955d2eae47956bd262
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 6 17:24:30 2015 +0000
+
+    Qubes-Whonix 11 -> 12 upgrade path
+
+commit c30c604980191e5b8da501500ea8ff61837a1028
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 22 23:12:44 2015 +0000
+
+    bumped changelog version
+
 commit b8a6153736358d367624dc8b830be3689e898950
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Oct 8 14:57:16 2015 +0000
