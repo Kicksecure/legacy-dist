@@ -1,0 +1,16 @@
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+[Unit]
+Description=Whonix legacy versions fixes
+Before=qubes-gui-agent.service
+After=qubes-dvm.service qubes-mount-dirs.service qubes-mount-home.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/lib/whonix-legacy/fixes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,87 @@
+#!/bin/bash
+
+get_build_version() {
+   ## fallback
+   whonix_build_version="Could not read Whonix Build Version File. (Code: 3) Please report this bug!"
+
+   local build_version_file
+   if [ -f "/usr/share/whonix/build_version" ]; then
+      build_version_file="/usr/share/whonix/build_version"
+   elif [ -f "/var/lib/anon-dist/build_version" ]; then
+      build_version_file="/var/lib/anon-dist/build_version"
+   fi
+
+   if [ "$build_version_file" = "" ]; then
+      whonix_build_version="There is no Whonix Build Version File. (Code: 4) Please report this bug!"
+   else
+      if [ -f "$build_version_file" ]; then
+         whonix_build_version="$(cat "$build_version_file")"
+      fi
+   fi
+
+   ## fallback
+   if [ "$whonix_build_version" = "" ]; then
+      whonix_build_version="Could not read Whonix Build Version File. (Code: 5) Please report this bug!"
+   fi
+}
+
+tb_folder_migration_whonix_eleven_to_twelve() {
+   ## We need to move Tor Browser from the old location(s) to the new ones.
+   ## Otherwise existing users who upgrade would be notified "Tor Browser not
+   ## installed" and asked "want to install Tor Browser?".
+
+   if [ -d /home/user/.tb/tor-browser ]; then
+      echo "$0 $FUNCNAME INFO: New folder /home/user/.tb/tor-browser already exists. Skipping."
+      return 0
+   fi
+
+   if pgrep firefox ; then
+      echo "$0 $FUNCNAME INFO: Tor Browser likely already running. Not trying to migrate to new location." >&2
+      return 1
+   fi
+
+   if [ -f "/var/lib/whonix/do_once/tb_folder_migration_whonix_eleven_to_twelve" ]; then
+      true "/var/lib/whonix/do_once/tb_folder_migration_whonix_eleven_to_twelve exists. Already done."
+      return 0
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+
+   local folder_name
+
+   for folder_name in /home/user/tor-browser_* /home/user/.tb/tor-browser_* ; do
+      if echo "$folder_name" | grep -q '.old.' ; then
+         continue
+      fi
+      if [ ! -d "$folder_name" ]; then
+         continue
+      fi
+
+      sudo -u user mv "$folder_name" /home/user/.tb/tor-browser || \
+         { echo "$FUNCNAME ERROR: Moving from '$folder_name' to '/home/user/.tb/tor-browser' failed." >&2 && break; };
+
+      echo "$0 $FUNCNAME INFO: Moved '$folder_name' to '/home/user/.tb/tor-browser'."
+
+      sudo -u user ln -s /home/user/.tb/tor-browser "$folder_name" || \
+         { "$0 $FUNCNAME ERROR: Symlink creation failed." >&2 && break; };
+
+      echo "$0 $FUNCNAME INFO: Created symbolic link from '$folder_name' to '/home/user/.tb/tor-browser'."
+      echo "$0 $FUNCNAME INFO: Feel free to remove the symbolic link by running: unlink '$folder_name'"
+
+      break
+   done
+
+   touch "/var/lib/whonix/do_once/tb_folder_migration_whonix_eleven_to_twelve"
+}
+
+if [ "$(id -u)" != "0" ]; then
+   echo "$0 ERROR: must run as root!" >&2
+   exit 1
+fi
+
+## sets: whonix_build_version
+get_build_version
+
+if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
+   tb_folder_migration_whonix_eleven_to_twelve
+fi
