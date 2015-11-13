@@ -1,3 +1,20 @@
+commit c2cc7d47e6f4428e60498f3e39a406aa9372ce64
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 13 17:42:25 2015 +0000
+
+    Deactivated symlink creation from old to new Tor Browser folder location.
+    
+    Could lead to confusion and in worst case, data loss, if users just copy the
+    symlink rather than whole folder.
+    
+    https://phabricator.whonix.org/T425
+
+commit f64fe1163c197930c3fb56de0aa49d99d4fb35c0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 13 15:52:49 2015 +0000
+
+    bumped changelog version
+
 commit bdf24f9988d3c1329e38ea4e8709055daf679387
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Nov 12 19:09:54 2015 +0000
