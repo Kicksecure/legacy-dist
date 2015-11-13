@@ -1,3 +1,42 @@
+commit bdf24f9988d3c1329e38ea4e8709055daf679387
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 12 19:09:54 2015 +0000
+
+    added 'After=qubes-whonix-postinit.service' to whonix-legacy.service
+    
+    We need to wait until qubes-whonix-postinit.service is done, since
+    /usr/lib/qubes-whonix/bind-directories is still run by
+    qubes-whonix-postinit.service. bind-directories has not been
+    upstreamed to Qubes yet. - https://phabricator.whonix.org/T414
+    
+    https://phabricator.whonix.org/T425
+
+commit abf5b1d14184effb5d020dc31142c8f5acec254e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 12 18:44:49 2015 +0000
+
+    implemented Tor Browser folder change Whonix 11 -> Whonix 12 migration path
+    
+    https://phabricator.whonix.org/T425
+
+commit 19f7d8ec592d81aea3150bb6f34bb05a2ce983d5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 12 18:30:45 2015 +0000
+
+    improved package description
+
+commit 8ad19ef5268570093e050c705eed148e9d7ca02f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 12 17:07:18 2015 +0100
+
+    package description
+
+commit adaaf0dea4225a5431f79d4b532ef4a05a43a682
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 6 17:33:31 2015 +0000
+
+    bumped changelog version
+
 commit ab480ea015e52c588aaee0955d2eae47956bd262
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Nov 6 17:24:30 2015 +0000
