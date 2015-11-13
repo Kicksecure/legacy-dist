@@ -62,12 +62,6 @@ tb_folder_migration_whonix_eleven_to_twelve() {
 
       echo "$0 $FUNCNAME INFO: Moved '$folder_name' to '/home/user/.tb/tor-browser'."
 
-      sudo -u user ln -s /home/user/.tb/tor-browser "$folder_name" || \
-         { "$0 $FUNCNAME ERROR: Symlink creation failed." >&2 && break; };
-
-      echo "$0 $FUNCNAME INFO: Created symbolic link from '$folder_name' to '/home/user/.tb/tor-browser'."
-      echo "$0 $FUNCNAME INFO: Feel free to remove the symbolic link by running: unlink '$folder_name'"
-
       break
    done
 
