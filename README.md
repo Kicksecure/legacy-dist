@@ -1,8 +1,9 @@
 # Prepare older Build Versions of Whonix for Upgrade #
 
-A metapackage, required for upgrading from Whonix 8.x to Whonix 9.x or above.
+Applies fixes required for upgrading from for example Whonix 8.x to Whonix
+9.x etc.
 
-Upgrades from Whonix 7.x or older versions is still unsupported.
+Upgrades from Whonix 7.x or older versions is unsupported.
 
 Safe to remove.
 
