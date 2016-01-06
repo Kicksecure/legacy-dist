@@ -5,7 +5,7 @@
 [Unit]
 Description=Whonix legacy versions fixes
 Before=qubes-gui-agent.service
-After=qubes-dvm.service qubes-mount-dirs.service qubes-mount-home.service
+After=qubes-mount-dirs.service qubes-mount-home.service
 
 ## We need to wait until qubes-whonix-postinit.service is done, since
 ## /usr/lib/qubes-whonix/bind-directories is still run by
