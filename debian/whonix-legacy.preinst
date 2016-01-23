@@ -330,6 +330,19 @@ eleven_dot_x_to_twelve_dot_x() {
    fi
 }
 
+
+twelve_dot_x_to_thirteen_dot_x() {
+   if [ ! -f "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_1" ]; then
+      mkdir --parents "/var/lib/whonix/do_once"
+      for deprecated_symlink in /home/user/Desktop/anondist-torbrowser.desktop ; do
+         if [ -e "$deprecated_symlink" ]; then
+            unlink "$deprecated_symlink" || true
+         fi
+      done
+      touch "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_1"
+   fi
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -351,6 +364,10 @@ fi
 
 if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
    eleven_dot_x_to_twelve_dot_x
+fi
+
+if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
+   twelve_dot_x_to_thirteen_dot_x
 fi
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
