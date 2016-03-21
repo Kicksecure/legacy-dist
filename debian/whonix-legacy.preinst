@@ -332,14 +332,15 @@ eleven_dot_x_to_twelve_dot_x() {
 
 
 twelve_dot_x_to_thirteen_dot_x() {
-   if [ ! -f "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_1" ]; then
+   if [ ! -f "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_2" ]; then
       mkdir --parents "/var/lib/whonix/do_once"
       for deprecated_symlink in /home/user/Desktop/anondist-torbrowser.desktop ; do
          if [ -e "$deprecated_symlink" ]; then
             unlink "$deprecated_symlink" || true
          fi
       done
-      touch "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_1"
+      sed -i "s:mirror.whonix.de:www.whonix.org/download:g" "/etc/apt/sources.list.d/whonix.list" || true
+      touch "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_2"
    fi
 }
 
