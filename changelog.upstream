@@ -1,3 +1,19 @@
+commit e10915b86f3129a8c392ef2e53513e377757a816
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 13 17:23:27 2016 +0000
+
+    have deb.torproject.org and its signing key removed during apt-get autoremove
+    
+    for existing installations
+    
+    https://phabricator.whonix.org/T472
+
+commit 9506072de1a151dabe493b3f7a565ff2dccb43a0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 7 22:54:57 2016 +0000
+
+    bumped changelog version
+
 commit 019f20ec794814098a0188cc5c7ba911b789c631
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Mar 21 14:45:46 2016 +0100
