@@ -332,7 +332,7 @@ eleven_dot_x_to_twelve_dot_x() {
 
 
 twelve_dot_x_to_thirteen_dot_x() {
-   if [ ! -f "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_3" ]; then
+   if [ ! -f "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_4" ]; then
       mkdir --parents "/var/lib/whonix/do_once"
       for deprecated_symlink in /home/user/Desktop/anondist-torbrowser.desktop ; do
          if [ -e "$deprecated_symlink" ]; then
@@ -347,7 +347,8 @@ twelve_dot_x_to_thirteen_dot_x() {
       ## https://phabricator.whonix.org/T472
       apt-mark auto deb.torproject.org-keyring || true
       apt-mark auto anon-shared-build-apt-sources-tpo || true
-      touch "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_3"
+      rm -f "/etc/apparmor.d/usr.bin.timesync"
+      touch "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_4"
    fi
 }
 
