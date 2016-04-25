@@ -1,3 +1,17 @@
+commit 869d0785a5b7db1fa69015ecf5b84e5b3ee3cffe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 21 14:30:34 2016 +0000
+
+    delete apparmor profile /etc/apparmor.d/usr.bin.timesync
+    
+    because package timesync has been deprecated
+
+commit 27058ffe29c7a919424438b8a4e03eb12de812af
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 14 21:14:51 2016 +0000
+
+    bumped changelog version
+
 commit e10915b86f3129a8c392ef2e53513e377757a816
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Apr 13 17:23:27 2016 +0000
