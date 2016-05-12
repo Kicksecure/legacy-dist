@@ -1,3 +1,21 @@
+commit 3f166a54630b6e9d757a69a6267bc6f0742657df
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 12 21:57:43 2016 +0000
+
+    fix
+
+commit 347f7cdc1ca1f3cf2c62277e53e69a350a61cfcc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 12 21:53:43 2016 +0000
+
+    update start menu entries
+
+commit 7fc30a4b590b17e15ec3bfa3f268443ea455edd7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 12 17:56:23 2016 +0000
+
+    bumped changelog version
+
 commit 8172747e4972dc7762c0d8fea02ae7f433eb5811
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu May 12 17:36:26 2016 +0000
