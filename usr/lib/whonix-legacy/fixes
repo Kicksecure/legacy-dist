@@ -68,6 +68,18 @@ tb_folder_migration_whonix_eleven_to_twelve() {
    touch "/var/lib/whonix/do_once/tb_folder_migration_whonix_eleven_to_twelve"
 }
 
+timesync_apparmor_profile_delete() {
+   if [ -f "/var/lib/whonix/do_once/timesync_apparmor_profile_delete" ]; then
+      true "/var/lib/whonix/do_once/timesync_apparmor_profile_delete exists. Already done."
+      return 0
+   fi
+   mkdir --parents "/var/lib/whonix/do_once"
+
+   rm -f "/etc/apparmor.d/usr.bin.timesync"
+
+   touch "/var/lib/whonix/do_once/timesync_apparmor_profile_delete"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -78,4 +90,8 @@ get_build_version
 
 if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
    tb_folder_migration_whonix_eleven_to_twelve
+fi
+
+if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
+   timesync_apparmor_profile_delete
 fi
