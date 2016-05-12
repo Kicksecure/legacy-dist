@@ -335,7 +335,8 @@ twelve_dot_x_to_thirteen_dot_x() {
    if [ ! -f "/var/lib/whonix/do_once/twelve_dot_x_to_thirteen_dot_x_version_5" ]; then
       mkdir --parents "/var/lib/whonix/do_once"
       for deprecated_symlink in /home/user/Desktop/anondist-torbrowser.desktop /home/user/Desktop/timesync.desktop /home/user/Desktop/xchat.desktop ; do
-         if [ -e "$deprecated_symlink" ]; then
+         ## Needs to use -h. -e does not work for symlinks.
+         if [ -h "$deprecated_symlink" ]; then
             unlink "$deprecated_symlink" || true
          fi
       done
