@@ -1,3 +1,21 @@
+commit 9da76ec9d3f331815bd36209bb9e141152440a3f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 12 22:16:35 2016 +0000
+
+    comment
+
+commit 0430b4ebd303364f29648e16e4518dc567d60f10
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 12 22:14:46 2016 +0000
+
+    get rid of obsolete apparmor profile /etc/apparmor.d/usr.bin.timesync
+
+commit 70ff32fb1881e2d86a3c8b83f20902f9c5625606
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 12 22:07:22 2016 +0000
+
+    bumped changelog version
+
 commit 3f166a54630b6e9d757a69a6267bc6f0742657df
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu May 12 21:57:43 2016 +0000
