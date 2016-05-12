@@ -394,6 +394,9 @@ if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
    twelve_dot_x_to_thirteen_dot_x
 fi
 
+## NOTE:
+## Qubes-Whonix >= 13 build version will equal anon-base-files package version.
+
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
 true "INFO: debhelper beginning here."
