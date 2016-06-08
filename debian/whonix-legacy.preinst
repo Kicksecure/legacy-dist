@@ -367,6 +367,24 @@ twelve_dot_x_to_thirteen_dot_x() {
    fi
 }
 
+thirteen_dot_x_to_fourteen_dot_x() {
+   if [ -f "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_1" ]; then
+      return 0
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+
+   ## For anon-ws-disable-stacked-tor rinetd to socat transition.
+   ## If rinetd is running, stop it, so socat based anon-ws-disable-stacked-tor
+   ## can take over the local listener ports.
+   ## https://phabricator.whonix.org/T464
+   if service rinetd status >/dev/null 2>&1 ; then
+      service rinetd stop >/dev/null 2>&1 || true
+   fi
+
+   touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -374,28 +392,40 @@ true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
 get_build_version
 
-if dpkg --compare-versions "$whonix_build_version" lt "8.5.0.0" 2>/dev/null ; then
-   eight_dot_x_to_nine_dot_x
-fi
+if command -v qubesdb-read >/dev/null 2>&1; then
+   ## Qubes-Whonix
 
-if dpkg --compare-versions "$whonix_build_version" le "9.9.9.9" 2>/dev/null ; then
-   nine_dot_x_fixes
-fi
+   ## Whonix 13 anon-base-files version: 2.0-1
+   if dpkg --compare-versions "$whonix_build_version" lt "2.1-1" 2>/dev/null ; then
+      thirteen_dot_x_to_fourteen_dot_x
+   fi
+else
+   ## Non-Qubes-Whonix
 
-if dpkg --compare-versions "$whonix_build_version" lt "11" 2>/dev/null ; then
-   ten_dot_x_to_eleven_dot_x
-fi
+   if dpkg --compare-versions "$whonix_build_version" lt "8.5.0.0" 2>/dev/null ; then
+      eight_dot_x_to_nine_dot_x
+   fi
 
-if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
-   eleven_dot_x_to_twelve_dot_x
-fi
+   if dpkg --compare-versions "$whonix_build_version" le "9.9.9.9" 2>/dev/null ; then
+      nine_dot_x_fixes
+   fi
 
-if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
-   twelve_dot_x_to_thirteen_dot_x
-fi
+   if dpkg --compare-versions "$whonix_build_version" lt "11" 2>/dev/null ; then
+      ten_dot_x_to_eleven_dot_x
+   fi
 
-## NOTE:
-## Qubes-Whonix >= 13 build version will equal anon-base-files package version.
+   if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
+      eleven_dot_x_to_twelve_dot_x
+   fi
+
+   if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
+      twelve_dot_x_to_thirteen_dot_x
+   fi
+
+   if dpkg --compare-versions "$whonix_build_version" lt "14" 2>/dev/null ; then
+      thirteen_dot_x_to_fourteen_dot_x
+   fi
+fi
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
