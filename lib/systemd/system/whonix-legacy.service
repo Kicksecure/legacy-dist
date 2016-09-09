@@ -4,8 +4,12 @@
 
 [Unit]
 Description=Whonix legacy versions fixes
+
 Before=qubes-gui-agent.service
+
 After=qubes-mount-dirs.service
+
+## Legacy.
 After=qubes-mount-home.service
 
 ## Legacy Qubes pre R3.1.
