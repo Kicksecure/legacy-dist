@@ -5,7 +5,8 @@
 [Unit]
 Description=Whonix legacy versions fixes
 Before=qubes-gui-agent.service
-After=qubes-mount-dirs.service qubes-mount-home.service
+After=qubes-mount-dirs.service
+After=qubes-mount-home.service
 
 ## Legacy Qubes pre R3.1.
 ## We need to wait until qubes-whonix-postinit.service is done, since
