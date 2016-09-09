@@ -7,6 +7,9 @@ Description=Whonix legacy versions fixes
 
 Before=qubes-gui-agent.service
 
+## For /var/lib/whonixcheck folder permissions fix.
+Before=whonixcheck.service
+
 After=qubes-mount-dirs.service
 
 ## Legacy.
