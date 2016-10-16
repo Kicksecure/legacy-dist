@@ -368,7 +368,7 @@ twelve_dot_x_to_thirteen_dot_x() {
 }
 
 thirteen_dot_x_to_fourteen_dot_x() {
-   if [ -f "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_2" ]; then
       return 0
    fi
 
@@ -382,7 +382,10 @@ thirteen_dot_x_to_fourteen_dot_x() {
       service rinetd stop >/dev/null 2>&1 || true
    fi
 
-   touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_1"
+   sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org:g" "/etc/apt/sources.list.d/whonix.list" || true
+   sed -i "s#https://www.whonix.org/download/whonixdevelopermetafiles/internal/#https://deb.whonix.org:g" "/etc/apt/sources.list.d/whonix.list" || true
+
+   touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_2"
 }
 
 true "1: $1"
