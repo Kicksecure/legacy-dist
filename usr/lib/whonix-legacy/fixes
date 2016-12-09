@@ -87,7 +87,7 @@ fi
 
 if [ -d "/var/lib/whonixcheck" ]; then
    ## Whonix 13: whonixcheck runs as user 'user'.
-   ## Whonix 13: whonixcheck runs as user 'whonixcheck'.
+   ## Whonix 14: whonixcheck runs as user 'whonixcheck'.
    chown --recursive whonixcheck:whonixcheck "/var/lib/whonixcheck" || true
 fi
 
