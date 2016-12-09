@@ -382,8 +382,8 @@ thirteen_dot_x_to_fourteen_dot_x() {
       service rinetd stop >/dev/null 2>&1 || true
    fi
 
-   sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org:g" "/etc/apt/sources.list.d/whonix.list" || true
-   sed -i "s#https://www.whonix.org/download/whonixdevelopermetafiles/internal/#https://deb.whonix.org:g" "/etc/apt/sources.list.d/whonix.list" || true
+   sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
+   sed -i "s#https://www.whonix.org/download/whonixdevelopermetafiles/internal/#https://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
 
    touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_2"
 }
