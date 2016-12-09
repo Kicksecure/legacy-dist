@@ -1,3 +1,18 @@
+commit a7a20c20a3cfaa4b4f188c4a6c1d0fb22b5c10dd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 9 21:33:31 2016 +0000
+
+    fix
+    
+    https://github.com/Whonix/whonix-legacy/commit/c1bdca5944759c748d627c3fdb83fd0145ef6649
+    https://forums.whonix.org/t/size-of-file-dists-jessie-main-binary-amd64-packages-gz-is-not-what-the-server-reported
+
+commit df415dba5c4c1af0a3443c2ef82ff10abc1e45e6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 9 21:20:33 2016 +0000
+
+    bumped changelog version
+
 commit c1bdca5944759c748d627c3fdb83fd0145ef6649
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Dec 9 21:18:32 2016 +0000
