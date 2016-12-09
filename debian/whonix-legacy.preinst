@@ -375,8 +375,8 @@ true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 ## {{{ fix warning 'W: Size of file is not what the server reported' usability issue
 ##     https://github.com/QubesOS/qubes-issues/issues/2501
 ##     https://forums.whonix.org/t/size-of-file-dists-jessie-main-binary-amd64-packages-gz-is-not-what-the-server-reported
-sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org:g" "/etc/apt/sources.list.d/whonix.list" || true
-sed -i "s#https://www.whonix.org/download/whonixdevelopermetafiles/internal/#https://deb.whonix.org:g" "/etc/apt/sources.list.d/whonix.list" || true
+sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
+sed -i "s#https://www.whonix.org/download/whonixdevelopermetafiles/internal/#https://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
 ## }}}
 
 get_build_version
