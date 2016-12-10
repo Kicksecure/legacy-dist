@@ -1,3 +1,75 @@
+commit ecf52ca7e055f047593d3b17703fa7e799db884e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 9 21:40:59 2016 +0000
+
+    fix
+
+commit b01f08a1ff76469f3152758f6aa00c00ad3feb1c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 9 21:12:45 2016 +0000
+
+    fix comment
+
+commit fdb3e6b9d4173432607effafae2d8675e5dfc54b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 21 17:44:11 2016 +0000
+
+    readme
+
+commit 272ae3a1dbc201e85788daf3e3c01b10eb49d238
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Oct 16 22:45:16 2016 +0200
+
+    update Whonix repository uri
+
+commit e086babf80e2f118bbc3eac6f94db42685549cd9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Sep 9 16:11:19 2016 +0000
+
+    /var/lib/whonixcheck permission fix
+    
+    https://phabricator.whonix.org/T533
+
+commit a17795d310f292ba89ebd1bdd73668ae917d3a69
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Sep 9 16:00:59 2016 +0000
+
+    comment
+
+commit 020093a40fa36e04e7ee7937410e2d8cf9240bec
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Sep 9 16:00:22 2016 +0000
+
+    refactoring
+
+commit f2db1c2e42910e4f429864ea46cccf1056df4d4f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Sep 9 15:59:53 2016 +0000
+
+    comment
+
+commit 7cf7ace53ec63233e76549af4d0159d8f5598f37
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 30 21:16:37 2016 +0000
+
+    sudo --non-interactive
+    
+    https://phabricator.whonix.org/T549
+
+commit 7d2ae02c19b907926c63ce6613310740e70e53dc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 8 22:46:37 2016 +0000
+
+    anon-ws-disable-stacked-tor rinetd to socat transition
+    
+    https://phabricator.whonix.org/T464
+
+commit a0617206fc5a03013d3942c8557441219a4ed559
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu May 12 22:16:48 2016 +0000
+
+    bumped changelog version
+
 commit 9da76ec9d3f331815bd36209bb9e141152440a3f
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu May 12 22:16:35 2016 +0000
