@@ -39,6 +39,8 @@ get_build_version() {
    if [ "$whonix_build_version" = "" ]; then
       whonix_build_version="Could not read Whonix Build Version File. (Code: 5) Please report this bug!"
    fi
+
+   true "whonix_build_version: $whonix_build_version"
 }
 
 eight_dot_x_to_nine_dot_x() {
