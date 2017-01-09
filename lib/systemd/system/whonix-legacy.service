@@ -4,6 +4,7 @@
 
 [Unit]
 Description=Whonix legacy versions fixes
+Documentation=https://github.com/Whonix/whonix-legacy
 
 Before=qubes-gui-agent.service
 
