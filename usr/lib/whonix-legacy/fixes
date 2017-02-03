@@ -112,14 +112,25 @@ fi
 ## sets: whonix_build_version
 get_build_version
 
-if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
-   tb_folder_migration_whonix_eleven_to_twelve
-fi
+if command -v qubesdb-read >/dev/null 2>&1; then
+   ## Qubes-Whonix
 
-if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
-   timesync_apparmor_profile_delete
-fi
+   ## Whonix 13 anon-base-files version: 3:2.0-1
+   if dpkg --compare-versions "$whonix_build_version" lt "3:2.1-1" 2>/dev/null ; then
+      whonix_repository_rerun
+   fi
+else
+   ## Non-Qubes-Whonix
 
-if dpkg --compare-versions "$whonix_build_version" lt "14" 2>/dev/null ; then
-   timesync_apparmor_profile_delete
+   if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
+      tb_folder_migration_whonix_eleven_to_twelve
+   fi
+
+   if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
+      timesync_apparmor_profile_delete
+   fi
+
+   if dpkg --compare-versions "$whonix_build_version" lt "14" 2>/dev/null ; then
+      timesync_apparmor_profile_delete
+   fi
 fi
