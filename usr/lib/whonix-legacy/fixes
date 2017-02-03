@@ -80,6 +80,24 @@ timesync_apparmor_profile_delete() {
    touch "/var/lib/whonix/do_once/timesync_apparmor_profile_delete"
 }
 
+whonix_repository_rerun() {
+   if [ -f "/var/lib/whonix/do_once/whonix_repository_rerun" ]; then
+      true "/var/lib/whonix/do_once/whonix_repository_rerun exists. Already done."
+      return 0
+   fi
+   mkdir --parents "/var/lib/whonix/do_once"
+
+   if test -x "/var/lib/dpkg/info/whonix-repository.postinst" ; then
+      ## gpg and /etc/apt/trusted.gpg to gpg2 and /etc/apt/trusted.gpg.d/whonix.gpg
+      ## migration will fail due to uwt not supporting gpg2 and due to whonix-repository
+      ## being upgraded earlier than uwt. Also uwt should not be a dependency of
+      ## whonix-repository.
+      "/var/lib/dpkg/info/whonix-repository.postinst" || true
+   fi
+
+   touch "/var/lib/whonix/do_once/whonix_repository_rerun"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -99,5 +117,9 @@ if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
 fi
 
 if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
+   timesync_apparmor_profile_delete
+fi
+
+if dpkg --compare-versions "$whonix_build_version" lt "14" 2>/dev/null ; then
    timesync_apparmor_profile_delete
 fi
