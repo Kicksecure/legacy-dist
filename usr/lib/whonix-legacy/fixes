@@ -58,7 +58,7 @@ tb_folder_migration_whonix_eleven_to_twelve() {
       fi
 
       sudo --non-interactive -u user mv "$folder_name" /home/user/.tb/tor-browser || \
-         { echo "$FUNCNAME ERROR: Moving from '$folder_name' to '/home/user/.tb/tor-browser' failed." >&2 && break; };
+         { echo "$0 $FUNCNAME ERROR: Moving from '$folder_name' to '/home/user/.tb/tor-browser' failed." >&2 && break; };
 
       echo "$0 $FUNCNAME INFO: Moved '$folder_name' to '/home/user/.tb/tor-browser'."
 
