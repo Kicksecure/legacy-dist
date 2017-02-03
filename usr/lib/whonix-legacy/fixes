@@ -131,6 +131,6 @@ else
    fi
 
    if dpkg --compare-versions "$whonix_build_version" lt "14" 2>/dev/null ; then
-      timesync_apparmor_profile_delete
+      whonix_repository_rerun
    fi
 fi
