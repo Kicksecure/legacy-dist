@@ -1,3 +1,39 @@
+commit ad3630e5bb563f93e645e83bb80a889cb1e9eb17
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 3 13:37:02 2017 +0100
+
+    minor
+
+commit 20640ebd723189751756b281fd236602ff53e929
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 3 13:35:47 2017 +0100
+
+    usr/lib/whonix-legacy/fixes: enable DEBDEBUG
+
+commit 2d898e03d3c3143c1165b891893ac52bb5b936eb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 3 13:34:20 2017 +0100
+
+    fix
+
+commit f5869dc3d4c61b801806f7213ef97b1d9829adbd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 3 13:33:49 2017 +0100
+
+    usr/lib/whonix-legacy/fixes: add Qubes support
+
+commit 6ee309deba41488bd086ee93cf1f0a5ecbf4571a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 3 13:32:26 2017 +0100
+
+    gpg and /etc/apt/trusted.gpg to gpg2 and /etc/apt/trusted.gpg.d/whonix.gpg uwt migration fix
+
+commit 1f85b00789946e916e1e956e8be9efba85feebeb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 15 15:39:07 2017 +0000
+
+    bumped changelog version
+
 commit 92300ac9d0dd24dc7e5d637db453d5524ec42384
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 15 08:35:52 2017 +0100
