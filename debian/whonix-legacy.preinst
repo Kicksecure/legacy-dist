@@ -380,8 +380,8 @@ thirteen_dot_x_to_fourteen_dot_x() {
    ## If rinetd is running, stop it, so socat based anon-ws-disable-stacked-tor
    ## can take over the local listener ports.
    ## https://phabricator.whonix.org/T464
-   if service rinetd status >/dev/null 2>&1 ; then
-      service rinetd stop >/dev/null 2>&1 || true
+   if systemctl --no-pager --no-block status rinetd >/dev/null 2>&1 ; then
+      systemctl --no-pager --no-block stop rinetd >/dev/null 2>&1 || true
    fi
 
    sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
