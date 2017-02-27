@@ -1,3 +1,23 @@
+commit 91dddc3fb56e069cb5918387c82053067f1f95aa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 23 03:09:50 2017 +0000
+
+    fix lintian warning
+
+commit 42c0966102f945022a43bb64f214481519146fcb
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Feb 21 22:21:05 2017 +0000
+
+    use systemctl --no-pager to prevent blocking due to systemctl interactivity
+    
+    https://phabricator.whonix.org/T637
+
+commit 68fbcdf507f28d5f07440a321bcc8598443edd79
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 17 14:17:13 2017 +0000
+
+    bumped changelog version
+
 commit 368977daa225d96bc11ddf94767cffe4f3d7dff5
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 10 15:47:56 2017 +0000
