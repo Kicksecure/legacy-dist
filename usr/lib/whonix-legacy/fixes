@@ -92,9 +92,7 @@ whonix_repository_rerun() {
       ## migration will fail due to uwt not supporting gpg2 and due to whonix-repository
       ## being upgraded earlier than uwt. Also uwt should not be a dependency of
       ## whonix-repository.
-      DEBDEBUG=1
-      export DEBDEBUG
-      "/var/lib/dpkg/info/whonix-repository.postinst" || true
+      DEBDEBUG=1 DPKG_MAINTSCRIPT_PACKAGE=whonix-repository DPKG_MAINTSCRIPT_NAME=postinst /var/lib/dpkg/info/whonix-repository.postinst configure || true
    fi
 
    touch "/var/lib/whonix/do_once/whonix_repository_rerun"
