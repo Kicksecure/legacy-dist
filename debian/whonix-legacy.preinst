@@ -134,9 +134,9 @@ eight_dot_x_to_nine_dot_x() {
 
    ## {{ 70_create_swap_file
    if [ ! -f "/var/lib/whonix/do_once/remove_chroot_post_script_swapfile1" ]; then
-      if [ -f "⁄swapfile1" ]; then
-         swapoff "⁄swapfile1" || true
-         rm --force "⁄swapfile1" || true
+      if [ -f "/swapfile1" ]; then
+         swapoff "/swapfile1" || true
+         rm --force "/swapfile1" || true
       fi
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/remove_chroot_post_script_swapfile1"
