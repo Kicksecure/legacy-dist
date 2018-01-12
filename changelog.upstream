@@ -1,3 +1,23 @@
+commit 943b3f8438a0bd403c6603123d5d35b8c62b53e8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 17:28:22 2018 +0000
+
+    create /var/cache/whonix-setup-wizard/status-files/whonixsetup.done since it
+    was removed from qubes-whonix to aid Whonix 13 -> Whonix 14 upgrades
+    to not rereun anon-connection-wizard needlessly
+
+commit 050ad71af798be5a30944197cb5dd8317b518039
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 12 15:30:59 2018 +0000
+
+    unlink /home/user/Desktop/whonix_repository.desktop (renamed)
+
+commit d6b1e41af69d3d772abed4c5cc28a9f10406c6c1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 16 22:23:50 2017 +0000
+
+    bumped changelog version
+
 commit ed2daa46615a50ac7f71010bd3b7f643709ec0ed
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Dec 16 22:23:07 2017 +0000
