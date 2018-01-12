@@ -391,6 +391,13 @@ thirteen_dot_x_to_fourteen_dot_x() {
       unlink "/home/user/Desktop/whonix_repository.desktop" || true
    fi
 
+   ## Create this file since file
+   ## /var/cache/whonix-setup-wizard/status-files/whonixsetup.skip was removed
+   ## from qubes-whonix package to avoid rerunning of anon-connection-wizard
+   ## for Qubes users that upgraded from Whonix 13 to Whonix 14.
+   mkdir -p /var/cache/whonix-setup-wizard/status-files
+   touch /var/cache/whonix-setup-wizard/status-files/whonixsetup.done
+
    touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_3"
 }
 
