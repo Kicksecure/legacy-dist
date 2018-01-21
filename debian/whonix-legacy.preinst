@@ -370,7 +370,7 @@ twelve_dot_x_to_thirteen_dot_x() {
 }
 
 thirteen_dot_x_to_fourteen_dot_x() {
-   if [ -f "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_3" ]; then
+   if [ -f "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_4" ]; then
       return 0
    fi
 
@@ -387,6 +387,8 @@ thirteen_dot_x_to_fourteen_dot_x() {
    sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
    sed -i "s#https://www.whonix.org/download/whonixdevelopermetafiles/internal/#https://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
 
+   sed -i "s#kkkkkkkkkk63ava6.onion#dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion#g" "/etc/apt/sources.list.d/whonix.list" || true
+
    if [ -h "/home/user/Desktop/whonix_repository.desktop" ]; then
       unlink "/home/user/Desktop/whonix_repository.desktop" || true
    fi
@@ -398,7 +400,7 @@ thirteen_dot_x_to_fourteen_dot_x() {
    mkdir -p /var/cache/whonix-setup-wizard/status-files
    touch /var/cache/whonix-setup-wizard/status-files/whonixsetup.done
 
-   touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_3"
+   touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_4"
 }
 
 true "1: $1"
