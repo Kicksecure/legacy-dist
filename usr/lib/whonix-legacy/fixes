@@ -103,6 +103,8 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
+timeout --kill-after 10 10 /var/lib/dpkg/info/whonix-legacy.preinst || true
+
 if [ -d "/var/lib/whonixcheck" ]; then
    ## Whonix 13: whonixcheck runs as user 'user'.
    ## Whonix 14: whonixcheck runs as user 'whonixcheck'.
