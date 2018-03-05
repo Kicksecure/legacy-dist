@@ -425,7 +425,8 @@ if command -v qubesdb-read >/dev/null 2>&1; then
    ## Qubes-Whonix
 
    ## Whonix 13 anon-base-files version: 3:2.0-1
-   if dpkg --compare-versions "$whonix_build_version" lt "3:2.1-1" 2>/dev/null ; then
+   ## Whonix 14 testers-only anon-base-files version: 3:2.5-1
+   if dpkg --compare-versions "$whonix_build_version" le "3:2.5-1" 2>/dev/null ; then
       thirteen_dot_x_to_fourteen_dot_x
    fi
 else
