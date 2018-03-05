@@ -1,3 +1,23 @@
+commit 825164af93b81a2276cc12bb975cb8c0841380e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 5 20:50:54 2018 +0000
+
+    fix
+
+commit c4813bbdc9945de34dc5d898036ab57bef8e104f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 5 20:43:59 2018 +0000
+
+    run whonix-legacy preinst from systemd unit
+    
+    to ease upgrading instructions
+
+commit b45549063bbd8fc0bd1a78a0bc5845c6f57ba24c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 26 23:47:27 2018 +0000
+
+    bumped changelog version
+
 commit 527cf665d825c06e4782a6b3a77903c09496480d
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 26 23:43:05 2018 +0000
