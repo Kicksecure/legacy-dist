@@ -1,3 +1,15 @@
+commit 6d966d7b22a54f875fd9ee59af346bc8b80e4ba7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 8 15:49:15 2018 +0000
+
+    rm -f /etc/X11/Xsession.d/50kde-apper-no-autoupdate
+
+commit 6cfc49a241916529be6c00a83a3f61bc402a8783
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 5 20:56:50 2018 +0000
+
+    bumped changelog version
+
 commit 825164af93b81a2276cc12bb975cb8c0841380e9
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Mar 5 20:50:54 2018 +0000
