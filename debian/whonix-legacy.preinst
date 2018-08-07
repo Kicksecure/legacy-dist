@@ -415,6 +415,24 @@ thirteen_dot_x_to_fourteen_dot_x() {
    touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_6"
 }
 
+tor_control_panel_migration() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   if [ -f /usr/local/etc/torrc.d/40_anon_connection_wizard.conf ]; then
+      mv --force --no-clobber --verbose /usr/local/etc/torrc.d/40_anon_connection_wizard.conf /usr/local/etc/torrc.d/40_tor_control_panel.conf
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   ## This might run in Qubes TemplateVM as well as TemplateBasedVM.
+   ## Qubes TemplateVM detection may be unreliable.
+   ## Therefore better not creating a done file. Not an issue to re-run this
+   ## at every boot since it should happen only once and '--no-clobber'
+   ## prevents overwriting an existing file.
+   #touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -457,6 +475,8 @@ else
       thirteen_dot_x_to_fourteen_dot_x
    fi
 fi
+
+tor_control_panel_migration
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
