@@ -1,3 +1,15 @@
+commit 31b1ce3694162ea8e9095fb5f7f2f36343708424
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 7 18:57:28 2018 +0800
+
+    Tor control panel migration
+
+commit 580c5499efff0dbe967d17f67d3ca397b8a3aefc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Mar 8 15:50:32 2018 +0000
+
+    bumped changelog version
+
 commit 6d966d7b22a54f875fd9ee59af346bc8b80e4ba7
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Mar 8 15:49:15 2018 +0000
