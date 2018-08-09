@@ -7,6 +7,11 @@ Documentation=https://github.com/Whonix/whonix-legacy
 
 Before=qubes-gui-agent.service
 
+## For tor_control_panel_migration.
+## I.e. for 40_anon_connection_wizard.conf
+## -> 40_tor_control_panel.conf.
+Before=tor-control-panel.service
+
 ## For /var/lib/whonixcheck folder permissions fix.
 Before=whonixcheck.service
 
