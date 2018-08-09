@@ -1,3 +1,21 @@
+commit 3feacc2a2fefcc971bd2c24e19fbae373609ca90
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 16:59:38 2018 +0000
+
+    Before=anon-gw-anonymizer-config.service
+
+commit 2cf06b2fd2300dcf6abe329dc1029645613f846a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 16:53:28 2018 +0000
+
+    Before=tor-control-panel.service
+
+commit 6679d99f77b2c9be417a5abb6d9cb0139ecef401
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 9 16:07:23 2018 +0000
+
+    bumped changelog version
+
 commit 31b1ce3694162ea8e9095fb5f7f2f36343708424
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Aug 7 18:57:28 2018 +0800
