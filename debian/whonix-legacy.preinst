@@ -433,6 +433,19 @@ tor_control_panel_migration() {
    #touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+whonix_repository_component_extension() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   if [ -f /etc/apt/sources.list.d/whonix.list ]; then
+      sed -i "s# main# main contrib non-free#g" "/etc/apt/sources.list.d/whonix.list" || true
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -477,6 +490,7 @@ else
 fi
 
 tor_control_panel_migration
+whonix_repository_component_extension
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
