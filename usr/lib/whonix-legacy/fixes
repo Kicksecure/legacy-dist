@@ -111,6 +111,19 @@ if [ -d "/var/lib/whonixcheck" ]; then
    chown --recursive whonixcheck:whonixcheck "/var/lib/whonixcheck" || true
 fi
 
+## automate Tor permission fix
+## https://www.whonix.org/wiki/Tor#Permissions_Fix
+## https://forums.whonix.org/t/tor-error-your-tor-config-file-contains-at-least-one-error-var-lib-tor-tor-cannot-be-read-permission-denied/6200
+## cat /var/lib/dpkg/info/tor.postinst | grep chown
+## chown debian-tor:debian-tor /var/lib/tor
+## chown debian-tor:adm /var/log/tor
+if [ -d "/var/lib/tor" ]; then
+   chown --recursive debian-tor:debian-tor /var/lib/tor || true
+fi
+if [ -d "/var/log/tor" ]; then
+   chown --recursive debian-tor:adm /var/log/tor || true
+fi
+
 ## sets: whonix_build_version
 get_build_version
 
