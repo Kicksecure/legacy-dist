@@ -1,3 +1,15 @@
+commit 68741a067c0f4d34bc93149fa8e59b4c222bda51
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Nov 6 23:01:40 2018 -0500
+
+    automate Tor permission fix
+
+commit 437e0ee8a06194902f5d58601a7c17687a79f2bd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 6 07:47:40 2018 +0000
+
+    bumped changelog version
+
 commit ad1bb741162f39f066867e27a09003c94433c662
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Sep 6 07:46:49 2018 +0000
