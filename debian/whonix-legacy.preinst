@@ -446,6 +446,26 @@ whonix_repository_component_extension() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+virtualbox_spice_vda_agent_removal() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   [ -n "$virt_detection_tool" ] || virt_detection_tool="systemd-detect-virt"
+   [ -n "$virtualizer_detected" ] || virtualizer_detected="$("$virt_detection_tool" 2>&1)" || true
+
+   if [ ! "$whonixcheck_virtualizer_detected" = "oracle" ]; then
+      return 0
+   fi
+
+   ## man apt-mark excerpt:
+   ## auto is used to mark a package as being automatically installed, which will cause the package to be removed when no more manually installed packages depend on this package.
+   apt-mark auto spice-vdagent || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -491,6 +511,7 @@ fi
 
 tor_control_panel_migration
 whonix_repository_component_extension
+virtualbox_spice_vda_agent_removal
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
