@@ -1,3 +1,15 @@
+commit 51bcf78543d7a72d11e01d53cdd70c9f80e08215
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Nov 16 09:28:20 2018 +0000
+
+    apt-mark spice-vdagent for removal on VirtualBox
+
+commit 92080b8e1275860260d3dfcd5b6e5c8c7c3878f8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Nov 8 06:20:10 2018 +0000
+
+    bumped changelog version
+
 commit 68741a067c0f4d34bc93149fa8e59b4c222bda51
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Nov 6 23:01:40 2018 -0500
