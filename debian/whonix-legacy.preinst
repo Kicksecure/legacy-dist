@@ -454,7 +454,7 @@ virtualbox_spice_vda_agent_removal() {
    [ -n "$virt_detection_tool" ] || virt_detection_tool="systemd-detect-virt"
    [ -n "$virtualizer_detected" ] || virtualizer_detected="$("$virt_detection_tool" 2>&1)" || true
 
-   if [ ! "$whonixcheck_virtualizer_detected" = "oracle" ]; then
+   if [ ! "$virtualizer_detected" = "oracle" ]; then
       return 0
    fi
 
