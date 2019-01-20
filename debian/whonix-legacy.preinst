@@ -466,6 +466,19 @@ virtualbox_spice_vda_agent_removal() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+whonix_repository_http_enable() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   if [ -f /etc/apt/sources.list.d/whonix.list ]; then
+      sed -i "s#http://deb.whonix.org#https://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -512,6 +525,7 @@ fi
 tor_control_panel_migration
 whonix_repository_component_extension
 virtualbox_spice_vda_agent_removal
+whonix_repository_http_enable
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
