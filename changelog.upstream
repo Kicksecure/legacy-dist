@@ -1,3 +1,17 @@
+commit 25663b8c9bd91185586ce9e18d07500abb81ca18
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 20 07:21:08 2019 +0000
+
+    enable https by default
+    
+    https://phabricator.whonix.org/T721
+
+commit e9716dcb935e5a856d67bc34986456125fdb90b1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Nov 17 08:10:44 2018 +0000
+
+    bumped changelog version
+
 commit 9e07ffb8219f1c61880841b26b9b9fbaf92fcbf8
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Nov 17 03:05:08 2018 -0500
