@@ -1,3 +1,24 @@
+commit 3313acb87ca4952efa026777243fc2ccec733cac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 12 03:22:54 2019 -0400
+
+    rm_conffile /etc/default/grub.d/30_apparmor.cfg
+    
+    Enabling apparmor is default since Debian buster.
+    https://www.debian.org/releases/buster/amd64/release-notes/ch-whats-new.en.html#apparmor
+
+commit bcfccad939a72ea799aa828aed5942781811d0ed
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 12 02:58:46 2019 -0400
+
+    update path to pre.bsh
+
+commit e25412f76c92de20c4c25cd0fea45df2cb53c4fa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri May 3 11:45:10 2019 +0000
+
+    bumped changelog version
+
 commit c3ae49ca34a8bca9b51a21d63138d7df0a3aded8
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri May 3 10:56:59 2019 +0000
