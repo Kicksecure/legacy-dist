@@ -1,3 +1,17 @@
+commit 6819863b2234b6def11b63d951e6bc1c94808700
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 12 16:40:44 2019 +0000
+
+    fix build nonfree firmware questions
+    
+    https://forums.whonix.org/t/whonix-host-nonfree-blobs-firmware-linux-nonfree-technical-discussion-only/7356/4
+
+commit 7fe606d6f82bd145929d4102853665580ed5819e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun May 12 10:56:22 2019 +0000
+
+    bumped changelog version
+
 commit 3313acb87ca4952efa026777243fc2ccec733cac
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun May 12 03:22:54 2019 -0400
