@@ -1,3 +1,17 @@
+commit b65de1ffc68e4527789fd59266092d17f5098c92
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 10 18:14:56 2019 +0000
+
+    fix
+    
+    export DPKG_MAINTSCRIPT_PACKAGE DPKG_MAINTSCRIPT_NAME
+
+commit db618d2afc2ee35cb8117c6feafacaf155eb749d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 10 15:44:42 2019 +0000
+
+    bumped changelog version
+
 commit 0bf190a1f1d50bd50060d5e835fa495492f44e94
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Jun 10 15:17:48 2019 +0000
