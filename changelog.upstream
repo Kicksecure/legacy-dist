@@ -1,3 +1,15 @@
+commit 0bf190a1f1d50bd50060d5e835fa495492f44e94
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jun 10 15:17:48 2019 +0000
+
+    Fix for: dpkg-maintscript-helper: error: couldn't identify the package
+
+commit 45311a5011d8e4edd151b559e3c1aa56b30eab5b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jun 8 11:42:54 2019 +0000
+
+    bumped changelog version
+
 commit 1cbfcb6e259ada24210dc8232ce3957b25e3b732
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jun 8 00:05:38 2019 -0400
