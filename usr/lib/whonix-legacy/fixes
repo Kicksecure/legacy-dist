@@ -103,7 +103,11 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-timeout --kill-after 60 60 /var/lib/dpkg/info/whonix-legacy.preinst || true
+## Fix for:
+## dpkg-maintscript-helper: error: couldn't identify the package
+[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || DPKG_MAINTSCRIPT_PACKAGE="whonix-legacy"
+[ -n "$DPKG_MAINTSCRIPT_NAME" ] || DPKG_MAINTSCRIPT_NAME="preinst"
+timeout --kill-after 60 60 /var/lib/dpkg/info/whonix-legacy.preinst install || true
 
 if [ -d "/var/lib/whonixcheck" ]; then
    ## Whonix 13: whonixcheck runs as user 'user'.
