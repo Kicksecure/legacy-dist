@@ -1,3 +1,15 @@
+commit 12f4c2500abc773059fa97fbfd7eb015191d74b9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 7 02:42:09 2019 +0000
+
+    vbox-disable-timesync package deprecation.
+
+commit b1ebbae9ac27acc45e627772dcce4463cd6d9de3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Aug 1 12:14:21 2019 +0000
+
+    bumped changelog version
+
 commit 50d0ff0d9843ac63f894b12efb02187c2fe4f054
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Aug 1 11:13:48 2019 +0000
