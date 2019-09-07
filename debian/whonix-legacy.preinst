@@ -494,6 +494,17 @@ nonfree_firmware_preseed() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+hardened_packages_cleanup() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   apt-mark auto hardened-packages-dependencies-cli || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -542,6 +553,7 @@ whonix_repository_component_extension
 virtualbox_spice_vda_agent_removal
 whonix_repository_http_enable
 nonfree_firmware_preseed
+hardened_packages_cleanup
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
