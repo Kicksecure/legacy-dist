@@ -1,3 +1,19 @@
+commit a0fdfb9122dba8bf9babf64498a2d4cea3374988
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 7 06:19:48 2019 +0000
+
+    set hardened-packages-dependencies-cli to automatically installed
+    
+    due to package rename from hardened to kicksecure
+    
+    so it can be removed using "sudo apt autoremove"
+
+commit b43d1544816dcabd2f58a178db01ac2a548ab3d3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Sep 7 02:51:16 2019 +0000
+
+    bumped changelog version
+
 commit 12f4c2500abc773059fa97fbfd7eb015191d74b9
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Sep 7 02:42:09 2019 +0000
