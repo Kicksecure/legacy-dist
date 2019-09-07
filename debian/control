@@ -5,7 +5,7 @@ Source: whonix-legacy
 Section: misc
 Priority: optional
 Maintainer: Patrick Schleizer <adrelanos@riseup.net>
-Build-Depends: debhelper (>= 12), genmkfile
+Build-Depends: debhelper (>= 12), genmkfile, config-package-dev
 Homepage: https://github.com/Whonix/whonix-legacy
 Vcs-Browser: https://github.com/Whonix/whonix-legacy
 Vcs-Git: https://github.com/Whonix/whonix-legacy.git
@@ -14,6 +14,7 @@ Standards-Version: 4.3.0
 Package: whonix-legacy
 Architecture: all
 Depends: ${misc:Depends}
+Replaces: vbox-disable-timesync
 Description: Prepare older Build Versions of Whonix for Upgrade
  Applies fixes required for upgrading from for example Whonix 8.x to Whonix
  9.x etc.

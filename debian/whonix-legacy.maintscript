@@ -4,3 +4,6 @@
 ## Enabling apparmor is default since Debian buster.
 ## https://www.debian.org/releases/buster/amd64/release-notes/ch-whats-new.en.html#apparmor
 rm_conffile /etc/default/grub.d/30_apparmor.cfg
+
+## vbox-disable-timesync package deprecation.
+rm_conffile /etc/init.d/virtualbox-guest-utils.anondist
