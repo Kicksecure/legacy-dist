@@ -505,6 +505,37 @@ hardened_packages_cleanup() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+## https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
+symlink_fix() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## output if ok:
+   ## ls -la /etc/hosts
+   ## lrwxrwxrwx 1 root root 14 Sep  9 09:34 /etc/hosts -> hosts.anondist
+
+   ## config package dev does:
+   ## ln -s hosts.anondist /etc/hosts
+
+   for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
+      if [ ! -f "${broken_file}.anondist" ]; then
+         continue
+      fi
+      chattr -i "${broken_file}" >/dev/null 2>&1 || true
+      unlink "${broken_file}" >/dev/null 2>&1 || true
+      rm -f "${broken_file}" >/dev/null 2>&1 || true
+      ln -s "$(basename "${broken_file}.anondist")" "${broken_file}" || true
+   done
+   for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
+      ## Debugging / Info.
+      ls -la "$broken_file" || true
+   done
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
