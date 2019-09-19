@@ -98,6 +98,34 @@ whonix_repository_rerun() {
    touch "/var/lib/whonix/do_once/whonix_repository_rerun"
 }
 
+command_not_found_sources_list_fix() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   if [ ! -e /etc/apt/sources.list ]; then
+      ## https://forums.whonix.org/t/command-not-found-warningcould-not-open-file-etc-apt-sources-list/7903
+      touch /etc/apt/sources.list || true
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
+command_not_found_permission_fix() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   if [ -f /var/lib/command-not-found/commands.db ]; then
+      ## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=917455
+      chmod o+r /var/lib/command-not-found/commands.db || true
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -154,3 +182,7 @@ else
       whonix_repository_rerun
    fi
 fi
+
+command_not_found_sources_list_fix
+
+command_not_found_permission_fix
