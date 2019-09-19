@@ -1,3 +1,19 @@
+commit 4202681132b1f0307cc95ceb3a1ca231fe6d9b3d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 19 08:59:27 2019 -0400
+
+    command-not-found fixes
+    
+    https://forums.whonix.org/t/command-not-found-warningcould-not-open-file-etc-apt-sources-list/7903
+    
+    https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=917455
+
+commit 80b84b346b6a3fdc49da26cbbf264b7bcdfe90a7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 9 12:11:44 2019 +0000
+
+    bumped changelog version
+
 commit b752b6124646fbb917f46ed5b6e8a7e6b021f4dc
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Sep 9 09:41:33 2019 +0000
