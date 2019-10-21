@@ -536,6 +536,35 @@ symlink_fix() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+keyboard_configuration_debconf_preseed() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## https://forums.whonix.org/t/keyboard-configuration-debconf-popup-during-apt-get-dist-upgrade/8318
+   echo "keyboard-configuration	keyboard-configuration/variantcode	string	" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/altgr	select	The default for the keyboard layout" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/compose	select	No compose key" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/ctrl_alt_bksp	boolean	false" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/unsupported_config_options	boolean	true" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/model	select	Generic 105-key PC (intl.)" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/switch	select	No temporary switch" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/unsupported_options	boolean	true" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/layoutcode	string	us" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/toggle	select	No toggling" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/variant	select	English (US)" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/store_defaults_in_debconf_db	boolean	false" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/optionscode	string	" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/xkb-keymap	select	us" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/unsupported_layout	boolean	true" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/layout	select	" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/unsupported_config_layout	boolean	true" | debconf-set-selections
+   echo "keyboard-configuration	keyboard-configuration/modelcode	string	pc105" | debconf-set-selections
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -585,6 +614,7 @@ virtualbox_spice_vda_agent_removal
 whonix_repository_http_enable
 nonfree_firmware_preseed
 hardened_packages_cleanup
+keyboard_configuration_debconf_preseed
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
