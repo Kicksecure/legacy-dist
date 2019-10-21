@@ -1,3 +1,9 @@
+whonix-legacy (3:6.9-1) unstable; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Mon, 21 Oct 2019 13:05:26 +0000
+
 whonix-legacy (3:6.8-1) unstable; urgency=medium
 
   * New upstream version (local package).

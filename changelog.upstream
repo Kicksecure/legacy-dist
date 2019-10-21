@@ -1,3 +1,17 @@
+commit 4bb3f9a93cef7a2076a70b986aa2c34d28ae1acf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 21 09:03:48 2019 -0400
+
+    prevent keyboard-configuration debconf popup during apt-get dist-upgrade
+    
+    https://forums.whonix.org/t/keyboard-configuration-debconf-popup-during-apt-get-dist-upgrade/8318
+
+commit 60fcccbe4360e5159db68bc471f317cb48008628
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 19 13:09:34 2019 +0000
+
+    bumped changelog version
+
 commit 4202681132b1f0307cc95ceb3a1ca231fe6d9b3d
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Sep 19 08:59:27 2019 -0400
