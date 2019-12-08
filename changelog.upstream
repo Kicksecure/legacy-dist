@@ -1,3 +1,17 @@
+commit 82e90d4209c9df4279df6f2f85563ff52394a4fe
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 8 03:40:18 2019 -0500
+
+    console lockdown
+    
+    https://forums.whonix.org/t/etc-security-hardening-console-lockdown-pam-access-access-conf/8592/7
+
+commit 0edf00e2f89fe478eaa69d59ab4fc9ce6dfbae49
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Oct 21 13:05:26 2019 +0000
+
+    bumped changelog version
+
 commit 4bb3f9a93cef7a2076a70b986aa2c34d28ae1acf
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Oct 21 09:03:48 2019 -0400
