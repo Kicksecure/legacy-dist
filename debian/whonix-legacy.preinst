@@ -589,6 +589,28 @@ console_lockdown() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+machine_id() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   local existing_machine_id shared_machine_id
+
+   existing_machine_id="$(cat /etc/machine-id)"
+   ## Same as anon-base-files.
+   shared_machine_id="b08dfa6083e7567a1921a715000001fb"
+
+   if [ "$existing_machine_id" = "$shared_machine_id" ]; then
+      ## No need to touch it.
+      true
+   else
+      echo "$shared_machine_id" > /etc/machine-id
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -640,6 +662,7 @@ nonfree_firmware_preseed
 hardened_packages_cleanup
 keyboard_configuration_debconf_preseed
 console_lockdown
+machine_id
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
