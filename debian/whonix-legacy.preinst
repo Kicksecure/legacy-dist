@@ -570,6 +570,13 @@ console_lockdown() {
       return 0
    fi
 
+   if command -v "qubesdb-read" &>/dev/null; then
+      ## Qubes users can use dom0 to get a root terminal emulator.
+      ## For example:
+      ## qvm-run -u root debian-10 xterm
+      return 0
+   fi
+
    ## https://forums.whonix.org/t/etc-security-hardening-console-lockdown-pam-access-access-conf/8592/7
 
    user_to_be_created=user
