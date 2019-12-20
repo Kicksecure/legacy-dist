@@ -1,3 +1,23 @@
+commit 933d34e588743174936d30b2136432cb395cd193
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 16 06:50:27 2019 -0500
+
+    skip console_users_check for Qubes users
+
+commit b16a27536eeacfb7f4d4338c4c3bf60d786a3734
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Dec 16 06:47:29 2019 -0500
+
+    ssh group no longer required
+    
+    https://forums.whonix.org/t/etc-security-hardening-console-lockdown-pam-access-access-conf/8592/27?u=patrick
+
+commit 094baeaed9734c5e9e3f05ef3430c2d30a455a8c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 10 11:47:00 2019 -0500
+
+    bumped changelog version
+
 commit 3f66f5c90272dd6d9bf2075e869554a5617c8b17
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Dec 10 11:41:38 2019 -0500
