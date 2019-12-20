@@ -1,3 +1,15 @@
+commit 7f423556e7e0dec4e26bbbf2179ac3da991e44d6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 20 07:15:44 2019 -0500
+
+    https://forums.whonix.org/t/disable-grub-output-verbose-by-default/8656
+
+commit 5aab18a255b14e6b399ebbd79607790e6b9879b7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 20 07:14:18 2019 -0500
+
+    bumped changelog version
+
 commit 933d34e588743174936d30b2136432cb395cd193
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Dec 16 06:50:27 2019 -0500
