@@ -616,6 +616,16 @@ machine_id() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+grub_output_verbose_autoremoval() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+   ## https://forums.whonix.org/t/disable-grub-output-verbose-by-default/8656
+   apt-mark auto grub-output-verbose || true
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -668,6 +678,7 @@ hardened_packages_cleanup
 keyboard_configuration_debconf_preseed
 console_lockdown
 machine_id
+grub_output_verbose_autoremoval
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
