@@ -1,3 +1,15 @@
+commit 2acaa51400bd7620ea67924e0e2d397b4514d735
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 31 05:54:16 2019 -0500
+
+    move console lockdown to security-misc so it runs early enough without dependency
+
+commit abb69b7b52e8078508262d1aabdaf6bc44b8f0bf
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 20 07:46:34 2019 -0500
+
+    bumped changelog version
+
 commit 7f423556e7e0dec4e26bbbf2179ac3da991e44d6
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Dec 20 07:15:44 2019 -0500
