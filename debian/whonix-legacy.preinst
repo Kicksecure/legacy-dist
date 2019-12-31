@@ -565,35 +565,6 @@ keyboard_configuration_debconf_preseed() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
-console_lockdown() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
-      return 0
-   fi
-
-   if command -v "qubesdb-read" &>/dev/null; then
-      ## Qubes users can use dom0 to get a root terminal emulator.
-      ## For example:
-      ## qvm-run -u root debian-10 xterm
-      return 0
-   fi
-
-   ## https://forums.whonix.org/t/etc-security-hardening-console-lockdown-pam-access-access-conf/8592/7
-
-   user_to_be_created=user
-
-   ## security-misc: Console Lockdown.
-   ## Make sure this group exists. Might not exist if security-misc is not (yet) installed.
-   addgroup --system console
-
-   addgroup "$user_to_be_created" console
-
-   ## By package security-misc.
-   pam-auth-update --enable console-lockdown-security-misc
-
-   mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
-}
-
 machine_id() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
@@ -676,7 +647,6 @@ whonix_repository_http_enable
 nonfree_firmware_preseed
 hardened_packages_cleanup
 keyboard_configuration_debconf_preseed
-console_lockdown
 machine_id
 grub_output_verbose_autoremoval
 
