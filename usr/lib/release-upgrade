@@ -43,9 +43,11 @@ dpkg --configure -a
 
 rm -f /etc/apt/sources.list.d/whonix.list
 
-sed -i 's/timeout_after="240"/timeout_after="600"/g' /usr/lib/security-misc/apt-get-update
+sed -i 's/apt-get-wrapper update &/timeout_after="600"/g' /usr/lib/security-misc/apt-get-update
 
-/usr/lib/security-misc/apt-get-update
+sed -i 's/timeout_after="240"/apt-get-wrapper update "$@" &/g' /usr/lib/security-misc/apt-get-update
+
+/usr/lib/security-misc/apt-get-update -o Acquire::Languages=none -o Acquire::IndexTargets::deb::Contents-deb::DefaultEnabled=false
 
 apt-get-noninteractive --yes dist-upgrade
 
@@ -63,7 +65,7 @@ rm -f /etc/apt/sources.list.d/backports.list /etc/apt/sources.list.d/testing.lis
 
 sed -i "s/stretch/buster/g" /etc/apt/sources.list.d/qubes*.list &>/dev/null || true
 
-/usr/lib/security-misc/apt-get-update
+/usr/lib/security-misc/apt-get-update -o Acquire::Languages=none -o Acquire::IndexTargets::deb::Contents-deb::DefaultEnabled=false
 
 apt-get-noninteractive dist-upgrade --yes --no-install-recommends
 
