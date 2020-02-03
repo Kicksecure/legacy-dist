@@ -43,9 +43,9 @@ dpkg --configure -a
 
 rm -f /etc/apt/sources.list.d/whonix.list
 
-sed -i 's/apt-get-wrapper update &/timeout_after="600"/g' /usr/lib/security-misc/apt-get-update
+sed -i 's/timeout_after="240"/timeout_after="600"/g' /usr/lib/security-misc/apt-get-update
 
-sed -i 's/timeout_after="240"/apt-get-wrapper update "$@" &/g' /usr/lib/security-misc/apt-get-update
+sed -i 's/update \&/update "$@" \&/g' /usr/lib/security-misc/apt-get-update
 
 /usr/lib/security-misc/apt-get-update -o Acquire::Languages=none -o Acquire::IndexTargets::deb::Contents-deb::DefaultEnabled=false
 
