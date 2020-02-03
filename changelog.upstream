@@ -1,3 +1,15 @@
+commit f58b6400f6f19d2bdad84f5a07b47ad83d7e4ab6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 31 12:16:07 2020 -0500
+
+    add usr/lib/release-upgrade
+
+commit 9b59e280713107580360afc87a3edba4709d54b9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 31 06:06:11 2019 -0500
+
+    bumped changelog version
+
 commit 2acaa51400bd7620ea67924e0e2d397b4514d735
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Dec 31 05:54:16 2019 -0500
