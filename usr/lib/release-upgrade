@@ -49,9 +49,9 @@ sed -i 's/update \&/update "$@" \&/g' /usr/lib/security-misc/apt-get-update
 
 /usr/lib/security-misc/apt-get-update -o Acquire::Languages=none -o Acquire::IndexTargets::deb::Contents-deb::DefaultEnabled=false
 
-apt-get-noninteractive --yes dist-upgrade
+apt-get-noninteractive --yes --no-install-recommends dist-upgrade
 
-apt-get-noninteractive --yes install python-qt4
+apt-get-noninteractive --yes --no-install-recommends install python-qt4
 
 dpkg --audit
 
@@ -77,7 +77,7 @@ apt-get-noninteractive --yes purge exim* || true
 
 service whonix-legacy restart
 
-apt-get-noninteractive --yes install "$pkg"
+apt-get-noninteractive --yes --no-install-recommends install "$pkg"
 
 dpkg --audit
 
