@@ -126,6 +126,22 @@ command_not_found_permission_fix() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+bisq_desktop_directories_workaround() {
+   if [ -f "/var/lib/whonix-legacy/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+   if test -f /home/user/.local/share/Bisq/btc_mainnet/tor/tor ; then
+      return 0
+   fi
+   user_name="user"
+   if ! id "$user_name" >&/dev/null ; then
+      return 0
+   fi
+   sudo --non-interactive -u "$user_name" mkdir -p /home/user/.local/share/Bisq/btc_mainnet/tor || true
+   sudo --non-interactive -u "$user_name" touch /home/user/.local/share/Bisq/btc_mainnet/tor/tor || true
+   touch "/var/lib/whonix-legacy/do_once/${FUNCNAME}_version_1"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -186,3 +202,5 @@ fi
 command_not_found_sources_list_fix
 
 command_not_found_permission_fix
+
+bisq_desktop_directories_workaround
