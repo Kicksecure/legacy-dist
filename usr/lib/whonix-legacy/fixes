@@ -176,7 +176,7 @@ fi
 ## sets: whonix_build_version
 get_build_version
 
-if command -v qubesdb-read >/dev/null 2>&1; then
+if command -v qubesdb-read >&/dev/null; then
    ## Qubes-Whonix
 
    ## Whonix 13 anon-base-files version: 3:2.0-1
