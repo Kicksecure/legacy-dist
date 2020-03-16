@@ -1,3 +1,36 @@
+commit 1885f4a130ab4dee05bf7a96a50d1282dbc7cfac
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 16 09:22:28 2020 -0400
+
+    fix
+
+commit 7d79f74cb54b7b81fc67568420c08febafbfc934
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 16 09:20:34 2020 -0400
+
+    bisq_desktop_directories_workaround Qubes support
+
+commit d9c398a390cc40a204d119cc64f854bca81791bd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 16 09:14:43 2020 -0400
+
+    refactoring
+
+commit 566fd4eba632dbeff89352f871dde4486b531b02
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Mar 16 09:13:30 2020 -0400
+
+    Bisq: avoid Tor over Tor by
+    creating a dummy Tor binary `/home/user/.local/share/Bisq/btc_mainnet/tor/tor`.
+    
+    https://www.whonix.org/wiki/Bisq
+
+commit 98b1bab6f9fcfc1ddfc3ccb312e89a5ed792c18c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 5 06:32:51 2020 -0500
+
+    bumped changelog version
+
 commit d32eb46bc07346d9db351cb8d1e16b276c23dfbc
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Tue Feb 4 03:52:28 2020 -0500
