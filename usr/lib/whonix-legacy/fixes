@@ -127,7 +127,7 @@ command_not_found_permission_fix() {
 }
 
 bisq_desktop_directories_workaround() {
-   if [ -f "/var/lib/whonix-legacy/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
    fi
 
@@ -158,7 +158,8 @@ bisq_desktop_directories_workaround() {
    sudo --non-interactive -u "$user_name" mkdir -p "/home/$user_name/.local/share/Bisq/btc_mainnet/tor" || true
    sudo --non-interactive -u "$user_name" touch "/home/$user_name/.local/share/Bisq/btc_mainnet/tor/tor" || true
 
-   touch "/var/lib/whonix-legacy/do_once/${FUNCNAME}_version_1"
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
 if [ "$(id -u)" != "0" ]; then
