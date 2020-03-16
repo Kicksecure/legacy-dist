@@ -130,15 +130,34 @@ bisq_desktop_directories_workaround() {
    if [ -f "/var/lib/whonix-legacy/do_once/${FUNCNAME}_version_1" ]; then
       return 0
    fi
-   if test -f /home/user/.local/share/Bisq/btc_mainnet/tor/tor ; then
+
+   user_name="user"
+   if test -f "/home/$user_name/.local/share/Bisq/btc_mainnet/tor/tor" ; then
       return 0
    fi
-   user_name="user"
+   if [ ! -d "/home/$user_name" ]; then
+      return 0
+   fi
    if ! id "$user_name" >&/dev/null ; then
       return 0
    fi
-   sudo --non-interactive -u "$user_name" mkdir -p /home/user/.local/share/Bisq/btc_mainnet/tor || true
-   sudo --non-interactive -u "$user_name" touch /home/user/.local/share/Bisq/btc_mainnet/tor/tor || true
+
+   if command -v qubesdb-read >&/dev/null; then
+      qubes_vm_name="$(qubesdb-read /name)" || return 0
+      qubes_vm_type="$(qubesdb-read /qubes-vm-type)" || return 0
+   fi
+   if [ "$qubes_vm_type" = "TemplateVM" ]; then
+      return 0
+   fi
+   ## Avoid running in Qubes DVM Template.
+   ## https://phabricator.whonix.org/T726
+   if echo "$qubes_vm_name" | grep -q "\-dvm" ; then
+      return 0
+   fi
+
+   sudo --non-interactive -u "$user_name" mkdir -p "/home/$user_name/.local/share/Bisq/btc_mainnet/tor" || true
+   sudo --non-interactive -u "$user_name" touch "/home/$user_name/.local/share/Bisq/btc_mainnet/tor/tor" || true
+
    touch "/var/lib/whonix-legacy/do_once/${FUNCNAME}_version_1"
 }
 
