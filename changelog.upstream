@@ -1,3 +1,15 @@
+commit af18e6435644f5facf26420e5adaeb97d6739c61
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Apr 5 03:59:41 2020 -0400
+
+    fix if /etc/machine-id does not exist
+
+commit a48d4a580ff74429f3945a78de14574547f83a29
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 2 08:10:56 2020 -0400
+
+    bumped changelog version
+
 commit 40f69b81dd2e8330556b9f765ec99f90b5590b90
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 2 07:23:05 2020 -0400
