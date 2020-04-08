@@ -32,7 +32,7 @@ command_not_found_permission_fix() {
 }
 
 bisq_desktop_directories_workaround() {
-   if [ -f /usr/share/whonix/marker ]; then
+   if [ ! -f /usr/share/whonix/marker ]; then
       return 0
    fi
 
