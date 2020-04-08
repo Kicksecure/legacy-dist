@@ -148,17 +148,6 @@ nonfree_firmware_preseed() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
-hardened_packages_cleanup() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
-      return 0
-   fi
-
-   apt-mark auto hardened-packages-dependencies-cli || true
-
-   mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
-}
-
 ## https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
 symlink_fix() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
@@ -219,12 +208,13 @@ keyboard_configuration_debconf_preseed() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
-grub_output_verbose_autoremoval() {
+apt_mark_deprecated_packages_for_autoremoval() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
    fi
+   apt-mark auto hardened-packages-dependencies-cli &>/dev/null || true
    ## https://forums.whonix.org/t/disable-grub-output-verbose-by-default/8656
-   apt-mark auto grub-output-verbose || true
+   apt-mark auto grub-output-verbose &>/dev/null || true
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
@@ -256,9 +246,8 @@ tor_control_panel_migration
 whonix_repository_component_extension
 whonix_repository_http_enable
 nonfree_firmware_preseed
-hardened_packages_cleanup
 keyboard_configuration_debconf_preseed
-grub_output_verbose_autoremoval
+apt_mark_deprecated_packages_for_autoremoval
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
