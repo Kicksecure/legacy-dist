@@ -1,3 +1,63 @@
+commit 07ef3d92c7cfc7ad395693de5817caa004403318
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 13:11:05 2020 +0000
+
+    /etc/localtime /etc/timezone no longer directly modified
+
+commit e3a2de967cc5eb419f8d8aa6cbb7a7c10687313f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 13:06:51 2020 +0000
+
+    refactoring
+
+commit 8c122daad1d4dfd11735677dd80540de5c1d36a4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 13:04:27 2020 +0000
+
+    remove /etc/machine-id legacy code since now handled by dist-base-files preinst script
+
+commit 24aa0debb4ac6852963dc407d943828e1c2613db
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 13:01:16 2020 +0000
+
+    remove virtualbox_spice_vda_agent_removal
+
+commit a82c8b4db3cf74386816b1e006a0f28424b2c4d8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 12:59:45 2020 +0000
+
+    remove legacy fixups for versions older than Whonix 14
+
+commit 9ead2f55b94ea3909b5038508c810cd454fa5247
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 12:53:51 2020 +0000
+
+    bumped changelog version
+
+commit bbff3e99594aab0a4cc2791d6ff4e09898489f95
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 12:53:23 2020 +0000
+
+    remove no longer required create_first_run_initializer_done_file
+
+commit 5b3c86754267a5f6edec6bec174593ce145cbe15
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 12:52:03 2020 +0000
+
+    deprecate no longer used /root/.whonix/first_run_initializer.done
+
+commit 1114e5f3c41293d99b6c03316d641022b5cdf409
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 12:04:25 2020 +0000
+
+    anon-base-files -> dist-base-files
+
+commit 7ddb38d61426d2ad30ae90e8d5f04bd53fe113df
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Apr 5 04:26:30 2020 -0400
+
+    bumped changelog version
+
 commit af18e6435644f5facf26420e5adaeb97d6739c61
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Apr 5 03:59:41 2020 -0400
