@@ -150,7 +150,7 @@ nonfree_firmware_preseed() {
 
 ## https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
 symlink_fix() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
       return 0
    fi
 
@@ -169,21 +169,27 @@ symlink_fix() {
       chattr -i "/etc/resolv.conf" &>/dev/null || true
       unlink "/etc/resolv.conf" &>/dev/null || true
       rm -f "/etc/resolv.conf" &>/dev/null || true
-      ln -s "$(basename "/etc/resolv.conf.whonix")" "/etc/resolv.conf" || true
+      if test -f "/etc/resolv.conf.whonix" ; then
+         ln -s "$(basename "/etc/resolv.conf.whonix")" "/etc/resolv.conf" || true
+      fi
    fi
 
    if [ -f "/etc/hostname" ]; then
       chattr -i "/etc/hostname" &>/dev/null || true
       unlink "/etc/hostname" &>/dev/null || true
       rm -f "/etc/hostname" &>/dev/null || true
-      ln -s "$(basename "/etc/hostname.anondist")" "/etc/hostname" || true
+      if test -f "/etc/hostname.anondist" ; then
+         ln -s "$(basename "/etc/hostname.anondist")" "/etc/hostname" || true
+      fi
    fi
 
    if [ -f "/etc/hosts" ]; then
       chattr -i "/etc/hosts" &>/dev/null || true
       unlink "/etc/hosts" &>/dev/null || true
       rm -f "/etc/hosts" &>/dev/null || true
-      ln -s "$(basename "/etc/hosts.anondist")" "/etc/hosts" || true
+      if test -f "/etc/hosts.anondist" ; then
+         ln -s "$(basename "/etc/hosts.anondist")" "/etc/hosts" || true
+      fi
    fi
 
    for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts ; do
@@ -194,7 +200,7 @@ symlink_fix() {
    popd >/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
 }
 
 keyboard_configuration_debconf_preseed() {
