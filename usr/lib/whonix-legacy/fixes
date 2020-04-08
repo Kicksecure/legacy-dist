@@ -25,79 +25,6 @@ get_build_version() {
    fi
 }
 
-tb_folder_migration_whonix_eleven_to_twelve() {
-   ## We need to move Tor Browser from the old location(s) to the new ones.
-   ## Otherwise existing users who upgrade would be notified "Tor Browser not
-   ## installed" and asked "want to install Tor Browser?".
-
-   if [ -d /home/user/.tb/tor-browser ]; then
-      echo "$0 $FUNCNAME INFO: New folder /home/user/.tb/tor-browser already exists. Skipping."
-      return 0
-   fi
-
-   if pgrep firefox ; then
-      echo "$0 $FUNCNAME INFO: Tor Browser likely already running. Not trying to migrate to new location." >&2
-      return 1
-   fi
-
-   if [ -f "/var/lib/whonix/do_once/tb_folder_migration_whonix_eleven_to_twelve" ]; then
-      true "/var/lib/whonix/do_once/tb_folder_migration_whonix_eleven_to_twelve exists. Already done."
-      return 0
-   fi
-
-   mkdir --parents "/var/lib/whonix/do_once"
-
-   local folder_name
-
-   for folder_name in /home/user/tor-browser_* /home/user/.tb/tor-browser_* ; do
-      if echo "$folder_name" | grep -q '.old.' ; then
-         continue
-      fi
-      if [ ! -d "$folder_name" ]; then
-         continue
-      fi
-
-      sudo --non-interactive -u user mv "$folder_name" /home/user/.tb/tor-browser || \
-         { echo "$0 $FUNCNAME ERROR: Moving from '$folder_name' to '/home/user/.tb/tor-browser' failed." >&2 && break; };
-
-      echo "$0 $FUNCNAME INFO: Moved '$folder_name' to '/home/user/.tb/tor-browser'."
-
-      break
-   done
-
-   touch "/var/lib/whonix/do_once/tb_folder_migration_whonix_eleven_to_twelve"
-}
-
-timesync_apparmor_profile_delete() {
-   if [ -f "/var/lib/whonix/do_once/timesync_apparmor_profile_delete" ]; then
-      true "/var/lib/whonix/do_once/timesync_apparmor_profile_delete exists. Already done."
-      return 0
-   fi
-   mkdir --parents "/var/lib/whonix/do_once"
-
-   rm -f "/etc/apparmor.d/usr.bin.timesync"
-
-   touch "/var/lib/whonix/do_once/timesync_apparmor_profile_delete"
-}
-
-whonix_repository_rerun() {
-   if [ -f "/var/lib/whonix/do_once/whonix_repository_rerun" ]; then
-      true "/var/lib/whonix/do_once/whonix_repository_rerun exists. Already done."
-      return 0
-   fi
-   mkdir --parents "/var/lib/whonix/do_once"
-
-   if test -x "/var/lib/dpkg/info/whonix-repository.postinst" ; then
-      ## gpg and /etc/apt/trusted.gpg to gpg2 and /etc/apt/trusted.gpg.d/whonix.gpg
-      ## migration will fail due to uwt not supporting gpg2 and due to whonix-repository
-      ## being upgraded earlier than uwt. Also uwt should not be a dependency of
-      ## whonix-repository.
-      DEBDEBUG=1 DPKG_MAINTSCRIPT_PACKAGE=whonix-repository DPKG_MAINTSCRIPT_NAME=postinst /var/lib/dpkg/info/whonix-repository.postinst configure || true
-   fi
-
-   touch "/var/lib/whonix/do_once/whonix_repository_rerun"
-}
-
 command_not_found_sources_list_fix() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
@@ -195,29 +122,6 @@ fi
 
 ## sets: whonix_build_version
 get_build_version
-
-if command -v qubesdb-read >&/dev/null; then
-   ## Qubes-Whonix
-
-   ## Whonix 13 anon-base-files version: 3:2.0-1
-   if dpkg --compare-versions "$whonix_build_version" lt "3:2.1-1" 2>/dev/null ; then
-      whonix_repository_rerun
-   fi
-else
-   ## Non-Qubes-Whonix
-
-   if dpkg --compare-versions "$whonix_build_version" lt "12" 2>/dev/null ; then
-      tb_folder_migration_whonix_eleven_to_twelve
-   fi
-
-   if dpkg --compare-versions "$whonix_build_version" lt "13" 2>/dev/null ; then
-      timesync_apparmor_profile_delete
-   fi
-
-   if dpkg --compare-versions "$whonix_build_version" lt "14" 2>/dev/null ; then
-      whonix_repository_rerun
-   fi
-fi
 
 command_not_found_sources_list_fix
 
