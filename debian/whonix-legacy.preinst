@@ -120,26 +120,6 @@ whonix_repository_component_extension() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
-virtualbox_spice_vda_agent_removal() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
-      return 0
-   fi
-
-   [ -n "$virt_detection_tool" ] || virt_detection_tool="systemd-detect-virt"
-   [ -n "$virtualizer_detected" ] || virtualizer_detected="$("$virt_detection_tool" 2>&1)" || true
-
-   if [ ! "$virtualizer_detected" = "oracle" ]; then
-      return 0
-   fi
-
-   ## man apt-mark excerpt:
-   ## auto is used to mark a package as being automatically installed, which will cause the package to be removed when no more manually installed packages depend on this package.
-   apt-mark auto spice-vdagent || true
-
-   mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
-}
-
 whonix_repository_http_enable() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
@@ -300,7 +280,6 @@ fi
 
 tor_control_panel_migration
 whonix_repository_component_extension
-virtualbox_spice_vda_agent_removal
 whonix_repository_http_enable
 nonfree_firmware_preseed
 hardened_packages_cleanup
