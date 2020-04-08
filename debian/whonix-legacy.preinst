@@ -218,8 +218,6 @@ eight_dot_x_to_nine_dot_x() {
    fi
 
    if [ ! -f "/var/lib/whonix/do_once/create_first_run_initializer_done_file" ]; then
-      mkdir --parents "/root/.whonix/"
-      touch "/root/.whonix/first_run_initializer.done"
       mkdir --parents "/var/lib/whonix/do_once"
       touch "/var/lib/whonix/do_once/create_first_run_initializer_done_file"
    fi
