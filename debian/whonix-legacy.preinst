@@ -217,11 +217,6 @@ eight_dot_x_to_nine_dot_x() {
       touch "/var/lib/whonix/do_once/remove_old_profile_d_scripts"
    fi
 
-   if [ ! -f "/var/lib/whonix/do_once/create_first_run_initializer_done_file" ]; then
-      mkdir --parents "/var/lib/whonix/do_once"
-      touch "/var/lib/whonix/do_once/create_first_run_initializer_done_file"
-   fi
-
    if [ ! -f "/var/lib/whonix/do_once/8_kickoff" ]; then
       local kickoffrc_file
       kickoffrc_file="/home/user/.kde/share/config/kickoffrc"
