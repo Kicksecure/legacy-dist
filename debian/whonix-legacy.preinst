@@ -219,32 +219,6 @@ keyboard_configuration_debconf_preseed() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
-machine_id() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
-      return 0
-   fi
-
-   local existing_machine_id shared_machine_id
-
-   if ! test -f /etc/machine-id ; then
-      return 0
-   fi
-
-   existing_machine_id="$(cat /etc/machine-id)" || true
-   ## Same as dist-base-files.
-   shared_machine_id="b08dfa6083e7567a1921a715000001fb"
-
-   if [ "$existing_machine_id" = "$shared_machine_id" ]; then
-      ## No need to touch it.
-      true
-   else
-      echo "$shared_machine_id" > /etc/machine-id
-   fi
-
-   mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
-}
-
 grub_output_verbose_autoremoval() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
@@ -284,7 +258,6 @@ whonix_repository_http_enable
 nonfree_firmware_preseed
 hardened_packages_cleanup
 keyboard_configuration_debconf_preseed
-machine_id
 grub_output_verbose_autoremoval
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
