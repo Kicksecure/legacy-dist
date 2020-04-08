@@ -1,30 +1,5 @@
 #!/bin/bash
 
-get_build_version() {
-   ## fallback
-   whonix_build_version="Could not read Whonix Build Version File. (Code: 3) Please report this bug!"
-
-   local build_version_file
-   if [ -f "/usr/share/whonix/build_version" ]; then
-      build_version_file="/usr/share/whonix/build_version"
-   elif [ -f "/var/lib/anon-dist/build_version" ]; then
-      build_version_file="/var/lib/anon-dist/build_version"
-   fi
-
-   if [ "$build_version_file" = "" ]; then
-      whonix_build_version="There is no Whonix Build Version File. (Code: 4) Please report this bug!"
-   else
-      if [ -f "$build_version_file" ]; then
-         whonix_build_version="$(cat "$build_version_file")"
-      fi
-   fi
-
-   ## fallback
-   if [ "$whonix_build_version" = "" ]; then
-      whonix_build_version="Could not read Whonix Build Version File. (Code: 5) Please report this bug!"
-   fi
-}
-
 command_not_found_sources_list_fix() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
@@ -119,9 +94,6 @@ fi
 if [ -d "/var/log/tor" ]; then
    chown --recursive debian-tor:adm /var/log/tor || true
 fi
-
-## sets: whonix_build_version
-get_build_version
 
 command_not_found_sources_list_fix
 
