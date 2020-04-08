@@ -161,7 +161,7 @@ symlink_fix() {
    ## config package dev does:
    ## ln -s hosts.anondist /etc/hosts
 
-   for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
+   for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts ; do
       if [ ! -f "${broken_file}.anondist" ]; then
          continue
       fi
@@ -170,7 +170,7 @@ symlink_fix() {
       rm -f "${broken_file}" >/dev/null 2>&1 || true
       ln -s "$(basename "${broken_file}.anondist")" "${broken_file}" || true
    done
-   for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts /etc/localtime /etc/timezone ; do
+   for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts ; do
       ## Debugging / Info.
       ls -la "$broken_file" || true
    done
