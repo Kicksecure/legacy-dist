@@ -1,3 +1,22 @@
+commit 488fb55c67eee0c1141c5a40b0b5e718b134025e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 16:22:25 2020 +0000
+
+    fix symlink_fix
+
+commit 9c865a61947245ede6a54cd02f126be84aae43b3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 16:20:14 2020 +0000
+
+    fix, actually run symlink_fix
+    and update symlink_fix
+
+commit d70f1902a040b8bc9f4f8fe23de3e0019b2d6297
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 13:21:34 2020 +0000
+
+    bumped changelog version
+
 commit 07ef3d92c7cfc7ad395693de5817caa004403318
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Apr 8 13:11:05 2020 +0000
