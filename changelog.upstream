@@ -1,3 +1,39 @@
+commit 35942ca2e9152f47b10747f94870227c323e3238
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 19:38:03 2020 +0000
+
+    fix
+
+commit a2feb86f49e4ed63aa3e161d6afc62d9c1aad3df
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 19:37:45 2020 +0000
+
+    run bisq_desktop_directories_workaround only in Whonix
+
+commit 0501fbc8b8e6ce9474025caabeb2ef05ae15a65f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 19:35:48 2020 +0000
+
+    copyright
+
+commit 390909187857b8f19e47cc683e9d5a909b65044f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 19:35:32 2020 +0000
+
+    cleanup
+
+commit ff60c84d06626a8bda12affc81ba34b306d33c35
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 19:34:50 2020 +0000
+
+    remove legacy migration code for unsupported versions
+
+commit af9be28d367cf4aafae7c9d7a93ce1adbd0f22ce
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 8 16:23:19 2020 +0000
+
+    bumped changelog version
+
 commit 488fb55c67eee0c1141c5a40b0b5e718b134025e
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Apr 8 16:22:25 2020 +0000
