@@ -1,3 +1,15 @@
+commit bfcff074d7960eaa647c3624714be7ee4bb38ea6
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 9 12:41:13 2020 +0000
+
+    bashrrc migration
+
+commit fff157da57c96365bfc0251b2cd3e244d0aa7160
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 9 09:47:11 2020 +0000
+
+    bumped changelog version
+
 commit 35942ca2e9152f47b10747f94870227c323e3238
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Apr 8 19:38:03 2020 +0000
