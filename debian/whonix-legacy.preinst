@@ -243,6 +243,20 @@ apt_mark_deprecated_packages_for_autoremoval() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+dhcpcanon_apparmor_workaround() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## dhcpcanon systemd unit fails at boot due to missing debhelper apparmor integration
+   ## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=956626
+   mkdir -p /etc/apparmor.d/local/ || true
+   touch /etc/apparmor.d/local/sbin.dhcpcanon || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -273,6 +287,7 @@ nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
 apt_mark_deprecated_packages_for_autoremoval
 symlink_fix
+dhcpcanon_apparmor_workaround
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
