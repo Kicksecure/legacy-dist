@@ -1,3 +1,21 @@
+commit fc5130934633b23eed90ba2ec9765993faba2a2a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 13 14:48:00 2020 -0400
+
+    Whonix-Host / Kicksecure: dhcpcanon apparmor workaround
+    
+    dhcpcanon systemd unit fails at boot due to missing debhelper apparmor integration
+    
+    https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=956626
+    
+    https://forums.whonix.org/t/kicksecure-network-configuration/8985/56
+
+commit 91f73c85ca86337294a7b55402be66ed671a2836
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 9 12:44:07 2020 +0000
+
+    bumped changelog version
+
 commit bfcff074d7960eaa647c3624714be7ee4bb38ea6
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 9 12:41:13 2020 +0000
