@@ -1,3 +1,38 @@
+commit 4d32fc8d85dad1bd045574b1c1dc4b89fccd01d2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 16 08:16:29 2020 -0400
+
+    apt-mark auto rsyslog
+    apt-mark auto isc-dhcp-client
+    apt-mark auto isc-dhcp-common
+    apt-mark auto logrotate
+    apt-mark auto tasksel
+    apt-mark auto vim-common
+    apt-mark auto vim-tiny
+    apt-mark auto dmidecode
+    
+    https://forums.whonix.org/t/whonix-default-packages-review-mmdebstrap-varriant-related-risk-of-regressions/9254
+
+commit a4ca36b0a957b5c86f4257a1b83899d97d7ad7b8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 16 08:11:20 2020 -0400
+
+    apt-mark auto rsyslog
+    
+    https://forums.whonix.org/t/whonix-default-packages-review-mmdebstrap-varriant-related-risk-of-regressions/9254
+
+commit 96358977fc2c7d3cbe35bc4f47d73280f29cb660
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Apr 15 14:05:42 2020 -0400
+
+    readme
+
+commit 749968494b2c057fca2cc84113a74836d760c05a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Apr 13 15:23:03 2020 -0400
+
+    bumped changelog version
+
 commit fc5130934633b23eed90ba2ec9765993faba2a2a
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Apr 13 14:48:00 2020 -0400
