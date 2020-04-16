@@ -243,6 +243,13 @@ apt_mark_deprecated_packages_for_autoremoval() {
 
    ## https://forums.whonix.org/t/whonix-default-packages-review-mmdebstrap-varriant-related-risk-of-regressions/9254
    apt-mark auto rsyslog &>/dev/null || true
+   apt-mark auto isc-dhcp-client &>/dev/null || true
+   apt-mark auto isc-dhcp-common &>/dev/null || true
+   apt-mark auto logrotate &>/dev/null || true
+   apt-mark auto tasksel &>/dev/null || true
+   apt-mark auto vim-common &>/dev/null || true
+   apt-mark auto vim-tiny &>/dev/null || true
+   apt-mark auto dmidecode &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
