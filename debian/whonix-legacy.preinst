@@ -233,14 +233,19 @@ keyboard_configuration_debconf_preseed() {
 }
 
 apt_mark_deprecated_packages_for_autoremoval() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
       return 0
    fi
    apt-mark auto hardened-packages-dependencies-cli &>/dev/null || true
+
    ## https://forums.whonix.org/t/disable-grub-output-verbose-by-default/8656
    apt-mark auto grub-output-verbose &>/dev/null || true
+
+   ## https://forums.whonix.org/t/whonix-default-packages-review-mmdebstrap-varriant-related-risk-of-regressions/9254
+   apt-mark auto rsyslog &>/dev/null || true
+
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
 }
 
 dhcpcanon_apparmor_workaround() {
