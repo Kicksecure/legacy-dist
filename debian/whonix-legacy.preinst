@@ -255,6 +255,28 @@ apt_mark_deprecated_packages_for_autoremoval() {
    apt-mark auto vim-tiny &>/dev/null || true
    apt-mark auto dmidecode &>/dev/null || true
 
+   apt-mark manual anon-base-files
+   apt-mark manual anon-gpg-tweaks
+   apt-mark manual anon-gw-dhcp-conf
+   apt-mark manual anon-gw-dns-conf
+   apt-mark manual anon-gw-leaktest
+   apt-mark manual anon-ws-dns-conf
+   apt-mark manual anon-ws-leaktest
+   apt-mark manual apparmor-profile-anondist
+   apt-mark manual apparmor-profile-gwenview
+   apt-mark manual apparmor-profile-icedove
+   apt-mark manual apparmor-profile-okular
+   apt-mark manual apparmor-profile-virtualbox
+   apt-mark manual apparmor-profile-xchat
+   apt-mark manual grub-default-live
+   apt-mark manual grub-screen-resolution
+   apt-mark manual shared-folder-help
+   apt-mark manual swappiness-lowest
+   apt-mark manual timezone-utc
+   apt-mark manual whonix-ws-irc-chat-support
+   apt-mark manual whonix-ws-start-menu-additions
+   apt-mark manual xchat-improved-privacy
+
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
 }
