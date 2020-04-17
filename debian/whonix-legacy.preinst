@@ -237,7 +237,7 @@ keyboard_configuration_debconf_preseed() {
 }
 
 apt_mark_deprecated_packages_for_autoremoval() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
       return 0
    fi
    apt-mark auto hardened-packages-dependencies-cli &>/dev/null || true
@@ -279,7 +279,7 @@ apt_mark_deprecated_packages_for_autoremoval() {
    apt-mark manual xchat-improved-privacy &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
 }
 
 dhcpcanon_apparmor_workaround() {
