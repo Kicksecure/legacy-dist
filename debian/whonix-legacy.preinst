@@ -278,6 +278,12 @@ apt_mark_deprecated_packages_for_autoremoval() {
    apt-mark manual whonix-ws-start-menu-additions &>/dev/null || true
    apt-mark manual xchat-improved-privacy &>/dev/null || true
 
+   apt-mark manual exim &>/dev/null || true
+   apt-mark manual exim4 &>/dev/null || true
+   apt-mark manual exim4-config &>/dev/null || true
+   apt-mark manual exim4-base &>/dev/null || true
+   apt-mark manual exim4-daemon-light &>/dev/null || true
+
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
 }
