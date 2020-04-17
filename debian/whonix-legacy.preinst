@@ -255,6 +255,7 @@ apt_mark_deprecated_packages_for_autoremoval() {
    apt-mark auto vim-tiny &>/dev/null || true
    apt-mark auto dmidecode &>/dev/null || true
 
+   ## https://forums.whonix.org/t/consolidating-whonix-packages/1945
    apt-mark manual anon-base-files
    apt-mark manual anon-gpg-tweaks
    apt-mark manual anon-gw-dhcp-conf
