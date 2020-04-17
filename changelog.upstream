@@ -1,3 +1,53 @@
+commit e848029a01bbe37b7c5036f6c85a26fa0b2018bc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 17 09:34:40 2020 -0400
+
+    apt_mark_deprecated_packages_for_autoremoval version 3
+
+commit b826f31318a76b6419adc0de501a5aedb41ab172
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 17 09:34:18 2020 -0400
+
+     &>/dev/null || true
+
+commit 7007f8c3c809bba3bd92c1e8fe8e0bc84f293637
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 17 09:33:43 2020 -0400
+
+    https://forums.whonix.org/t/consolidating-whonix-packages/1945
+
+commit d45042b1a1d9560ba2ff7f22a77d629db3a51562
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Apr 17 09:32:59 2020 -0400
+
+    apt-mark manual anon-base-files
+    apt-mark manual anon-gpg-tweaks
+    apt-mark manual anon-gw-dhcp-conf
+    apt-mark manual anon-gw-dns-conf
+    apt-mark manual anon-gw-leaktest
+    apt-mark manual anon-ws-dns-conf
+    apt-mark manual anon-ws-leaktest
+    apt-mark manual apparmor-profile-anondist
+    apt-mark manual apparmor-profile-gwenview
+    apt-mark manual apparmor-profile-icedove
+    apt-mark manual apparmor-profile-okular
+    apt-mark manual apparmor-profile-virtualbox
+    apt-mark manual apparmor-profile-xchat
+    apt-mark manual grub-default-live
+    apt-mark manual grub-screen-resolution
+    apt-mark manual shared-folder-help
+    apt-mark manual swappiness-lowest
+    apt-mark manual timezone-utc
+    apt-mark manual whonix-ws-irc-chat-support
+    apt-mark manual whonix-ws-start-menu-additions
+    apt-mark manual xchat-improved-privacy
+
+commit 1dce9d871334e13ebe4e7e67ea9cb3b3a97866f3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 16 17:03:21 2020 -0400
+
+    bumped changelog version
+
 commit 242d0fefb97de8ed860e0efb444873571da9d321
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Thu Apr 16 12:08:51 2020 -0400
