@@ -256,27 +256,27 @@ apt_mark_deprecated_packages_for_autoremoval() {
    apt-mark auto dmidecode &>/dev/null || true
 
    ## https://forums.whonix.org/t/consolidating-whonix-packages/1945
-   apt-mark manual anon-base-files
-   apt-mark manual anon-gpg-tweaks
-   apt-mark manual anon-gw-dhcp-conf
-   apt-mark manual anon-gw-dns-conf
-   apt-mark manual anon-gw-leaktest
-   apt-mark manual anon-ws-dns-conf
-   apt-mark manual anon-ws-leaktest
-   apt-mark manual apparmor-profile-anondist
-   apt-mark manual apparmor-profile-gwenview
-   apt-mark manual apparmor-profile-icedove
-   apt-mark manual apparmor-profile-okular
-   apt-mark manual apparmor-profile-virtualbox
-   apt-mark manual apparmor-profile-xchat
-   apt-mark manual grub-default-live
-   apt-mark manual grub-screen-resolution
-   apt-mark manual shared-folder-help
-   apt-mark manual swappiness-lowest
-   apt-mark manual timezone-utc
-   apt-mark manual whonix-ws-irc-chat-support
-   apt-mark manual whonix-ws-start-menu-additions
-   apt-mark manual xchat-improved-privacy
+   apt-mark manual anon-base-files &>/dev/null || true
+   apt-mark manual anon-gpg-tweaks &>/dev/null || true
+   apt-mark manual anon-gw-dhcp-conf &>/dev/null || true
+   apt-mark manual anon-gw-dns-conf &>/dev/null || true
+   apt-mark manual anon-gw-leaktest &>/dev/null || true
+   apt-mark manual anon-ws-dns-conf &>/dev/null || true
+   apt-mark manual anon-ws-leaktest &>/dev/null || true
+   apt-mark manual apparmor-profile-anondist &>/dev/null || true
+   apt-mark manual apparmor-profile-gwenview &>/dev/null || true
+   apt-mark manual apparmor-profile-icedove &>/dev/null || true
+   apt-mark manual apparmor-profile-okular &>/dev/null || true
+   apt-mark manual apparmor-profile-virtualbox &>/dev/null || true
+   apt-mark manual apparmor-profile-xchat &>/dev/null || true
+   apt-mark manual grub-default-live &>/dev/null || true
+   apt-mark manual grub-screen-resolution &>/dev/null || true
+   apt-mark manual shared-folder-help &>/dev/null || true
+   apt-mark manual swappiness-lowest &>/dev/null || true
+   apt-mark manual timezone-utc &>/dev/null || true
+   apt-mark manual whonix-ws-irc-chat-support &>/dev/null || true
+   apt-mark manual whonix-ws-start-menu-additions &>/dev/null || true
+   apt-mark manual xchat-improved-privacy &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
