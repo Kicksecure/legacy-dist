@@ -90,8 +90,8 @@ bashrc_migration() {
    if diff "$old" "$new" &>/dev/null ; then
       true "Nothing replaced."
    else
-      cp "$new" "$file_name"
-      chown user:user "$file_name"
+      cp "$new" "$file_name" || true
+      chown user:user "$file_name" || true
    fi
 
    mkdir --parents "/var/lib/whonix/do_once"
