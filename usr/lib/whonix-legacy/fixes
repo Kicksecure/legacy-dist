@@ -72,7 +72,7 @@ bisq_desktop_directories_workaround() {
 }
 
 bashrc_migration() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
       return 0
    fi
 
@@ -84,14 +84,12 @@ bashrc_migration() {
 
    search="$(cat /usr/share/dist-legacy/bashrc-old)"
 
-   replace='if test -x /usr/lib/helper-scripts/bashrc-terminal-emulator ; then
-   source /usr/lib/helper-scripts/bashrc-terminal-emulator
-fi'
+   replace="$(cat /usr/share/dist-legacy/bashrc-new)"
 
    str_replace "$search" "$replace" "$file_name" &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
 }
 
 if [ "$(id -u)" != "0" ]; then
