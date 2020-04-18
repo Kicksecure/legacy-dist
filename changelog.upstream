@@ -1,3 +1,21 @@
+commit e4fc7c53a0eb290d1a5ad85b2d6c4004d5f8fb91
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 18 12:59:37 2020 -0400
+
+    bashrc_migration version 4
+
+commit 5227ed313f8370afd141c70057946e7a2ad4957a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 18 11:52:39 2020 -0400
+
+     || true
+
+commit 39b19e88e3eb43074f76616124605612d2ad8169
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 18 11:45:21 2020 -0400
+
+    bumped changelog version
+
 commit 34463a83c07bb4425aaf2659ef75fe17693d0a51
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Apr 18 11:45:04 2020 -0400
