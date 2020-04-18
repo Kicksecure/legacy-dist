@@ -76,7 +76,8 @@ bashrc_migration() {
       return 0
    fi
 
-   if [ -f "/usr/share/whonix/marker" ]; then
+   if [ ! -f "/usr/share/whonix/marker" ]; then
+      ## Do this only in Whonix.
       return 0
    fi
 
