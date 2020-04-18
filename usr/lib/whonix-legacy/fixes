@@ -76,6 +76,10 @@ bashrc_migration() {
       return 0
    fi
 
+   if [ -f "/usr/share/whonix/marker" ]; then
+      return 0
+   fi
+
    local file_name old new
 
    file_name="/home/user/.bashrc"
