@@ -1,3 +1,21 @@
+commit e508b6bdb65af90e5ffe32d2b4c323187037c520
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 18 14:13:23 2020 -0400
+
+    bashrc_migration only in Whonix
+
+commit 8068f6efdb5476d1fd1d5abbf4d5d6ab9f267d8f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 18 14:12:01 2020 -0400
+
+    bashrc_migration version 6
+
+commit fb8262de0c94dec52433d658fffe313f6dc1ddbc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 18 14:03:25 2020 -0400
+
+    bumped changelog version
+
 commit 6853af76bfe7d9c2604c65b137c4f1c16b68b708
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Apr 18 14:03:14 2020 -0400
