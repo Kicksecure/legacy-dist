@@ -72,7 +72,7 @@ bisq_desktop_directories_workaround() {
 }
 
 bashrc_migration() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_5" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_6" ]; then
       return 0
    fi
 
@@ -94,7 +94,7 @@ bashrc_migration() {
    fi
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_5"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_6"
 }
 
 if [ "$(id -u)" != "0" ]; then
