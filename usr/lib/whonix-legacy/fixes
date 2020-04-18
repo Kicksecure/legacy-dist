@@ -72,7 +72,7 @@ bisq_desktop_directories_workaround() {
 }
 
 bashrc_migration() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_4" ]; then
       return 0
    fi
 
@@ -87,15 +87,14 @@ bashrc_migration() {
    old="/usr/share/dist-legacy/bashrc-old"
    new="/usr/share/dist-legacy/bashrc-new"
 
-   if diff "$old" "$new" &>/dev/null ; then
-      true "Nothing replaced."
-   else
+   if diff "$old" "$file_name" &>/dev/null ; then
+      ## No diff. Therefore upgrade.
       cp "$new" "$file_name" || true
       chown user:user "$file_name" || true
    fi
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_4"
 }
 
 if [ "$(id -u)" != "0" ]; then
