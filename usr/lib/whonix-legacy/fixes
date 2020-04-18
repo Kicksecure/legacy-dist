@@ -72,9 +72,11 @@ bisq_desktop_directories_workaround() {
 }
 
 bashrc_migration() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
       return 0
    fi
+
+   local file_name old new
 
    file_name="/home/user/.bashrc"
 
@@ -82,14 +84,18 @@ bashrc_migration() {
       return 0
    fi
 
-   search="$(cat /usr/share/dist-legacy/bashrc-old)"
+   old="/usr/share/dist-legacy/bashrc-old"
+   new="/usr/share/dist-legacy/bashrc-new"
 
-   replace="$(cat /usr/share/dist-legacy/bashrc-new)"
-
-   str_replace "$search" "$replace" "$file_name" &>/dev/null || true
+   if diff "$old" "$new" &>/dev/null ; then
+      true "Nothing replaced."
+   else
+      cp "$new" "$file_name"
+      chown user:user "$file_name"
+   fi
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
 }
 
 if [ "$(id -u)" != "0" ]; then
