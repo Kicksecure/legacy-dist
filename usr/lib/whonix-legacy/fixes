@@ -82,7 +82,7 @@ bashrc_migration() {
       return 0
    fi
 
-   search="$(cat /usr/share/dist-legacy/bashrrc-old)"
+   search="$(cat /usr/share/dist-legacy/bashrc-old)"
 
    replace='if test -x /usr/lib/helper-scripts/bashrc-terminal-emulator ; then
    source /usr/lib/helper-scripts/bashrc-terminal-emulator
