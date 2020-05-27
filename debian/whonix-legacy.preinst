@@ -170,28 +170,28 @@ symlink_fix() {
    pushd /etc >/dev/null || true
 
    if [ -f "/etc/resolv.conf" ]; then
-      chattr -i "/etc/resolv.conf" &>/dev/null || true
-      unlink "/etc/resolv.conf" &>/dev/null || true
-      rm -f "/etc/resolv.conf" &>/dev/null || true
       if test -f "/etc/resolv.conf.whonix" ; then
+         chattr -i "/etc/resolv.conf" &>/dev/null || true
+         unlink "/etc/resolv.conf" &>/dev/null || true
+         rm -f "/etc/resolv.conf" &>/dev/null || true
          ln -s "$(basename "/etc/resolv.conf.whonix")" "/etc/resolv.conf" || true
       fi
    fi
 
    if [ -f "/etc/hostname" ]; then
-      chattr -i "/etc/hostname" &>/dev/null || true
-      unlink "/etc/hostname" &>/dev/null || true
-      rm -f "/etc/hostname" &>/dev/null || true
       if test -f "/etc/hostname.anondist" ; then
+         chattr -i "/etc/hostname" &>/dev/null || true
+         unlink "/etc/hostname" &>/dev/null || true
+         rm -f "/etc/hostname" &>/dev/null || true
          ln -s "$(basename "/etc/hostname.anondist")" "/etc/hostname" || true
       fi
    fi
 
    if [ -f "/etc/hosts" ]; then
-      chattr -i "/etc/hosts" &>/dev/null || true
-      unlink "/etc/hosts" &>/dev/null || true
-      rm -f "/etc/hosts" &>/dev/null || true
       if test -f "/etc/hosts.anondist" ; then
+         chattr -i "/etc/hosts" &>/dev/null || true
+         unlink "/etc/hosts" &>/dev/null || true
+         rm -f "/etc/hosts" &>/dev/null || true
          ln -s "$(basename "/etc/hosts.anondist")" "/etc/hosts" || true
       fi
    fi
