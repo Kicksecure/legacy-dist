@@ -154,7 +154,7 @@ nonfree_firmware_preseed() {
 
 ## https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
 symlink_fix() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
       return 0
    fi
 
@@ -204,7 +204,7 @@ symlink_fix() {
    popd >/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
 }
 
 keyboard_configuration_debconf_preseed() {
