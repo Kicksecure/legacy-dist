@@ -1,3 +1,17 @@
+commit d7c1ddcc2b80d554f972ed9b681cf30e2a53d9af
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 27 12:52:21 2020 -0400
+
+    fix the fix https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
+    
+    https://github.com/QubesOS/build-issues/issues/1773
+
+commit aef7b86f2ffefbef7d0285b57dde26223fce3f1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Apr 18 18:31:11 2020 -0400
+
+    bumped changelog version
+
 commit 082213606bb5c922fa602e27d26f314545fe1038
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Apr 18 18:31:04 2020 -0400
