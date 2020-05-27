@@ -1,3 +1,15 @@
+commit abe2a24ec9d63ef6297f479476d2e7e0c94829ba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 27 14:50:37 2020 -0400
+
+    symlink_fix v3
+
+commit d81ac07c67f649723daa86958b8d5cef84fc8bd4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 27 13:56:10 2020 -0400
+
+    bumped changelog version
+
 commit d7c1ddcc2b80d554f972ed9b681cf30e2a53d9af
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed May 27 12:52:21 2020 -0400
