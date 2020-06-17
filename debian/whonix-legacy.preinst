@@ -165,8 +165,6 @@ symlink_fix() {
    ## config package dev does:
    ## ln -s hosts.anondist /etc/hosts
 
-   # /etc/hostname /etc/hosts
-
    pushd /etc >/dev/null || true
 
    if [ -f "/etc/resolv.conf" ]; then
