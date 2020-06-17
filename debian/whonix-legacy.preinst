@@ -216,16 +216,11 @@ get_build_version
 nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
 
-## Hardcoded.
-## Only in case manually run outside of package install process.
-[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || DPKG_MAINTSCRIPT_PACKAGE=whonix-legacy
-
-if dpkg-query --show "$DPKG_MAINTSCRIPT_PACKAGE" &>/dev/null ; then
-   ## Package already installed.
-   migrations_for_old_versions
+if [ "$1" = "install" ]; then
+   true "$DPKG_MAINTSCRIPT_PACKAGE not installed yet."
 else
-   ## Package not installed yet.
-   true
+   true "$DPKG_MAINTSCRIPT_PACKAGE already installed."
+   migrations_for_old_versions
 fi
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
