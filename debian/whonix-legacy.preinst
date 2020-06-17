@@ -63,6 +63,11 @@ nonfree_firmware_preseed() {
 
 ## https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
 symlink_fix() {
+   if dpkg --compare-versions "$my_old_package_version" ge "3:9.9-1" ; then
+      true "INFO: 'dpkg --compare-versions $my_old_package_version ge 3:9.9-1', skipping."
+      return 0
+   fi
+
    if ! command -v qubesdb-read >/dev/null 2>&1; then
       return 0
    fi
@@ -149,6 +154,11 @@ keyboard_configuration_debconf_preseed() {
 }
 
 apt_mark_deprecated_packages_for_autoremoval() {
+   if dpkg --compare-versions "$my_old_package_version" ge "3:9.9-1" ; then
+      true "INFO: 'dpkg --compare-versions $my_old_package_version ge 3:9.9-1', skipping."
+      return 0
+   fi
+
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
       return 0
    fi
@@ -211,6 +221,10 @@ true "2: $2"
 true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
 get_build_version
+
+my_old_package_version="$2"
+## example my_old_package_version:
+## 3:9.9-1
 
 ## Will probably "forever" be required.
 nonfree_firmware_preseed
