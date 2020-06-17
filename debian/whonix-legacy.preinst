@@ -207,8 +207,11 @@ true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
 get_build_version
 
+## Will probably "forever" be required.
 nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
+
+## Migrations for old versions.
 apt_mark_deprecated_packages_for_autoremoval
 symlink_fix
 
