@@ -217,9 +217,9 @@ nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
 
 if [ "$1" = "install" ]; then
-   true "$DPKG_MAINTSCRIPT_PACKAGE not installed yet."
+   true "INFO: $DPKG_MAINTSCRIPT_PACKAGE not installed yet."
 else
-   true "$DPKG_MAINTSCRIPT_PACKAGE already installed."
+   true "INFO: $DPKG_MAINTSCRIPT_PACKAGE already installed."
    migrations_for_old_versions
 fi
 
