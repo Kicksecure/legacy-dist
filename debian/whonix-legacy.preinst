@@ -331,7 +331,9 @@ nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
 apt_mark_deprecated_packages_for_autoremoval
 symlink_fix
-dhcpcanon_apparmor_workaround
+
+## disable as no longer in use
+#dhcpcanon_apparmor_workaround
 
 true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
