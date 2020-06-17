@@ -110,6 +110,10 @@ nonfree_firmware_preseed() {
 
 ## https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
 symlink_fix() {
+   if ! command -v qubesdb-read >/dev/null 2>&1; then
+      return 0
+   fi
+
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
       return 0
    fi
