@@ -93,50 +93,6 @@ thirteen_dot_x_to_fourteen_dot_x() {
    touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_6"
 }
 
-tor_control_panel_migration() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
-      return 0
-   fi
-
-   if [ -f /usr/local/etc/torrc.d/40_anon_connection_wizard.conf ]; then
-      mv --force --no-clobber --verbose /usr/local/etc/torrc.d/40_anon_connection_wizard.conf /usr/local/etc/torrc.d/40_tor_control_panel.conf
-   fi
-
-   mkdir --parents "/var/lib/whonix/do_once"
-   ## This might run in Qubes TemplateVM as well as TemplateBasedVM.
-   ## Qubes TemplateVM detection may be unreliable.
-   ## Therefore better not creating a done file. Not an issue to re-run this
-   ## at every boot since it should happen only once and '--no-clobber'
-   ## prevents overwriting an existing file.
-   #touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
-}
-
-whonix_repository_component_extension() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
-      return 0
-   fi
-
-   if [ -f /etc/apt/sources.list.d/whonix.list ]; then
-      sed -i "s# main# main contrib non-free#g" "/etc/apt/sources.list.d/whonix.list" || true
-   fi
-
-   mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
-}
-
-whonix_repository_http_enable() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
-      return 0
-   fi
-
-   if [ -f /etc/apt/sources.list.d/whonix.list ]; then
-      sed -i "s#http://deb.whonix.org#https://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
-   fi
-
-   mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
-}
-
 nonfree_firmware_preseed() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
@@ -324,9 +280,6 @@ else
    fi
 fi
 
-tor_control_panel_migration
-whonix_repository_component_extension
-whonix_repository_http_enable
 nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
 apt_mark_deprecated_packages_for_autoremoval
