@@ -1,3 +1,90 @@
+commit 7ff043e6a18be45a4a5d95d0147086c22346e538
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:39:34 2020 -0400
+
+    skip apt_mark_deprecated_packages_for_autoremoval and symlink_fix for new builds
+
+commit 74ccb357494c55b8fbaafd17336c5121366964b2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:32:09 2020 -0400
+
+    output
+
+commit 3cc1531597944efc58c3fdabed35e51a9f2b5b46
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:30:10 2020 -0400
+
+    refactoring
+
+commit 906122ac9814276390b436191d7c15bff06e9d2e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:23:00 2020 -0400
+
+    lintian
+
+commit 8436c022ad93b6f04d2e426cfb8893334e4f3c63
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:20:21 2020 -0400
+
+    do not apply migrations to new builds
+
+commit ada4396871ff8555bb574cd8dbec37733c9b0f40
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:06:46 2020 -0400
+
+    comment
+
+commit 43bc3b42d375083a3b67e1f208a5ca33b43135bd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:03:03 2020 -0400
+
+    remove dhcpcanon_apparmor_workaround since no longer in use
+
+commit 97dc0d1955f238f16b2859c10fe92cfe048fa60b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 11:00:01 2020 -0400
+
+    deprecate thirteen_dot_x_to_fourteen_dot_x
+
+commit 2ffc0a78a8e662eae6700b88e483f60d2d68fae2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 10:57:52 2020 -0400
+
+    skip symlink_fix outside Qubes
+
+commit 6a330f1a3d7b9a54a989ae233c05b0ff505b75e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 10:54:34 2020 -0400
+
+    remove deprecated migrations:
+    whonix_repository_component_extension
+    tor_control_panel_migration
+    whonix_repository_http_enable
+
+commit 48044d4acf0676dbb6643b1320f4d330552cee82
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 10:50:23 2020 -0400
+
+    disable dhcpcanon_apparmor_workaround as no longer in use
+
+commit 37f9d47e81a6a3c938d245c5dce39f8521c5d943
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 10:48:46 2020 -0400
+
+    cleanup
+
+commit 3a3f937625cfba4bcffd7893a3c2c028774624d2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jun 17 10:47:13 2020 -0400
+
+    debugging
+
+commit 14d9350182234a591d59809a159f48838ada827b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed May 27 14:50:46 2020 -0400
+
+    bumped changelog version
+
 commit abe2a24ec9d63ef6297f479476d2e7e0c94829ba
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed May 27 14:50:37 2020 -0400
