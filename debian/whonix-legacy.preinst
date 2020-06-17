@@ -199,6 +199,7 @@ symlink_fix() {
    for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts ; do
       ## Debugging / Info.
       ls -la "$broken_file" || true
+      cat "$broken_file" || true
    done
 
    popd >/dev/null || true
