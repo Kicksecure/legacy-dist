@@ -46,53 +46,6 @@ get_build_version() {
    true "whonix_build_version: $whonix_build_version"
 }
 
-thirteen_dot_x_to_fourteen_dot_x() {
-   if [ -f "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_6" ]; then
-      return 0
-   fi
-
-   mkdir --parents "/var/lib/whonix/do_once"
-
-   ## For anon-ws-disable-stacked-tor rinetd to socat transition.
-   ## If rinetd is running, stop it, so socat based anon-ws-disable-stacked-tor
-   ## can take over the local listener ports.
-   ## https://phabricator.whonix.org/T464
-   if systemctl --no-pager --no-block status rinetd >/dev/null 2>&1 ; then
-      systemctl --no-pager --no-block stop rinetd >/dev/null 2>&1 || true
-   fi
-
-   sed -i "s#http://www.whonix.org/download/whonixdevelopermetafiles/internal/#http://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
-   sed -i "s#https://www.whonix.org/download/whonixdevelopermetafiles/internal/#https://deb.whonix.org#g" "/etc/apt/sources.list.d/whonix.list" || true
-
-   sed -i "s#kkkkkkkkkk63ava6.onion#dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion#g" "/etc/apt/sources.list.d/whonix.list" || true
-
-   if [ -h "/home/user/Desktop/whonix_repository.desktop" ]; then
-      unlink "/home/user/Desktop/whonix_repository.desktop" || true
-   fi
-
-   ## Create this file since file
-   ## /usr/share/whonix-setup-wizard/status-files/whonixsetup.skip was removed
-   ## from qubes-whonix package to avoid rerunning of anon-connection-wizard
-   ## for Qubes users that upgraded from Whonix 13 to Whonix 14.
-   mkdir -p /var/cache/whonix-setup-wizard/status-files
-   touch /var/cache/whonix-setup-wizard/status-files/whonixsetup.done
-
-   rm -f /etc/X11/Xsession.d/50torbrowser-default-browser
-   rm -f /etc/X11/Xsession.d/50anon-kde-streamiso
-   rm -f /etc/X11/Xsession.d/50kde-common-resolution
-   rm -f /etc/X11/Xsession.d/50kde-dolphin-menubar-enable
-   rm -f /etc/X11/Xsession.d/50kde-kgpg-tweaks
-   rm -f /etc/X11/Xsession.d/50kde-konsole-unlim-scrollback
-   rm -f /etc/X11/Xsession.d/50kde-lowfat
-   rm -f /etc/X11/Xsession.d/50kde-mouse-doubleclick
-   rm -f /etc/X11/Xsession.d/50kde-no-move-max-win
-   rm -f /etc/X11/Xsession.d/50kde-privacy
-   rm -f /etc/X11/Xsession.d/50kde-sounds-off
-   rm -f /etc/X11/Xsession.d/50kde-apper-no-autoupdate
-
-   touch "/var/lib/whonix/do_once/thirteen_dot_x_to_fourteen_dot_x_version_6"
-}
-
 nonfree_firmware_preseed() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
       return 0
@@ -267,22 +220,6 @@ true "2: $2"
 true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
 
 get_build_version
-
-if command -v qubesdb-read >/dev/null 2>&1; then
-   ## Qubes-Whonix
-
-   ## Whonix 13 anon-base-files version: 3:2.0-1
-   ## Whonix 14 testers-only anon-base-files version: 3:2.5-1
-   if dpkg --compare-versions "$whonix_build_version" le "3:2.5-1" 2>/dev/null ; then
-      thirteen_dot_x_to_fourteen_dot_x
-   fi
-else
-   ## Non-Qubes-Whonix
-
-   if dpkg --compare-versions "$whonix_build_version" lt "14" 2>/dev/null ; then
-      thirteen_dot_x_to_fourteen_dot_x
-   fi
-fi
 
 nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
