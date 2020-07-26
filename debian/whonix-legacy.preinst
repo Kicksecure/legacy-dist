@@ -210,9 +210,24 @@ apt_mark_deprecated_packages_for_autoremoval() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
 }
 
+## TODO
+# apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval() {
+#    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+#       return 0
+#    fi
+#
+#    apt-mark manual virtualbox-guest-dkms &>/dev/null || true
+#    apt-mark manual virtualbox-guest-utils &>/dev/null || true
+#    apt-mark manual virtualbox-guest-x11 &>/dev/null || true
+#
+#    mkdir --parents "/var/lib/whonix/do_once"
+#    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+# }
+
 migrations_for_old_versions() {
    apt_mark_deprecated_packages_for_autoremoval
    symlink_fix
+   #apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval
 }
 
 true "1: $1"
