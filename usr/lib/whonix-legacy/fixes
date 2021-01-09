@@ -53,9 +53,8 @@ bisq_desktop_directories_workaround() {
 
    if command -v qubesdb-read >&/dev/null; then
       qubes_vm_name="$(qubesdb-read /name)" || return 0
-      qubes_vm_type="$(qubesdb-read /qubes-vm-type)" || return 0
    fi
-   if [ "$qubes_vm_type" = "TemplateVM" ]; then
+   if test -f /run/qubes/this-is-templatevm ; then
       return 0
    fi
    ## Avoid running in Qubes DVM Template.
