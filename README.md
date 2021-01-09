@@ -8,7 +8,7 @@ Upgrades from Whonix 7.x or older versions is unsupported.
 Safe to remove.
 ## How to install `whonix-legacy` using apt-get ##
 
-1\. Download [Whonix's Signing Key]().
+1\. Download Whonix's Signing Key.
 
 ```
 wget https://www.whonix.org/patrick.asc
