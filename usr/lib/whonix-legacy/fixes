@@ -113,12 +113,6 @@ fi
 export DPKG_MAINTSCRIPT_PACKAGE DPKG_MAINTSCRIPT_NAME
 timeout --kill-after 60 60 /var/lib/dpkg/info/whonix-legacy.preinst install || true
 
-if [ -d "/var/lib/whonixcheck" ]; then
-   ## Whonix 13: whonixcheck runs as user 'user'.
-   ## Whonix 14: whonixcheck runs as user 'whonixcheck'.
-   chown --recursive whonixcheck:whonixcheck "/var/lib/whonixcheck" || true
-fi
-
 ## automate Tor permission fix
 ## https://www.whonix.org/wiki/Tor#Permissions_Fix
 ## https://forums.whonix.org/t/tor-error-your-tor-config-file-contains-at-least-one-error-var-lib-tor-tor-cannot-be-read-permission-denied/6200
