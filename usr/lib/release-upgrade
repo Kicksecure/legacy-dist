@@ -61,7 +61,7 @@ dpkg --audit
 
 dpkg --configure -a
 
-whonix_repository --enable --codename buster
+repository-dist --enable --codename buster
 
 sed -i "s/stretch/buster/g" /etc/apt/sources.list.d/debian.list
 
