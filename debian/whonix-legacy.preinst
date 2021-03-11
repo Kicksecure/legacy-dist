@@ -210,6 +210,17 @@ apt_mark_deprecated_packages_for_autoremoval() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
 }
 
+apt_mark_deprecated_packages_for_autoremoval_two() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
+      return 0
+   fi
+
+   apt-mark manual secbrowser &>/dev/null || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
+}
+
 ## TODO
 # apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval() {
 #    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
@@ -226,6 +237,7 @@ apt_mark_deprecated_packages_for_autoremoval() {
 
 migrations_for_old_versions() {
    apt_mark_deprecated_packages_for_autoremoval
+   apt_mark_deprecated_packages_for_autoremoval_two
    symlink_fix
    #apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval
 }
