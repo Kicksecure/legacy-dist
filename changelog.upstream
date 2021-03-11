@@ -1,3 +1,15 @@
+commit 68cf67e6a5ae0d96fc55fac9bc132e4f25220df8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Mar 11 12:50:04 2021 -0500
+
+    apt-mark manual secbrowser
+
+commit 21a35a524c4e7ab60578c82cdbf6d4287a3c1c03
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Feb 6 06:33:19 2021 -0500
+
+    bumped changelog version
+
 commit 623937832be2e8434a26cd6f63c4cbc55c70c12b
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Feb 6 06:33:18 2021 -0500
