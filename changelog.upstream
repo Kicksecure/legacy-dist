@@ -1,3 +1,15 @@
+commit f3add80f849c7080fceeaf86da2104aea0b2dd4c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jul 11 12:23:45 2021 -0400
+
+    port release upgrade script to bullseye
+
+commit cb328f5416c9af3d81c979318297b6066800951f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Mar 17 12:49:59 2021 -0400
+
+    bumped changelog version
+
 commit 565fec1e91d445799c9db27a39f77a035526244a
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Mar 17 09:45:26 2021 -0400
