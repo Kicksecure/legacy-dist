@@ -1,3 +1,18 @@
+commit bbad2596cffa06c6156d2ca784c8271fe89fa4e9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 1 14:45:18 2021 -0400
+
+    release-upgrade script: replace the apt functionality test package
+    
+    python-qt4 with nano siince python-qt4 installs too many packages, dependencies
+    and nano is installed by default. Much faster test.
+
+commit 386c56d902759002f39cac7410c53f605e316cf4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jul 12 03:18:15 2021 -0400
+
+    bumped changelog version
+
 commit f3add80f849c7080fceeaf86da2104aea0b2dd4c
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Jul 11 12:23:45 2021 -0400
