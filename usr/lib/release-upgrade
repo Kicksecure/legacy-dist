@@ -38,7 +38,7 @@ dpkg --configure -a
 /usr/lib/security-misc/apt-get-update
 
 ## Sanity test.
-apt-get-noninteractive --yes --no-install-recommends install python-qt4
+apt-get-noninteractive --yes --no-install-recommends install nano
 
 dpkg --audit
 dpkg --configure -a
