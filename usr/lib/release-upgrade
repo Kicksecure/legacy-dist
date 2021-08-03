@@ -79,6 +79,6 @@ dpkg --configure -a
 
 ## Currently not required.
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
-#/usr/lib/helper-scripts/first-boot-skel || true
+#/usr/libexec/helper-scripts/first-boot-skel || true
 
 true "OK. Success."
