@@ -35,7 +35,7 @@ dpkg --configure -a
 
 ## Standard "everyday" upgrade.
 ## https://www.whonix.org/wiki/Operating_System_Software_and_Updates
-/usr/lib/security-misc/apt-get-update
+/usr/libexec/security-misc/apt-get-update
 
 ## Sanity test.
 apt-get-noninteractive --yes --no-install-recommends install nano
@@ -58,7 +58,7 @@ done
 repository-dist --enable --codename bullseye
 
 ## Get bullseye apt sources.
-/usr/lib/security-misc/apt-get-update
+/usr/libexec/security-misc/apt-get-update
 
 ## Release upgrade.
 apt-get-noninteractive dist-upgrade --yes --no-install-recommends
