@@ -27,7 +27,7 @@ After=qubes-whonix-postinit.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/lib/whonix-legacy/fixes
+ExecStart=/usr/libexec/legacy-dist/fixes
 
 [Install]
 WantedBy=multi-user.target

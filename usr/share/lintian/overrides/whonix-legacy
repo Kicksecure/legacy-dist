@@ -1,2 +1,2 @@
 ## Not using dpkg database only maintainer scripts directly.
-whonix-legacy: uses-dpkg-database-directly usr/lib/whonix-legacy/fixes
+whonix-legacy: uses-dpkg-database-directly usr/libexec/legacy-dist/fixes
