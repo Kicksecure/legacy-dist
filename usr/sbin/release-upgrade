@@ -7,6 +7,8 @@ set -x
 set -e
 set -o pipefail
 
+true "INFO: Release upgrade from Debian buster to Debian bullseye in progress..."
+
 error_handler() {
    true "\
 ###########################################################
@@ -57,7 +59,15 @@ trap "pre_upgrade_error" ERR
 dpkg --audit
 dpkg --configure -a
 
-if ! /usr/lib/security-misc/apt-get-update ; then
+if test -x /usr/lib/security-misc/apt-get-update ; then
+   ## Debian buster
+   update_command=/usr/lib/security-misc/apt-get-update
+else
+   ## Debian bullseye
+   update_command="apt-get update"
+fi
+
+if ! $update_command ; then
    true "\
 ERROR:
 Could not fetch package lists. Networking issues?
@@ -106,7 +116,7 @@ fi
 repository-dist --enable --codename "$suite"
 
 ## Get bullseye apt package lists.
-if ! /usr/lib/security-misc/apt-get-update ; then
+if ! $update_command ; then
    true "\
 ERROR during download of release upgrade package lists. Recommendation:
 - Fix network connection and retry.
@@ -142,6 +152,13 @@ BASH_COMMAND: $BASH_COMMAND"
 
 trap "post_upgrade_failure" ERR
 
+## Clean up.
+## The following sets a list of traditional dummy packages to automatically
+## installed so these can be removed the next time the user runs apt autoremove.
+## '>/dev/null' to hide confusing messages such as "libcomerr2 can not be marked as it is not installed."
+## '|| true' since non-essential.
+apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 >/dev/null || true
+
 dpkg --audit
 dpkg --configure -a
 
@@ -160,4 +177,4 @@ dpkg --configure -a
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
 #/usr/lib/helper-scripts/first-boot-skel || true
 
-true "OK. Release upgrade success."
+true "INFO: OK. Release upgrade success."
