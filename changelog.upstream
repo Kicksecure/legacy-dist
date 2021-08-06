@@ -1,3 +1,21 @@
+commit 9628a8136c971370a1c1efaf2317b2d72770de4a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 17:39:39 2021 -0400
+
+    forward port release-upgrade improvements
+
+commit eb3fc5d912798b98d240aa1788d966bc8d151433
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 17:38:45 2021 -0400
+
+    renamed:    usr/libexec/release-upgrade -> usr/sbin/release-upgrade
+
+commit 0f594388820a6a021b50451a9ba8a2dbbba3fcd0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Aug 5 17:15:20 2021 -0400
+
+    bumped changelog version
+
 commit c4e99ad6bc74380fc8d17a0841653b1fa5a8d0ab
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Aug 4 14:57:17 2021 -0400
