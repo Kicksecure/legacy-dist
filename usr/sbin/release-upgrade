@@ -7,41 +7,86 @@ set -x
 set -e
 set -o pipefail
 
+true "INFO: Release upgrade from Debian buster to Debian bullseye in progress..."
+
 error_handler() {
-   local MSG="\
+   true "\
 ###########################################################
-## Something went wrong. Please report this bug!
+## ERROR: Something went wrong. Please report this bug!
 ##
 ## BASH_COMMAND: $BASH_COMMAND
 ###########################################################\
 "
-   echo "$MSG"
    exit 1
 }
 
 trap "error_handler" ERR
 
 if [ "$(id -u)" != "0" ]; then
-   true "ERROR: Must run as root."
+   true "ERROR: Must run as root. Run:"
    true "sudo $0"
    exit 112
 fi
 
 export DEBDEBUG=1
 
+if ! test -f /etc/apt/sources.list.d/debian.list ; then
+   true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist! Aborting."
+   exit 1
+fi
+
+if ! test -f /etc/apt/sources.list.d/derivative.list ; then
+   true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
+Derivative repository is not enabled. Enable it first before proceeding. See:
+https://www.whonix.org/wiki/Project-APT-Repository
+Aborting."
+   exit 1
+fi
+
+pre_upgrade_error() {
+   true "\
+ERROR during upgrade preparation:
+The following command failed:
+BASH_COMMAND: $BASH_COMMAND
+The system is in a broken state prior upgrade.
+Therefore aborting upgrade."
+   exit 1
+}
+
+trap "pre_upgrade_error" ERR
+
 ## Sanity test. Do not continue with release upgrade if there are any dpkg issues.
 dpkg --audit
 dpkg --configure -a
 
-## Standard "everyday" upgrade.
-## https://www.whonix.org/wiki/Operating_System_Software_and_Updates
-/usr/libexec/security-misc/apt-get-update
+if test -x /usr/lib/security-misc/apt-get-update ; then
+   ## Debian buster
+   update_command=/usr/lib/security-misc/apt-get-update
+else
+   ## Debian bullseye
+   update_command="apt-get update"
+fi
+
+if ! $update_command ; then
+   true "\
+ERROR:
+Could not fetch package lists. Networking issues?
+Therefore aborting upgrade.
+Recommendation: perform a Standard 'everyday' upgrade beforehand as per:
+https://www.whonix.org/wiki/Operating_System_Software_and_Updates"
+   exit 1
+fi
 
 ## Sanity test.
-apt-get-noninteractive --yes --no-install-recommends install nano
+if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install nano ; then
+   true "ERROR: Above command failed. Could not test-wise reinstall nano."
+   exit 1
+fi
 
 dpkg --audit
 dpkg --configure -a
+
+trap "error_handler" ERR
 
 ## Backports, testing, unstable should be disabled for release upgrade.
 ## Remove files which are mentioned in the wiki.
@@ -55,13 +100,64 @@ for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
    str_replace "buster" "bullseye" "$file_name"
 done
 
-repository-dist --enable --codename bullseye
+str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list.d/debian.list"
 
-## Get bullseye apt sources.
-/usr/libexec/security-misc/apt-get-update
+suite=bullseye
+if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q developers ; then
+   suite=bullseye-developers
+fi
+if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q testers ; then
+   suite=bullseye-testers
+fi
+if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q proposed-updates ; then
+   suite=bullseye-proposed-updates
+fi
+
+repository-dist --enable --codename "$suite"
+
+## Get bullseye apt package lists.
+if ! $update_command ; then
+   true "\
+ERROR during download of release upgrade package lists. Recommendation:
+- Fix network connection and retry.
+- Check the following files:
+/etc/apt/sources.list
+/etc/apt/sources.list.d/debian.list
+/etc/apt/sources.list.d/derivative.list
+Check all other files in /etc/apt/sources.list.d if any."
+   exit 1
+fi
+
+if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends --download-only ; then
+   true "\
+ERROR during download of release upgrade packages. Recommendation:
+Fix network connection and retry."
+   exit 1
+fi
 
 ## Release upgrade.
-apt-get-noninteractive dist-upgrade --yes --no-install-recommends
+if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends ; then
+   true "\
+ERROR during installation of release upgrade. See above."
+   exit 1
+fi
+
+post_upgrade_failure() {
+   true "\
+ERROR after release upgrade:
+The following command failed:
+BASH_COMMAND: $BASH_COMMAND"
+   exit 1
+}
+
+trap "post_upgrade_failure" ERR
+
+## Clean up.
+## The following sets a list of traditional dummy packages to automatically
+## installed so these can be removed the next time the user runs apt autoremove.
+## '>/dev/null' to hide confusing messages such as "libcomerr2 can not be marked as it is not installed."
+## '|| true' since non-essential.
+apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 >/dev/null || true
 
 dpkg --audit
 dpkg --configure -a
@@ -79,6 +175,6 @@ dpkg --configure -a
 
 ## Currently not required.
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
-#/usr/libexec/helper-scripts/first-boot-skel || true
+#/usr/lib/helper-scripts/first-boot-skel || true
 
-true "OK. Success."
+true "INFO: OK. Release upgrade success."
