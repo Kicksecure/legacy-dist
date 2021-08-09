@@ -157,7 +157,7 @@ trap "post_upgrade_failure" ERR
 ## installed so these can be removed the next time the user runs apt autoremove.
 ## '>/dev/null' to hide confusing messages such as "libcomerr2 can not be marked as it is not installed."
 ## '|| true' since non-essential.
-apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 >/dev/null || true
+apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 cryptsetup-run >/dev/null || true
 
 dpkg --audit
 dpkg --configure -a
