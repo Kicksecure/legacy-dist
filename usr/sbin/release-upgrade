@@ -55,7 +55,15 @@ Therefore aborting upgrade."
 
 trap "pre_upgrade_error" ERR
 
-## Sanity test. Do not continue with release upgrade if there are any dpkg issues.
+true "INFO: Checking potential issues and attempt to fix if any..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
+true "INFO: Checking potential issues and attempt to fix if any..."
+dpkg-noninteractive --configure -a || true
+true "INFO: Checking potential issues and attempt to fix if any..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
+
+true "INFO: Running sanity tests.."
+## Do not continue with release upgrade if there are any dpkg issues.
 dpkg-noninteractive --audit
 dpkg-noninteractive --configure -a
 
@@ -153,6 +161,13 @@ BASH_COMMAND: $BASH_COMMAND"
 }
 
 trap "post_upgrade_failure" ERR
+
+true "INFO: Checking potential issues and attempt to fix if any..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
+true "INFO: Checking potential issues and attempt to fix if any..."
+dpkg-noninteractive --configure -a || true
+true "INFO: Checking potential issues and attempt to fix if any..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
 ## Clean up.
 ## The following sets a list of traditional dummy packages to automatically
