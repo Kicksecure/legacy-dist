@@ -56,8 +56,8 @@ Therefore aborting upgrade."
 trap "pre_upgrade_error" ERR
 
 ## Sanity test. Do not continue with release upgrade if there are any dpkg issues.
-dpkg --audit
-dpkg --configure -a
+dpkg-noninteractive --audit
+dpkg-noninteractive --configure -a
 
 if test -x /usr/lib/security-misc/apt-get-update ; then
    ## Debian buster
@@ -83,8 +83,10 @@ if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install na
    exit 1
 fi
 
-dpkg --audit
-dpkg --configure -a
+## dpkg-noninteractive is provided by package usability-misc.
+
+dpkg-noninteractive --audit
+dpkg-noninteractive --configure -a
 
 trap "error_handler" ERR
 
@@ -159,19 +161,19 @@ trap "post_upgrade_failure" ERR
 ## '|| true' since non-essential.
 apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 cryptsetup-run >/dev/null || true
 
-dpkg --audit
-dpkg --configure -a
+dpkg-noninteractive --audit
+dpkg-noninteractive --configure -a
 
 service whonix-legacy restart
 
-dpkg --audit
-dpkg --configure -a
+dpkg-noninteractive --audit
+dpkg-noninteractive --configure -a
 
 ## Risky. User should review and do manually.
 ## https://www.whonix.org/wiki/Whonix_Debian_Packages#Re-install_Meta_Packages_and_Safely_Run_Autoremove
 #apt-get-noninteractive --yes autoremove
-#dpkg --audit
-#dpkg --configure -a
+#dpkg-noninteractive --audit
+#dpkg-noninteractive --configure -a
 
 ## Currently not required.
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
