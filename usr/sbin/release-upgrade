@@ -62,11 +62,13 @@ dpkg-noninteractive --configure -a || true
 true "INFO: Checking potential issues and attempt to fix if any..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
-true "INFO: Running sanity tests.."
+true "INFO: Running sanity test..."
 ## Do not continue with release upgrade if there are any dpkg issues.
 dpkg-noninteractive --audit
+true "INFO: Running sanity test..."
 dpkg-noninteractive --configure -a
 
+true "INFO: Fetching package lists (1)..."
 if test -x /usr/lib/security-misc/apt-get-update ; then
    ## Debian buster
    update_command=/usr/lib/security-misc/apt-get-update
@@ -85,7 +87,7 @@ https://www.whonix.org/wiki/Operating_System_Software_and_Updates"
    exit 1
 fi
 
-## Sanity test.
+true "INFO: Running sanity test..."
 if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install nano ; then
    true "ERROR: Above command failed. Could not test-wise reinstall nano."
    exit 1
@@ -93,19 +95,22 @@ fi
 
 ## dpkg-noninteractive is provided by package usability-misc.
 
+true "INFO: Running sanity test..."
 dpkg-noninteractive --audit
+true "INFO: Running sanity test..."
 dpkg-noninteractive --configure -a
 
 trap "error_handler" ERR
 
-## Backports, testing, unstable should be disabled for release upgrade.
-## Remove files which are mentioned in the wiki.
-## https://www.whonix.org/wiki/Install_Software
+true "INFO: Backports, testing, unstable should be disabled during release upgrade.
+Removing files which are mentioned in the wiki, if any...
+https://www.whonix.org/wiki/Install_Software"
 rm -f /etc/apt/sources.list.d/backports.list
 rm -f /etc/apt/sources.list.d/testing.list
 rm -f /etc/apt/sources.list.d/unstable.list
 rm -f /etc/apt/apt.conf.d/70defaultrelease
 
+true "INFO: Change APT suite from buster to bullseye..."
 for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
    str_replace "buster" "bullseye" "$file_name"
 done
@@ -123,9 +128,11 @@ if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep
    suite=bullseye-proposed-updates
 fi
 
+true "INFO: Enable derivative APT repository suite '$suite'."
 repository-dist --enable --codename "$suite"
 
 ## Get bullseye apt package lists.
+true "INFO: Fetching package lists (2)..."
 if ! $update_command ; then
    true "\
 ERROR during download of release upgrade package lists. Recommendation:
@@ -138,6 +145,7 @@ Check all other files in /etc/apt/sources.list.d if any."
    exit 1
 fi
 
+true "INFO: Download release upgrade..."
 if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends --download-only ; then
    true "\
 ERROR during download of release upgrade packages. Recommendation:
@@ -145,7 +153,7 @@ Fix network connection and retry."
    exit 1
 fi
 
-## Release upgrade.
+true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends ; then
    true "\
 ERROR during installation of release upgrade. See above."
@@ -169,19 +177,23 @@ dpkg-noninteractive --configure -a || true
 true "INFO: Checking potential issues and attempt to fix if any..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
-## Clean up.
-## The following sets a list of traditional dummy packages to automatically
-## installed so these can be removed the next time the user runs apt autoremove.
+true "INFO: Setting a list of traditional dummy packages to automatically
+installed so these can be removed the next time the user runs apt autoremove."
 ## '>/dev/null' to hide confusing messages such as "libcomerr2 can not be marked as it is not installed."
 ## '|| true' since non-essential.
 apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 cryptsetup-run >/dev/null || true
 
+true "INFO: Running sanity test..."
 dpkg-noninteractive --audit
+true "INFO: Running sanity test..."
 dpkg-noninteractive --configure -a
 
+true "INFO: Restart whonix-legacy service..."
 service whonix-legacy restart
 
+true "INFO: Running sanity test..."
 dpkg-noninteractive --audit
+true "INFO: Running sanity test..."
 dpkg-noninteractive --configure -a
 
 ## Risky. User should review and do manually.
