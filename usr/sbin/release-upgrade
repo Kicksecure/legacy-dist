@@ -7,7 +7,9 @@ set -x
 set -e
 set -o pipefail
 
-true "INFO: Release upgrade from Debian buster to Debian bullseye in progress..."
+version="1.0"
+
+true "INFO: (release-upgrade version; $version) Release upgrade from Debian buster to Debian bullseye in progress..."
 
 error_handler() {
    true "\
@@ -242,4 +244,4 @@ dpkg-noninteractive --configure -a
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
 #/usr/lib/helper-scripts/first-boot-skel || true
 
-true "INFO: OK. Release upgrade success."
+true "INFO: OK. (release-upgrade version; $version) Release upgrade success."
