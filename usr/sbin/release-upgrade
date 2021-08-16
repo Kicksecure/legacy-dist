@@ -153,7 +153,8 @@ fi
 
 true "INFO: Download pre release upgrade dependency packages..."
 ## just in case: cpp gcc ncal
-if ! apt-get-noninteractive --yes --no-install-recommends --download-only install bsdmainutils gcc sdwdate cpp gcc ncal python-is-python2; then
+## required on workstation for unknown reason: libc6-dev
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only install bsdmainutils gcc sdwdate cpp gcc ncal python-is-python2 libc6-dev; then
    true "\
 ERROR: An error was encountered during download of pre release upgrade dependency packages. Recommendation:
 Fix network connection and retry."
