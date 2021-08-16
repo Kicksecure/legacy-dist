@@ -171,7 +171,7 @@ fi
 true "INFO: Install pre release upgrade dependency packages (1/2)..."
 ## man-db required bsdmainutils. Otherwise dependency issue during release upgrade.
 ## sdwdate Depends: gcc
-if ! apt-get-noninteractive --yes --no-install-recommends --download-only install bsdmainutils gcc; then
+if ! apt-get-noninteractive --yes --no-install-recommends install bsdmainutils gcc; then
    true "\
 ERROR: An error was encountered during download of dependency packages. Recommendation:
 Fix network connection and retry."
@@ -181,7 +181,7 @@ fi
 true "INFO: Install pre release upgrade of dependency packages (2/2)..."
 ## sdwdate Provides: time-daemon
 ## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
-if ! apt-get-noninteractive --yes --no-install-recommends --download-only install sdwdate; then
+if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate; then
    true "\
 ERROR: An error was encountered during download of dependency packages. Recommendation:
 Fix network connection and retry."
