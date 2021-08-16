@@ -30,6 +30,12 @@ fi
 
 export DEBDEBUG=1
 
+true "INFO: Checking if tor@default systemd unit is running..."
+if ! systemctl status tor@default ; then
+   true "INFO: tor@default is not running, trying to restart..."
+   systemctl restart tor@default || true
+fi
+
 if ! test -f /etc/apt/sources.list.d/debian.list ; then
    true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist! Aborting."
    exit 1
@@ -45,7 +51,7 @@ fi
 
 pre_upgrade_error() {
    true "\
-ERROR during upgrade preparation:
+ERROR: An error was encountered during upgrade preparation:
 The following command failed:
 BASH_COMMAND: $BASH_COMMAND
 The system is in a broken state prior upgrade.
@@ -68,7 +74,7 @@ dpkg-noninteractive --audit
 true "INFO: Running sanity test..."
 dpkg-noninteractive --configure -a
 
-true "INFO: Fetching package lists (1)..."
+true "INFO: Fetching package lists (1/2)..."
 if test -x /usr/lib/security-misc/apt-get-update ; then
    ## Debian buster
    update_command=/usr/lib/security-misc/apt-get-update
@@ -132,10 +138,10 @@ true "INFO: Enable derivative APT repository suite '$suite'."
 repository-dist --enable --codename "$suite"
 
 ## Get bullseye apt package lists.
-true "INFO: Fetching package lists (2)..."
+true "INFO: Fetching package lists (2/2)..."
 if ! $update_command ; then
    true "\
-ERROR during download of release upgrade package lists. Recommendation:
+ERROR: An error was encountered during download of release upgrade package lists. Recommendation:
 - Fix network connection and retry.
 - Check the following files:
 /etc/apt/sources.list
@@ -145,24 +151,53 @@ Check all other files in /etc/apt/sources.list.d if any."
    exit 1
 fi
 
-true "INFO: Download release upgrade..."
-if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends --download-only ; then
+true "INFO: Download pre release upgrade dependency packages..."
+## just in case: cpp gcc ncal
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only install bsdmainutils gcc sdwdate cpp gcc ncal python-is-python2; then
    true "\
-ERROR during download of release upgrade packages. Recommendation:
+ERROR: An error was encountered during download of pre release upgrade dependency packages. Recommendation:
+Fix network connection and retry."
+   exit 1
+fi
+
+true "INFO: Download release upgrade..."
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only dist-upgrade ; then
+   true "\
+ERROR: An error was encountered during download of release upgrade packages. Recommendation:
+Fix network connection and retry."
+   exit 1
+fi
+
+true "INFO: Install pre release upgrade dependency packages (1/2)..."
+## man-db required bsdmainutils. Otherwise dependency issue during release upgrade.
+## sdwdate Depends: gcc
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only install bsdmainutils gcc; then
+   true "\
+ERROR: An error was encountered during download of dependency packages. Recommendation:
+Fix network connection and retry."
+   exit 1
+fi
+
+true "INFO: Install pre release upgrade of dependency packages (2/2)..."
+## sdwdate Provides: time-daemon
+## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only install sdwdate; then
+   true "\
+ERROR: An error was encountered during download of dependency packages. Recommendation:
 Fix network connection and retry."
    exit 1
 fi
 
 true "INFO: Install release upgrade..."
-if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends ; then
+if ! apt-get-noninteractive --yes --no-install-recommends dist-upgrade ; then
    true "\
-ERROR during installation of release upgrade. See above."
+ERROR: An error was encountered during installation of release upgrade. See above."
    exit 1
 fi
 
 post_upgrade_failure() {
    true "\
-ERROR after release upgrade:
+ERROR: An error was encountered after release upgrade:
 The following command failed:
 BASH_COMMAND: $BASH_COMMAND"
    exit 1
