@@ -33,9 +33,9 @@ fi
 export DEBDEBUG=1
 
 true "INFO: Checking if tor@default systemd unit is running..."
-if ! systemctl status tor@default ; then
+if ! systemctl --no-pager status tor@default ; then
    true "INFO: tor@default is not running, trying to restart..."
-   systemctl restart tor@default || true
+   systemctl --no-pager restart tor@default || true
 fi
 
 if ! test -f /etc/apt/sources.list.d/debian.list ; then
