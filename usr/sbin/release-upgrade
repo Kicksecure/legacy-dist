@@ -95,12 +95,6 @@ https://www.whonix.org/wiki/Operating_System_Software_and_Updates"
    exit 1
 fi
 
-true "INFO: Running sanity test..."
-if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install nano ; then
-   true "ERROR: Above command failed. Could not test-wise reinstall nano."
-   exit 1
-fi
-
 ## dpkg-noninteractive is provided by package usability-misc.
 
 true "INFO: Running sanity test..."
