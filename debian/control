@@ -14,7 +14,7 @@ Rules-Requires-Root: no
 
 Package: whonix-legacy
 Architecture: all
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, helper-scripts
 Replaces: vbox-disable-timesync
 Description: Prepare older Build Versions of Whonix for Upgrade
  Applies fixes required for upgrading from for example Whonix 8.x to Whonix

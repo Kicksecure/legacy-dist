@@ -101,6 +101,23 @@ bashrc_migration() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_6"
 }
 
+bashrc_migration2() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   local search replace file_name
+
+   search="/usr/lib/helper-scripts/bashrc-terminal-emulator"
+   replace="/usr/libexec/helper-scripts/bashrc-terminal-emulator"
+   file_name="/home/user/.bashrc"
+
+   str_replace "$search" "$replace" "$file_name"
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -133,3 +150,6 @@ command_not_found_permission_fix
 bisq_desktop_directories_workaround
 
 bashrc_migration
+
+bashrc_migration2
+
