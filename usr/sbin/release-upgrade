@@ -7,7 +7,7 @@ set -x
 set -e
 set -o pipefail
 
-version="1.1"
+version="1.2"
 
 true "INFO: (release-upgrade version: $version) Release upgrade from Debian buster to Debian bullseye in progress..."
 
