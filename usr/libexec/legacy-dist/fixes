@@ -137,6 +137,7 @@ locales_fix() {
 
    if ! command -v locale-gen &>/dev/null ; then
       ## If the locale-gen program is not available, do not attempt to fix this.
+      return 0
    fi
 
    if ! test -f "$file_name" ; then
