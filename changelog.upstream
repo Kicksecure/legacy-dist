@@ -1,3 +1,17 @@
+commit f4028df846604fa153291178785daa3b6e37fce8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 22 17:55:26 2021 -0400
+
+    fix
+    
+    https://github.com/QubesOS/qubes-issues/issues/4889
+
+commit edaeb33f9eb6f7edcee41aee35e7b8b74cfc381c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 22 17:52:40 2021 -0400
+
+    bumped changelog version
+
 commit 10a72921677881eb85283ff4ad46b03f5b49a8b6
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Aug 22 17:51:57 2021 -0400
