@@ -122,6 +122,50 @@ bashrc_migration2() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+locales_fix() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## https://github.com/QubesOS/qubes-issues/issues/4889
+
+   local search replace file_name
+
+   search="# en_US.UTF-8 UTF-8"
+   replace="en_US.UTF-8 UTF-8"
+   file_name="/etc/locale.gen"
+
+   if ! command -v locale-gen &>/dev/null ; then
+      ## If the locale-gen program is not available, do not attempt to fix this.
+   fi
+
+   if ! test -f "$file_name" ; then
+      ## If user deleted that file, do not attempt to fix this.
+      ## Could be on purpose.
+      return 0
+   fi
+
+   etc_locale_gen_lines="$(cat "$file_name" | grep --invert-match '\#' | grep --invert-match '^$')" || true
+
+   if [ ! "$etc_locale_gen_lines" = "" ]; then
+      ## If file /etc/locale.gen is already non-empty, i.e. has an entry other
+      ## blank lines or comments (lines starting with "#") then this should not be needed.
+      return 0
+   fi
+
+   ## LANG=C to avoid warning "perl: warning: Setting locale failed."
+   LANG=C str_replace "$search" "$replace" "$file_name" || true
+
+   ## Using LANG=C because locale-gen is a perl script and as long as this is
+   ## not fixed it would show a warning confusing for users:
+   ## "perl: warning: Setting locale failed."
+   ## LANG=C only applies to the locale-gen script. Not to the end result of locale-gen.
+   LANG=C locale-gen || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -157,3 +201,4 @@ bashrc_migration
 
 bashrc_migration2
 
+locales_fix
