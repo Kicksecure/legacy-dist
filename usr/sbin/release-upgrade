@@ -114,10 +114,10 @@ rm -f /etc/apt/apt.conf.d/70defaultrelease
 
 true "INFO: Change APT suite from buster to bullseye..."
 for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
-   str_replace "buster" "bullseye" "$file_name"
+   LANG=C str_replace "buster" "bullseye" "$file_name"
 done
 
-str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list.d/debian.list"
+LANG=C str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list.d/debian.list"
 
 suite=bullseye
 if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q developers ; then

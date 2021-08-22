@@ -116,7 +116,7 @@ bashrc_migration2() {
       return 0
    fi
 
-   str_replace "$search" "$replace" "$file_name" || true
+   LANG=C str_replace "$search" "$replace" "$file_name" || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
