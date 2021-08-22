@@ -112,7 +112,11 @@ bashrc_migration2() {
    replace="/usr/libexec/helper-scripts/bashrc-terminal-emulator"
    file_name="/home/user/.bashrc"
 
-   str_replace "$search" "$replace" "$file_name"
+   if ! test -f "$file_name" ; then
+      return 0
+   fi
+
+   str_replace "$search" "$replace" "$file_name" || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
