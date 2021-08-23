@@ -53,6 +53,16 @@ Aborting."
    exit 1
 fi
 
+derivative_list_contents="$(cat "/etc/apt/sources.list.d/derivative.list" | grep --invert-match '\#' | grep --invert-match '^$')" || true
+if [ "$derivative_list_contents" = "" ]; then
+   true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
+(Maybe only out commented (#) and empty lines.)
+Derivative repository is not enabled. Enable it first before proceeding. See:
+https://www.whonix.org/wiki/Project-APT-Repository
+Aborting."
+   exit 1
+fi
+
 pre_upgrade_error() {
    true "\
 ERROR: An error was encountered during upgrade preparation:
