@@ -7,6 +7,8 @@ set -x
 set -e
 set -o pipefail
 
+shopt -s nullglob
+
 version="1.2"
 
 true "INFO: (release-upgrade version: $version) Release upgrade from Debian buster to Debian bullseye in progress..."
