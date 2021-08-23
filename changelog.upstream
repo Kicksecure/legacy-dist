@@ -1,3 +1,27 @@
+commit eb9a4bff0b846f9516d9b7719d73705641db2c27
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 23 16:00:44 2021 -0400
+
+    improve release-upgrade
+
+commit ee1a9b03c02df748b0b3df9c30eaa5db5d88b188
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 23 15:57:41 2021 -0400
+
+    improve release-upgrade
+
+commit 456a0e638b04cc9dab474ecb58ff77bee29c8857
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 23 15:56:44 2021 -0400
+
+    release-upgrade: fix, respect onion sources
+
+commit 54184e91b30bac1cdf7bd2f6deb47b577094d8d3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 22 17:57:51 2021 -0400
+
+    bumped changelog version
+
 commit f4028df846604fa153291178785daa3b6e37fce8
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Aug 22 17:55:26 2021 -0400
