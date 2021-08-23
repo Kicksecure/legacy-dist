@@ -119,20 +119,6 @@ done
 
 LANG=C str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list.d/debian.list"
 
-suite=bullseye
-if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q developers ; then
-   suite=bullseye-developers
-fi
-if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q testers ; then
-   suite=bullseye-testers
-fi
-if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q proposed-updates ; then
-   suite=bullseye-proposed-updates
-fi
-
-true "INFO: Enable derivative APT repository suite '$suite'."
-repository-dist --enable --codename "$suite"
-
 ## Get bullseye apt package lists.
 true "INFO: Fetching package lists (2/2)..."
 if ! $update_command ; then
