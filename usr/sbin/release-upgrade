@@ -166,7 +166,7 @@ fi
 true "INFO: Install pre release upgrade dependency packages (1/2)..."
 ## man-db required bsdmainutils. Otherwise dependency issue during release upgrade.
 ## sdwdate Depends: gcc
-if ! apt-get-noninteractive --yes --no-install-recommends install bsdmainutils gcc fasttrack-archive-keyring ; then
+if ! apt-get-noninteractive --yes --no-install-recommends install libc6-dev bsdmainutils gcc fasttrack-archive-keyring ; then
    true "\
 ERROR: An error was encountered during download of dependency packages. Recommendation:
 Fix network connection and retry."
