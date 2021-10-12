@@ -1,3 +1,59 @@
+commit 885491607ef44ff6c5b09ca381394c04210abf5b
+Merge: cd44a28 1b336fc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 12 09:43:50 2021 -0400
+
+    Merge branch 'buster' into whonix15
+
+commit 1b336fca42afcc1815bfcfbff6d6252b592d5dee
+Merge: 64c546f cd44a28
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 12 09:43:37 2021 -0400
+
+    Merge branch 'whonix15' into buster
+
+commit cd44a283e950f877ae53698ca2e84511b5b62f69
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 12 09:40:49 2021 -0400
+
+    bumped changelog version
+
+commit b89191fd4109868568a89509e4ffdc927f63757d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 12 09:39:11 2021 -0400
+
+    add deprecation notice to postinst output
+
+commit b54ccb6005b5ddf794b35d600d6c331e159e7987
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 12 09:32:17 2021 -0400
+
+    add deprecation popup
+
+commit 64c546fab83495fb9e76f8863ef120c38ba89acc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 17:30:06 2021 -0400
+
+    improve release-upgrade
+
+commit 22197f980cf287c2f64dc7134d71dcd010203c0d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 13:48:02 2021 -0400
+
+    improve release upgrade script
+
+commit 62d9019faf71fc5bef6009f5d9043f4d6a58a2eb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 6 13:21:54 2021 -0400
+
+    renamed:    usr/lib/release-upgrade -> usr/sbin/release-upgrade
+
+commit 9ef5e7cb5d04a705bfcf4cbefa799705eae2b154
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 1 14:51:09 2021 -0400
+
+    bumped changelog version
+
 commit bbad2596cffa06c6156d2ca784c8271fe89fa4e9
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Aug 1 14:45:18 2021 -0400
