@@ -115,6 +115,11 @@ meta_package_installed_check() {
 
 meta_package_detect
 
+if [ "$meta_package" = "" ]; then
+   true "ERROR: no installed meta package detected!"
+   exit 1
+fi
+
 true "INFO: meta_package detected: $meta_package"
 
 pre_upgrade_error() {
