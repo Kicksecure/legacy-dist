@@ -227,8 +227,7 @@ true "INFO: Install pre release upgrade dependency packages (1/2)..."
 ## sdwdate Depends: gcc
 if ! apt-get-noninteractive --yes --no-install-recommends install libc6-dev bsdmainutils gcc fasttrack-archive-keyring ; then
    true "\
-ERROR: An error was encountered during download of dependency packages. Recommendation:
-Fix network connection and retry."
+ERROR: An error was encountered during installation of dependency packages (1/2)."
    exit 1
 fi
 
@@ -237,8 +236,7 @@ true "INFO: Install pre release upgrade of dependency packages (2/2)..."
 ## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
 if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate ; then
    true "\
-ERROR: An error was encountered during download of dependency packages. Recommendation:
-Fix network connection and retry."
+ERROR: An error was encountered during installation of dependency packages (2/2)."
    exit 1
 fi
 
