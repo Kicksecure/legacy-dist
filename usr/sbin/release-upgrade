@@ -222,7 +222,7 @@ Fix network connection and retry."
    exit 1
 fi
 
-true "INFO: Install pre release upgrade dependency packages (1/2)..."
+true "INFO: Install release upgrade dependency packages (1/2)..."
 ## man-db required bsdmainutils. Otherwise dependency issue during release upgrade.
 ## sdwdate Depends: gcc
 if ! apt-get-noninteractive --yes --no-install-recommends install libc6-dev bsdmainutils gcc fasttrack-archive-keyring ; then
@@ -231,7 +231,7 @@ ERROR: An error was encountered during installation of dependency packages (1/2)
    exit 1
 fi
 
-true "INFO: Install pre release upgrade of dependency packages (2/2)..."
+true "INFO: Install release upgrade of dependency packages (2/2)..."
 ## sdwdate Provides: time-daemon
 ## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
 if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate ; then
