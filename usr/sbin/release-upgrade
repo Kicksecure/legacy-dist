@@ -63,6 +63,60 @@ Aborting."
    exit 1
 fi
 
+meta_package_detect() {
+   if [ ! "$meta_package" = "" ]; then
+      return 0
+   fi
+   if test -e /usr/share/qubes/marker-vm ; then
+      if test -e /usr/share/whonix/marker ; then
+         if test -e /usr/share/anon-gw-base-files/gateway ; then
+            meta_package=qubes-whonix-gateway
+            if meta_package_installed_check ; then return 0 ; fi
+         fi
+         if test -e /usr/share/anon-ws-base-files/workstation ; then
+            meta_package=qubes-whonix-workstation
+            if meta_package_installed_check ; then return 0 ; fi
+         fi
+      elif test -e /usr/share/kicksecure/marker ; then
+         meta_package=kicksecure-qubes-gui
+         if meta_package_installed_check ; then return 0 ; fi
+         meta_package=kicksecure-qubes-cli
+         if meta_package_installed_check ; then return 0 ; fi
+      fi
+   else
+      if test -e /usr/share/whonix/marker ; then
+         if test -e /usr/share/anon-gw-base-files/gateway ; then
+            meta_package=non-qubes-whonix-gateway-xfce
+            if meta_package_installed_check ; then return 0 ; fi
+            meta_package=non-qubes-whonix-gateway-cli
+            if meta_package_installed_check ; then return 0 ; fi
+         elif test -e /usr/share/anon-ws-base-files/workstation ; then
+            meta_package=non-qubes-whonix-workstation-xfce
+            if meta_package_installed_check ; then return 0 ; fi
+            meta_package=non-qubes-whonix-workstation-cli
+            if meta_package_installed_check ; then return 0 ; fi
+         fi
+      elif test -e /usr/share/kicksecure/marker ; then
+         meta_package=kicksecure-xfce
+         if meta_package_installed_check ; then return 0 ; fi
+         meta_package=kicksecure-cli
+         if meta_package_installed_check ; then return 0 ; fi
+      fi
+   fi
+   meta_package=""
+}
+
+meta_package_installed_check() {
+   if dpkg --status "$meta_package" &> /dev/null ; then
+      return 0
+   fi
+   return 1
+}
+
+meta_package_detect
+
+true "INFO: meta_package detected: $meta_package"
+
 pre_upgrade_error() {
    true "\
 ERROR: An error was encountered during upgrade preparation:
@@ -75,17 +129,17 @@ Therefore aborting upgrade."
 
 trap "pre_upgrade_error" ERR
 
-true "INFO: Checking potential issues and attempt to fix if any..."
+true "INFO: Checking potential issues and attempt to fix if any (pre)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
-true "INFO: Checking potential issues and attempt to fix if any..."
+true "INFO: Checking potential issues and attempt to fix if any (pre)..."
 dpkg-noninteractive --configure -a || true
-true "INFO: Checking potential issues and attempt to fix if any..."
+true "INFO: Checking potential issues and attempt to fix if any (pre)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
-true "INFO: Running sanity test..."
+true "INFO: Running sanity test (pre)..."
 ## Do not continue with release upgrade if there are any dpkg issues.
 dpkg-noninteractive --audit
-true "INFO: Running sanity test..."
+true "INFO: Running sanity test (pre)..."
 dpkg-noninteractive --configure -a
 
 true "INFO: Fetching package lists (1/2)..."
@@ -200,11 +254,11 @@ BASH_COMMAND: $BASH_COMMAND"
 
 trap "post_upgrade_failure" ERR
 
-true "INFO: Checking potential issues and attempt to fix if any..."
+true "INFO: Checking potential issues and attempt to fix if any (post)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
-true "INFO: Checking potential issues and attempt to fix if any..."
+true "INFO: Checking potential issues and attempt to fix if any (post)..."
 dpkg-noninteractive --configure -a || true
-true "INFO: Checking potential issues and attempt to fix if any..."
+true "INFO: Checking potential issues and attempt to fix if any (post)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
 true "INFO: Setting a list of traditional dummy packages to automatically
@@ -213,17 +267,17 @@ installed so these can be removed the next time the user runs apt autoremove."
 ## '|| true' since non-essential.
 apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 cryptsetup-run >/dev/null || true
 
-true "INFO: Running sanity test..."
+true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --audit
-true "INFO: Running sanity test..."
+true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --configure -a
 
 true "INFO: Restart whonix-legacy service..."
 service whonix-legacy restart
 
-true "INFO: Running sanity test..."
+true "INFO: Running sanity test'(post)..."
 dpkg-noninteractive --audit
-true "INFO: Running sanity test..."
+true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --configure -a
 
 ## Risky. User should review and do manually.
