@@ -1,3 +1,39 @@
+commit 3aa25297c40c5fe4890d2cfad7b1c8d34a8433e3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 20 16:56:56 2021 -0400
+
+    release-upgrade: ensure meta package is downloaded and installed
+
+commit 45da954739cb3a53214f159bf6dbcf7812f82fe3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 20 16:53:13 2021 -0400
+
+    output
+
+commit aa01ff4ff20cb09a25135ca3f9ef337c23a97acc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 20 16:51:38 2021 -0400
+
+    output
+
+commit d8cda99a5a376981ff8dfc3dda2534f982fa86e3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 20 16:48:43 2021 -0400
+
+    release-upgrade: abort if no installed meta package has been detected
+
+commit 2d998d2884388ccad6e1110905522fc14352b892
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 20 16:47:06 2021 -0400
+
+    release-upgrade: add meta package detection
+
+commit 22fdeae6b7dde964c6b571a1464329e991ee8ee8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 12 12:07:23 2021 -0400
+
+    bumped changelog version
+
 commit b8585dfc788e5660f519b215c823e187d8179954
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Sep 11 16:31:48 2021 -0400
