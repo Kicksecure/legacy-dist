@@ -1,3 +1,45 @@
+commit 2cc3e23b7c9318560e82041d8510b464e18604cf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 07:56:31 2021 -0400
+
+    improve release-upgrade
+
+commit 9df84beded4c52493789c0b5966e4e8de755d305
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 07:50:25 2021 -0400
+
+    improve release-upgrade
+
+commit b65d66e8b1af5e4628b0e416af9e139020316dc1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 07:44:04 2021 -0400
+
+    output
+
+commit da7a850ea0bb8ba7f49edab080ee5a82b859f407
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 07:42:57 2021 -0400
+
+    improve release-upgrade
+
+commit 898d6ebbc200f8d0e58ae02ffc5ce89889a2da51
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 07:15:38 2021 -0400
+
+    output
+
+commit 50a25523032ab8938e234f0888f9777a620b639f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 07:08:59 2021 -0400
+
+    improve release-upgrade
+
+commit 448905bec6afeeb3b8f16d70f78c911b149e1007
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 22 16:33:09 2021 -0400
+
+    bumped changelog version
+
 commit 3aa25297c40c5fe4890d2cfad7b1c8d34a8433e3
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Oct 20 16:56:56 2021 -0400
