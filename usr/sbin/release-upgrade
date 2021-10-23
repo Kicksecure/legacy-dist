@@ -9,7 +9,7 @@ set -o pipefail
 
 shopt -s nullglob
 
-version="1.4"
+version="1.5"
 
 true "INFO: (release-upgrade version: $version) Release upgrade from Debian buster to Debian bullseye in progress..."
 
@@ -230,42 +230,44 @@ Fix network connection and retry."
    exit 1
 fi
 
-true "INFO: Install release upgrade dependency packages (1/2)..."
-## man-db required bsdmainutils. Otherwise dependency issue during release upgrade.
-## sdwdate Depends: gcc
-if ! apt-get-noninteractive --yes --no-install-recommends install libc6-dev bsdmainutils gcc fasttrack-archive-keyring ; then
-   true "\
-ERROR: An error was encountered during installation of dependency packages (1/2)."
-   exit 1
-fi
-
-true "INFO: Install release upgrade of dependency packages (2/2)..."
+true "INFO: Install release upgrade of dependency packages..."
 ## sdwdate Provides: time-daemon
 ## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
-if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate ; then
+if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate fasttrack-archive-keyring ; then
    true "\
-ERROR: An error was encountered during installation of dependency packages (2/2)."
+ERROR: An error was encountered during installation of dependency packages."
    exit 1
 fi
 
-true "INFO: Install release upgrade (1/3)..."
+true "INFO: Install release upgrade (1/4)..."
 if ! apt-get-noninteractive --yes --no-install-recommends install "$meta_package" ; then
    true "\
-ERROR: An error was encountered during installation of release upgrade (1/3). See above."
+ERROR: An error was encountered during installation of release upgrade (1/4). See above."
    exit 1
 fi
 
-true "INFO: Install release upgrade (2/3)..."
+true "INFO: Install release upgrade (2/4)..."
 if ! apt-get-noninteractive --yes --no-install-recommends dist-upgrade ; then
    true "\
-ERROR: An error was encountered during installation of release upgrade (2/3). See above."
+ERROR: An error was encountered during installation of release upgrade (2/4). See above."
    exit 1
 fi
 
-true "INFO: Install release upgrade (3/3)..."
+true "INFO: Install release upgrade (3/4)..."
 if ! apt-get-noninteractive --yes --no-install-recommends install "$meta_package" ; then
    true "\
-ERROR: An error was encountered during installation of release upgrade (3/3). See above."
+ERROR: An error was encountered during installation of release upgrade (3/4). See above."
+   exit 1
+fi
+
+true "INFO: Install release upgrade (4/4)..."
+## reinstall of sdwdate required to re-compile sclockadj for newer gcc version.
+## This will probably be no longer required for the bullseye -> bookworm release upgrade,
+## because sdwdate nowadays compiles sclockadj as part of systemd startup and no longer
+## during postinst.
+if ! apt-get-noninteractive --yes --no-install-recommends --reinstall sdwdate ; then
+   true "\
+ERROR: An error was encountered during installation of release upgrade (4/4). See above."
    exit 1
 fi
 
