@@ -223,6 +223,8 @@ Fix network connection and retry."
 fi
 
 true "INFO: Simulating release upgrade..."
+apt-get-noninteractive --no-install-recommends --simulate dist-upgrade
+set +x
 while read -r -d $'\n' line ; do
    read -r first_word second_word _ <<< "$line"
    if [ ! "$first_word" = "Remv" ]; then
@@ -233,6 +235,7 @@ while read -r -d $'\n' line ; do
    fi
    true "ERROR: Release upgrade would remove meta package $meta_package. Release upgrade aborted!"
 done < <( apt-get-noninteractive --no-install-recommends --simulate dist-upgrade )
+set -x
 
 true "INFO: Install release upgrade of dependency packages..."
 ## sdwdate Provides: time-daemon
