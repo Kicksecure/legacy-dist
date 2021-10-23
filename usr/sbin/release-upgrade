@@ -7,7 +7,11 @@ set -x
 set -e
 set -o pipefail
 
-true "INFO: Release upgrade from Debian buster to Debian bullseye in progress..."
+shopt -s nullglob
+
+version="1.5"
+
+true "INFO: (release-upgrade version: $version) Release upgrade from Debian buster to Debian bullseye in progress..."
 
 error_handler() {
    true "\
@@ -30,6 +34,12 @@ fi
 
 export DEBDEBUG=1
 
+true "INFO: Checking if tor@default systemd unit is running..."
+if ! systemctl --no-pager status tor@default ; then
+   true "INFO: tor@default is not running, trying to restart..."
+   systemctl --no-pager restart tor@default || true
+fi
+
 if ! test -f /etc/apt/sources.list.d/debian.list ; then
    true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist! Aborting."
    exit 1
@@ -43,9 +53,78 @@ Aborting."
    exit 1
 fi
 
+derivative_list_contents="$(cat "/etc/apt/sources.list.d/derivative.list" | grep --invert-match '\#' | grep --invert-match '^$')" || true
+if [ "$derivative_list_contents" = "" ]; then
+   true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
+(Maybe only out commented (#) and empty lines.)
+Derivative repository is not enabled. Enable it first before proceeding. See:
+https://www.whonix.org/wiki/Project-APT-Repository
+Aborting."
+   exit 1
+fi
+
+meta_package_detect() {
+   if [ ! "$meta_package" = "" ]; then
+      return 0
+   fi
+   if test -e /usr/share/qubes/marker-vm ; then
+      if test -e /usr/share/whonix/marker ; then
+         if test -e /usr/share/anon-gw-base-files/gateway ; then
+            meta_package=qubes-whonix-gateway
+            if meta_package_installed_check ; then return 0 ; fi
+         fi
+         if test -e /usr/share/anon-ws-base-files/workstation ; then
+            meta_package=qubes-whonix-workstation
+            if meta_package_installed_check ; then return 0 ; fi
+         fi
+      elif test -e /usr/share/kicksecure/marker ; then
+         meta_package=kicksecure-qubes-gui
+         if meta_package_installed_check ; then return 0 ; fi
+         meta_package=kicksecure-qubes-cli
+         if meta_package_installed_check ; then return 0 ; fi
+      fi
+   else
+      if test -e /usr/share/whonix/marker ; then
+         if test -e /usr/share/anon-gw-base-files/gateway ; then
+            meta_package=non-qubes-whonix-gateway-xfce
+            if meta_package_installed_check ; then return 0 ; fi
+            meta_package=non-qubes-whonix-gateway-cli
+            if meta_package_installed_check ; then return 0 ; fi
+         elif test -e /usr/share/anon-ws-base-files/workstation ; then
+            meta_package=non-qubes-whonix-workstation-xfce
+            if meta_package_installed_check ; then return 0 ; fi
+            meta_package=non-qubes-whonix-workstation-cli
+            if meta_package_installed_check ; then return 0 ; fi
+         fi
+      elif test -e /usr/share/kicksecure/marker ; then
+         meta_package=kicksecure-xfce
+         if meta_package_installed_check ; then return 0 ; fi
+         meta_package=kicksecure-cli
+         if meta_package_installed_check ; then return 0 ; fi
+      fi
+   fi
+   meta_package=""
+}
+
+meta_package_installed_check() {
+   if dpkg --status "$meta_package" &> /dev/null ; then
+      return 0
+   fi
+   return 1
+}
+
+meta_package_detect
+
+if [ "$meta_package" = "" ]; then
+   true "ERROR: no installed meta package detected!"
+   exit 1
+fi
+
+true "INFO: meta_package detected: $meta_package"
+
 pre_upgrade_error() {
    true "\
-ERROR during upgrade preparation:
+ERROR: An error was encountered during upgrade preparation:
 The following command failed:
 BASH_COMMAND: $BASH_COMMAND
 The system is in a broken state prior upgrade.
@@ -55,10 +134,20 @@ Therefore aborting upgrade."
 
 trap "pre_upgrade_error" ERR
 
-## Sanity test. Do not continue with release upgrade if there are any dpkg issues.
-dpkg --audit
-dpkg --configure -a
+true "INFO: Checking potential issues and attempt to fix if any (pre)..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
+true "INFO: Checking potential issues and attempt to fix if any (pre)..."
+dpkg-noninteractive --configure -a || true
+true "INFO: Checking potential issues and attempt to fix if any (pre)..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
+true "INFO: Running sanity test (pre)..."
+## Do not continue with release upgrade if there are any dpkg issues.
+dpkg-noninteractive --audit
+true "INFO: Running sanity test (pre)..."
+dpkg-noninteractive --configure -a
+
+true "INFO: Fetching package lists (1/2)..."
 if test -x /usr/lib/security-misc/apt-get-update ; then
    ## Debian buster
    update_command=/usr/lib/security-misc/apt-get-update
@@ -77,48 +166,35 @@ https://www.whonix.org/wiki/Operating_System_Software_and_Updates"
    exit 1
 fi
 
-## Sanity test.
-if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install nano ; then
-   true "ERROR: Above command failed. Could not test-wise reinstall nano."
-   exit 1
-fi
+## dpkg-noninteractive is provided by package usability-misc.
 
-dpkg --audit
-dpkg --configure -a
+true "INFO: Running sanity test..."
+dpkg-noninteractive --audit
+true "INFO: Running sanity test..."
+dpkg-noninteractive --configure -a
 
 trap "error_handler" ERR
 
-## Backports, testing, unstable should be disabled for release upgrade.
-## Remove files which are mentioned in the wiki.
-## https://www.whonix.org/wiki/Install_Software
+true "INFO: Backports, testing, unstable should be disabled during release upgrade.
+Removing files which are mentioned in the wiki, if any...
+https://www.whonix.org/wiki/Install_Software"
 rm -f /etc/apt/sources.list.d/backports.list
 rm -f /etc/apt/sources.list.d/testing.list
 rm -f /etc/apt/sources.list.d/unstable.list
 rm -f /etc/apt/apt.conf.d/70defaultrelease
 
+true "INFO: Change APT suite from buster to bullseye..."
 for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
-   str_replace "buster" "bullseye" "$file_name"
+   LANG=C str_replace "buster" "bullseye" "$file_name"
 done
 
-str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list.d/debian.list"
-
-suite=bullseye
-if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q developers ; then
-   suite=bullseye-developers
-fi
-if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q testers ; then
-   suite=bullseye-testers
-fi
-if cat /etc/apt/sources.list.d/derivative.list | grep --invert-match "\#" | grep -q proposed-updates ; then
-   suite=bullseye-proposed-updates
-fi
-
-repository-dist --enable --codename "$suite"
+LANG=C str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list.d/debian.list"
 
 ## Get bullseye apt package lists.
+true "INFO: Fetching package lists (2/2)..."
 if ! $update_command ; then
    true "\
-ERROR during download of release upgrade package lists. Recommendation:
+ERROR: An error was encountered during download of release upgrade package lists. Recommendation:
 - Fix network connection and retry.
 - Check the following files:
 /etc/apt/sources.list
@@ -128,23 +204,73 @@ Check all other files in /etc/apt/sources.list.d if any."
    exit 1
 fi
 
-if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends --download-only ; then
+true "INFO: Download pre release upgrade dependency packages..."
+## just in case: cpp gcc ncal
+## required on workstation for unknown reason: libc6-dev
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only install bsdmainutils gcc sdwdate cpp gcc ncal python-is-python2 libc6-dev fasttrack-archive-keyring ; then
    true "\
-ERROR during download of release upgrade packages. Recommendation:
+ERROR: An error was encountered during download of pre release upgrade dependency packages. Recommendation:
 Fix network connection and retry."
    exit 1
 fi
 
-## Release upgrade.
-if ! apt-get-noninteractive dist-upgrade --yes --no-install-recommends ; then
+true "INFO: Download release upgrade..."
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only dist-upgrade ; then
    true "\
-ERROR during installation of release upgrade. See above."
+ERROR: An error was encountered during download of release upgrade packages. Recommendation:
+Fix network connection and retry."
+   exit 1
+fi
+
+true "INFO: Simulating release upgrade..."
+apt-get-noninteractive --no-install-recommends --simulate dist-upgrade
+true "INFO: Checking if release upgrade is safe or would result in removal of the main meta package... This will take a moment..."
+## Disable xtrace because the following output would be too much of an output flood.
+set +x
+while read -r -d $'\n' line ; do
+   read -r first_word second_word _ <<< "$line"
+   if [ ! "$first_word" = "Remv" ]; then
+      continue
+   fi
+   if [ ! "$second_word" = "$meta_package" ]; then
+      continue
+   fi
+   ## `echo`, not `true` because "set +x" was set above.
+   echo "ERROR: Release upgrade would remove meta package $meta_package. Release upgrade aborted!"
+   exit 1
+done < <( apt-get-noninteractive --no-install-recommends --simulate dist-upgrade )
+set -x
+
+true "INFO: Install release upgrade of dependency packages..."
+## sdwdate Provides: time-daemon
+## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
+if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate fasttrack-archive-keyring ; then
+   true "\
+ERROR: An error was encountered during installation of dependency packages."
+   exit 1
+fi
+
+true "INFO: Install release upgrade (1/2)..."
+if ! apt-get-noninteractive --yes --no-install-recommends dist-upgrade ; then
+   true "\
+ERROR: An error was encountered during installation of release upgrade (1/2). See above."
+   exit 1
+fi
+
+true "INFO: Install release upgrade (2/2)..."
+## reinstall of sdwdate required to re-compile sclockadj for newer gcc version.
+## This will probably be no longer required for the bullseye -> bookworm release upgrade,
+## because sdwdate nowadays compiles sclockadj as part of systemd startup and no longer
+## during postinst.
+if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install sdwdate ; then
+   true "\
+ERROR: An error was encountered during installation of release upgrade (2/2). See above."
    exit 1
 fi
 
 post_upgrade_failure() {
    true "\
-ERROR after release upgrade:
+ERROR: An error was encountered after release upgrade:
 The following command failed:
 BASH_COMMAND: $BASH_COMMAND"
    exit 1
@@ -152,29 +278,40 @@ BASH_COMMAND: $BASH_COMMAND"
 
 trap "post_upgrade_failure" ERR
 
-## Clean up.
-## The following sets a list of traditional dummy packages to automatically
-## installed so these can be removed the next time the user runs apt autoremove.
+true "INFO: Checking potential issues and attempt to fix if any (post)..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
+true "INFO: Checking potential issues and attempt to fix if any (post)..."
+dpkg-noninteractive --configure -a || true
+true "INFO: Checking potential issues and attempt to fix if any (post)..."
+apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
+
+true "INFO: Setting a list of traditional dummy packages to automatically
+installed so these can be removed the next time the user runs apt autoremove."
 ## '>/dev/null' to hide confusing messages such as "libcomerr2 can not be marked as it is not installed."
 ## '|| true' since non-essential.
-apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 >/dev/null || true
+apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 cryptsetup-run >/dev/null || true
 
-dpkg --audit
-dpkg --configure -a
+true "INFO: Running sanity test (post)..."
+dpkg-noninteractive --audit
+true "INFO: Running sanity test (post)..."
+dpkg-noninteractive --configure -a
 
+true "INFO: Restart whonix-legacy service..."
 service whonix-legacy restart
 
-dpkg --audit
-dpkg --configure -a
+true "INFO: Running sanity test (post)..."
+dpkg-noninteractive --audit
+true "INFO: Running sanity test (post)..."
+dpkg-noninteractive --configure -a
 
 ## Risky. User should review and do manually.
 ## https://www.whonix.org/wiki/Whonix_Debian_Packages#Re-install_Meta_Packages_and_Safely_Run_Autoremove
 #apt-get-noninteractive --yes autoremove
-#dpkg --audit
-#dpkg --configure -a
+#dpkg-noninteractive --audit
+#dpkg-noninteractive --configure -a
 
 ## Currently not required.
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
 #/usr/lib/helper-scripts/first-boot-skel || true
 
-true "INFO: OK. Release upgrade success."
+true "INFO: OK. (release-upgrade version: $version) Release upgrade success."
