@@ -222,6 +222,7 @@ Fix network connection and retry."
    exit 1
 fi
 
+true "INFO: Simulating release upgrade..."
 while read -r -d $'\n' line ; do
    read -r first_word second_word _ <<< "$line"
    if [ ! "$first_word" = "Remv" ]; then
