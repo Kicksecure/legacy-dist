@@ -214,21 +214,24 @@ Fix network connection and retry."
    exit 1
 fi
 
-true "INFO: Download release upgrade (1/2)..."
+true "INFO: Download release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends --download-only dist-upgrade ; then
    true "\
-ERROR: An error was encountered during download of release upgrade packages (1/2). Recommendation:
+ERROR: An error was encountered during download of release upgrade packages. Recommendation:
 Fix network connection and retry."
    exit 1
 fi
 
-true "INFO: Download release upgrade (2/2)..."
-if ! apt-get-noninteractive --yes --no-install-recommends --download-only install "$meta_package" ; then
-   true "\
-ERROR: An error was encountered during download of release upgrade packages (2/2). Recommendation:
-Fix network connection and retry."
-   exit 1
-fi
+while read -r -d $'\n' line ; do
+   read -r first_word second_word _ <<< "$line"
+   if [ ! "$first_word" = "Remv" ]; then
+      continue
+   fi
+   if [ ! "$second_word" = "$meta_package" ]; then
+      continue
+   fi
+   true "ERROR: Release upgrade would remove meta package $meta_package. Release upgrade aborted!"
+done < <( apt-get-noninteractive --no-install-recommends --simulate dist-upgrade )
 
 true "INFO: Install release upgrade of dependency packages..."
 ## sdwdate Provides: time-daemon
@@ -239,35 +242,21 @@ ERROR: An error was encountered during installation of dependency packages."
    exit 1
 fi
 
-true "INFO: Install release upgrade (1/4)..."
-if ! apt-get-noninteractive --yes --no-install-recommends install "$meta_package" ; then
-   true "\
-ERROR: An error was encountered during installation of release upgrade (1/4). See above."
-   exit 1
-fi
-
-true "INFO: Install release upgrade (2/4)..."
+true "INFO: Install release upgrade (1/2)..."
 if ! apt-get-noninteractive --yes --no-install-recommends dist-upgrade ; then
    true "\
-ERROR: An error was encountered during installation of release upgrade (2/4). See above."
+ERROR: An error was encountered during installation of release upgrade (1/2). See above."
    exit 1
 fi
 
-true "INFO: Install release upgrade (3/4)..."
-if ! apt-get-noninteractive --yes --no-install-recommends install "$meta_package" ; then
-   true "\
-ERROR: An error was encountered during installation of release upgrade (3/4). See above."
-   exit 1
-fi
-
-true "INFO: Install release upgrade (4/4)..."
+true "INFO: Install release upgrade (2/2)..."
 ## reinstall of sdwdate required to re-compile sclockadj for newer gcc version.
 ## This will probably be no longer required for the bullseye -> bookworm release upgrade,
 ## because sdwdate nowadays compiles sclockadj as part of systemd startup and no longer
 ## during postinst.
-if ! apt-get-noninteractive --yes --no-install-recommends --reinstall sdwdate ; then
+if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install sdwdate ; then
    true "\
-ERROR: An error was encountered during installation of release upgrade (4/4). See above."
+ERROR: An error was encountered during installation of release upgrade (2/2). See above."
    exit 1
 fi
 
