@@ -1,3 +1,15 @@
+commit 0a9b655140f6e3b6c1b6b82901184188857a159d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Oct 23 10:10:07 2021 -0400
+
+    backport improved release-upgrade
+
+commit 6ba87bdebf20e966ea031d75ae52b6401d4e1a7e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 12 09:45:00 2021 -0400
+
+    bumped changelog version
+
 commit 885491607ef44ff6c5b09ca381394c04210abf5b
 Merge: cd44a28 1b336fc
 Author: Patrick Schleizer <adrelanos@whonix.org>
