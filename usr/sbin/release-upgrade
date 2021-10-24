@@ -3,16 +3,6 @@
 ## Copyright (C) 2020 - 2021 ENCRYPTED SUPPORT LP <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-set -x
-set -e
-set -o pipefail
-
-shopt -s nullglob
-
-version="1.5"
-
-true "INFO: (release-upgrade version: $version) Release upgrade from Debian buster to Debian bullseye in progress..."
-
 error_handler() {
    true "\
 ###########################################################
@@ -24,44 +14,23 @@ error_handler() {
    exit 1
 }
 
-trap "error_handler" ERR
-
-if [ "$(id -u)" != "0" ]; then
-   true "ERROR: Must run as root. Run:"
-   true "sudo $0"
-   exit 112
-fi
-
-export DEBDEBUG=1
-
-true "INFO: Checking if tor@default systemd unit is running..."
-if ! systemctl --no-pager status tor@default ; then
-   true "INFO: tor@default is not running, trying to restart..."
-   systemctl --no-pager restart tor@default || true
-fi
-
-if ! test -f /etc/apt/sources.list.d/debian.list ; then
-   true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist! Aborting."
+pre_upgrade_error() {
+   true "\
+ERROR: An error was encountered during upgrade preparation:
+The following command failed:
+BASH_COMMAND: $BASH_COMMAND
+The system is in a broken state prior upgrade.
+Therefore aborting upgrade."
    exit 1
-fi
+}
 
-if ! test -f /etc/apt/sources.list.d/derivative.list ; then
-   true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
-Derivative repository is not enabled. Enable it first before proceeding. See:
-https://www.whonix.org/wiki/Project-APT-Repository
-Aborting."
+post_upgrade_failure() {
+   true "\
+ERROR: An error was encountered after release upgrade:
+The following command failed:
+BASH_COMMAND: $BASH_COMMAND"
    exit 1
-fi
-
-derivative_list_contents="$(cat "/etc/apt/sources.list.d/derivative.list" | grep --invert-match '\#' | grep --invert-match '^$')" || true
-if [ "$derivative_list_contents" = "" ]; then
-   true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
-(Maybe only out commented (#) and empty lines.)
-Derivative repository is not enabled. Enable it first before proceeding. See:
-https://www.whonix.org/wiki/Project-APT-Repository
-Aborting."
-   exit 1
-fi
+}
 
 meta_package_detect() {
    if [ ! "$meta_package" = "" ]; then
@@ -113,6 +82,55 @@ meta_package_installed_check() {
    return 1
 }
 
+set -x
+set -e
+set -o pipefail
+
+shopt -s nullglob
+
+version="1.5"
+
+true "INFO: (release-upgrade version: $version) Release upgrade from Debian buster to Debian bullseye in progress..."
+
+trap "error_handler" ERR
+
+if [ "$(id -u)" != "0" ]; then
+   true "ERROR: Must run as root. Run:"
+   true "sudo $0"
+   exit 112
+fi
+
+export DEBDEBUG=1
+
+true "INFO: Checking if tor@default systemd unit is running..."
+if ! systemctl --no-pager status tor@default ; then
+   true "INFO: tor@default is not running, trying to restart..."
+   systemctl --no-pager restart tor@default || true
+fi
+
+if ! test -f /etc/apt/sources.list.d/debian.list ; then
+   true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist! Aborting."
+   exit 1
+fi
+
+if ! test -f /etc/apt/sources.list.d/derivative.list ; then
+   true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
+Derivative repository is not enabled. Enable it first before proceeding. See:
+https://www.whonix.org/wiki/Project-APT-Repository
+Aborting."
+   exit 1
+fi
+
+derivative_list_contents="$(cat "/etc/apt/sources.list.d/derivative.list" | grep --invert-match '\#' | grep --invert-match '^$')" || true
+if [ "$derivative_list_contents" = "" ]; then
+   true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
+(Maybe only out commented (#) and empty lines.)
+Derivative repository is not enabled. Enable it first before proceeding. See:
+https://www.whonix.org/wiki/Project-APT-Repository
+Aborting."
+   exit 1
+fi
+
 meta_package_detect
 
 if [ "$meta_package" = "" ]; then
@@ -121,16 +139,6 @@ if [ "$meta_package" = "" ]; then
 fi
 
 true "INFO: meta_package detected: $meta_package"
-
-pre_upgrade_error() {
-   true "\
-ERROR: An error was encountered during upgrade preparation:
-The following command failed:
-BASH_COMMAND: $BASH_COMMAND
-The system is in a broken state prior upgrade.
-Therefore aborting upgrade."
-   exit 1
-}
 
 trap "pre_upgrade_error" ERR
 
@@ -267,14 +275,6 @@ if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install sd
 ERROR: An error was encountered during installation of release upgrade (2/2). See above."
    exit 1
 fi
-
-post_upgrade_failure() {
-   true "\
-ERROR: An error was encountered after release upgrade:
-The following command failed:
-BASH_COMMAND: $BASH_COMMAND"
-   exit 1
-}
 
 trap "post_upgrade_failure" ERR
 
