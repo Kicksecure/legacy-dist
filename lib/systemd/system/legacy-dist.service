@@ -2,7 +2,7 @@
 ## See the file COPYING for copying conditions.
 
 [Unit]
-Description=Whonix legacy versions fixes
+Description=Derivative Distribution Legacy Versions Fixes
 Documentation=https://github.com/Whonix/legacy-dist
 
 Before=qubes-gui-agent.service
