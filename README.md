@@ -6,7 +6,7 @@ Applies fixes required for upgrading from for example Whonix 8.x to Whonix
 Upgrades from Whonix 7.x or older versions is unsupported.
 
 Safe to remove.
-## How to install `whonix-legacy` using apt-get ##
+## How to install `legacy-dist` using apt-get ##
 
 1\. Download the APT Signing Key.
 
@@ -34,10 +34,10 @@ echo "deb [signed-by=/usr/share/keyrings/derivative.asc] https://deb.whonix.org 
 sudo apt-get update
 ```
 
-5\. Install `whonix-legacy`.
+5\. Install `legacy-dist`.
 
 ```
-sudo apt-get install whonix-legacy
+sudo apt-get install legacy-dist
 ```
 
 ## How to Build deb Package from Source Code ##
@@ -48,7 +48,7 @@ Can be build using standard Debian package build tools such as:
 dpkg-buildpackage -b
 ```
 
-See instructions. (Replace `generic-package` with the actual name of this package `whonix-legacy`.)
+See instructions. (Replace `generic-package` with the actual name of this package `legacy-dist`.)
 
 * **A)** [easy](https://www.whonix.org/wiki/Dev/Build_Documentation/generic-package/easy), _OR_
 * **B)** [including verifying software signatures](https://www.whonix.org/wiki/Dev/Build_Documentation/generic-package)
@@ -60,4 +60,4 @@ See instructions. (Replace `generic-package` with the actual name of this packag
 
 ## Donate ##
 
-`whonix-legacy` requires [donations](https://www.whonix.org/wiki/Donate) to stay alive!
+`legacy-dist` requires [donations](https://www.whonix.org/wiki/Donate) to stay alive!

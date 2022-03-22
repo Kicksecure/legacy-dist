@@ -296,8 +296,8 @@ dpkg-noninteractive --audit
 true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --configure -a
 
-true "INFO: Restart whonix-legacy service..."
-service whonix-legacy restart
+true "INFO: Restart legacy-dist service..."
+service legacy-dist restart
 
 true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --audit

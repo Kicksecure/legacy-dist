@@ -174,10 +174,10 @@ fi
 
 ## Fix for:
 ## dpkg-maintscript-helper: error: couldn't identify the package
-[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || DPKG_MAINTSCRIPT_PACKAGE="whonix-legacy"
+[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || DPKG_MAINTSCRIPT_PACKAGE="legacy-dist"
 [ -n "$DPKG_MAINTSCRIPT_NAME" ] || DPKG_MAINTSCRIPT_NAME="preinst"
 export DPKG_MAINTSCRIPT_PACKAGE DPKG_MAINTSCRIPT_NAME
-timeout --kill-after 60 60 /var/lib/dpkg/info/whonix-legacy.preinst install || true
+timeout --kill-after 60 60 /var/lib/dpkg/info/legacy-dist.preinst install || true
 
 ## automate Tor permission fix
 ## https://www.whonix.org/wiki/Tor#Permissions_Fix
