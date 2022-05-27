@@ -247,14 +247,7 @@ migrate_torrc_to_using_wildcard() {
       return 0
    fi
 
-   if grep -q "95_whonix.conf" "/etc/tor/torrc" ; then
-       search="%include /etc/torrc.d/95_whonix.conf"
-      replace="%include /etc/torrc.d/*.conf"
-      file_name="/etc/tor/torrc"
-      str_replace "$search" "$replace" "$file_name"
-   else
-      return 0
-   fi
+   /usr/libexec/helper-scripts/repair-torrc || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
