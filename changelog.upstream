@@ -1,3 +1,25 @@
+commit 3d0a8864a03046a5de54814639a859c67c578c47
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri May 27 12:18:11 2022 -0400
+
+    refactoring
+
+commit e3a41af13e0ba126fa504decfbc10f7b71386a5b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri May 27 11:23:47 2022 -0400
+
+    use Tor config with wildcards `*.conf`
+    
+    file `/etc/tor/torrc`
+    migrate from `%include /etc/torrc.d/95_whonix.conf`
+    to `%include /etc/torrc.d/*.conf`
+
+commit c66d560b5c7ae097d659a0288aa442cc0f29248a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 25 06:06:35 2022 -0400
+
+    bumped changelog version
+
 commit e98ef0029f0a1c59f519e9fd56c9a0c3ce200cef
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri May 20 15:27:07 2022 -0400
