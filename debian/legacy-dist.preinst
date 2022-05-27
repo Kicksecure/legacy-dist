@@ -242,6 +242,24 @@ migrations_for_old_versions() {
    #apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval
 }
 
+migrate_torrc_to_using_wildcard() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   if grep -q "95_whonix.conf" "/etc/tor/torrc" ; then
+       search="%include /etc/torrc.d/95_whonix.conf"
+      replace="%include /etc/torrc.d/*.conf"
+      file_name="/etc/tor/torrc"
+      str_replace "$search" "$replace" "$file_name"
+   else
+      return 0
+   fi
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 true "1: $1"
 true "2: $2"
 
@@ -252,6 +270,8 @@ get_build_version
 my_old_package_version="$2"
 ## example my_old_package_version:
 ## 3:9.9-1
+
+migrate_torrc_to_using_wildcard
 
 ## Will probably "forever" be required.
 nonfree_firmware_preseed
