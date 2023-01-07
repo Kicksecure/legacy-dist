@@ -1,3 +1,19 @@
+commit a5101985394fdd49dc62a2ab6d3bd51914242750
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jan 7 15:31:37 2023 -0500
+
+    Prevent question "Should kexec-tools handle reboots (sysvinit only)?"
+    
+    by kexec-tools package
+    
+    kexec-tools is a dependency of security-misc.
+
+commit 1792e00127f0dda8d901ea9da816f92d7d1ab7f4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri May 27 13:01:29 2022 -0400
+
+    bumped changelog version
+
 commit 35673f1b51b25d1b4c18ebc9cbfe87f392dc693b
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri May 27 13:01:00 2022 -0400
