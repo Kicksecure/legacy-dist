@@ -153,6 +153,19 @@ keyboard_configuration_debconf_preseed() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+kexec_tools_preseed() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## kexec-tools is a dependency of security-misc.
+   ## Prevent question "Should kexec-tools handle reboots (sysvinit only)?"
+   echo "kexec-tools	kexec-tools/load_kexec	boolean	false" | debconf-set-selections
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 apt_mark_deprecated_packages_for_autoremoval() {
    if dpkg --compare-versions "$my_old_package_version" ge "3:9.9-1" ; then
       true "INFO: 'dpkg --compare-versions $my_old_package_version ge 3:9.9-1', skipping."
@@ -256,6 +269,7 @@ my_old_package_version="$2"
 ## Will probably "forever" be required.
 nonfree_firmware_preseed
 keyboard_configuration_debconf_preseed
+kexec_tools_preseed
 
 if [ "$1" = "install" ]; then
    true "INFO: $DPKG_MAINTSCRIPT_PACKAGE not installed yet."
