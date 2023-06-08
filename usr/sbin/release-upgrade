@@ -225,7 +225,7 @@ true "INFO: apt APT::Get::Trivial-Only=true..."
 apt-get-noninteractive -o APT::Get::Trivial-Only=true full-upgrade
 
 true "INFO: Download release upgrade..."
-if ! apt-get-noninteractive --yes --no-install-recommends --download-only dist-upgrade ; then
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only full-upgrade ; then
    true "\
 ERROR: An error was encountered during download of release upgrade packages. Recommendation:
 Fix network connection and retry."
@@ -233,7 +233,7 @@ Fix network connection and retry."
 fi
 
 true "INFO: Simulating release upgrade..."
-apt-get-noninteractive --no-install-recommends --simulate dist-upgrade
+apt-get-noninteractive --no-install-recommends --simulate full-upgrade
 true "INFO: Checking if release upgrade is safe or would result in removal of the main meta package... This will take a moment..."
 ## Disable xtrace because the following output would be too much of an output flood.
 set +x
@@ -248,7 +248,7 @@ while read -r -d $'\n' line ; do
    ## `echo`, not `true` because "set +x" was set above.
    echo "ERROR: Release upgrade would remove meta package $meta_package. Release upgrade aborted!"
    exit 1
-done < <( apt-get-noninteractive --no-install-recommends --simulate dist-upgrade )
+done < <( apt-get-noninteractive --no-install-recommends --simulate full-upgrade )
 set -x
 
 # true "INFO: Install release upgrade of dependency packages..."
@@ -261,7 +261,7 @@ set -x
 # fi
 
 true "INFO: Install release upgrade..."
-if ! apt-get-noninteractive --yes --no-install-recommends dist-upgrade ; then
+if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade ; then
    true "\
 ERROR: An error was encountered during installation of release upgrade. See above."
    exit 1
