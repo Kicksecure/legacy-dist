@@ -14,7 +14,7 @@ Rules-Requires-Root: no
 
 Package: legacy-dist
 Architecture: all
-Depends: ${misc:Depends}, helper-scripts
+Depends: ${misc:Depends}, helper-scripts, apt-forktracer
 Provides: vbox-disable-timesync, whonix-legacy
 Replaces: vbox-disable-timesync, whonix-legacy
 Conflicts: vbox-disable-timesync, whonix-legacy
