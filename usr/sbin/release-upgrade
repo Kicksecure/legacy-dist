@@ -257,23 +257,23 @@ ERROR: An error was encountered during installation of dependency packages."
    exit 1
 fi
 
-true "INFO: Install release upgrade (1/2)..."
+true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends dist-upgrade ; then
    true "\
-ERROR: An error was encountered during installation of release upgrade (1/2). See above."
+ERROR: An error was encountered during installation of release upgrade. See above."
    exit 1
 fi
 
-true "INFO: Install release upgrade (2/2)..."
+# true "INFO: Install release upgrade (2/2)..."
 ## reinstall of sdwdate required to re-compile sclockadj for newer gcc version.
-## This will probably be no longer required for the $target_codename -> bookworm release upgrade,
+## This will probably be no longer required for the bookworm release upgrade,
 ## because sdwdate nowadays compiles sclockadj as part of systemd startup and no longer
 ## during postinst.
-if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install sdwdate ; then
-   true "\
-ERROR: An error was encountered during installation of release upgrade (2/2). See above."
-   exit 1
-fi
+# if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install sdwdate ; then
+#    true "\
+# ERROR: An error was encountered during installation of release upgrade (2/2). See above."
+#    exit 1
+# fi
 
 trap "post_upgrade_failure" ERR
 
