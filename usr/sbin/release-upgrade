@@ -159,15 +159,8 @@ true "INFO: Showing unofficial packages packages (excluding Whonix and Qubes):"
 apt-forktracer | grep --invert-match "whonix:" | grep --invert-match "Qubes Debian:" || true
 
 true "INFO: Fetching package lists (1/2)..."
-if test -x /usr/lib/security-misc/apt-get-update ; then
-   ## Debian buster
-   update_command=/usr/lib/security-misc/apt-get-update
-else
-   ## Debian bullseye
-   update_command="apt-get update"
-fi
 
-if ! $update_command ; then
+if ! apt-get update ; then
    true "\
 ERROR:
 Could not fetch package lists. Networking issues?
@@ -203,7 +196,7 @@ LANG=C str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list
 
 ## Get bullseye apt package lists.
 true "INFO: Fetching package lists (2/2)..."
-if ! $update_command ; then
+if ! apt-get update ; then
    true "\
 ERROR: An error was encountered during download of release upgrade package lists. Recommendation:
 - Fix network connection and retry.
