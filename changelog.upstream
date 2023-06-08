@@ -1,3 +1,69 @@
+commit 2a8f6e1f0bf3faf1c02bebc09b696fc10a2ba55f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:22:04 2023 +0000
+
+    release-upgrade
+
+commit aaf29ef9419b2d87a0bdd636fffc92547e79a499
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:19:23 2023 +0000
+
+    release-upgrade
+
+commit 5cb384e4376219d3e78afdb1f0c30595be7f4e53
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:18:20 2023 +0000
+
+    release-upgrade
+
+commit 470dd3ef7a8a626e153ab4a0b4fad4e43136f477
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:17:19 2023 +0000
+
+    release-upgrade
+
+commit 4a450d6a927c778b4dd44ebb41b4bc6521e9ea02
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:15:17 2023 +0000
+
+    release-upgrade
+
+commit 0a79b5c7f8194f2c268daab4fe2a199510e71635
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:15:02 2023 +0000
+
+    release-upgrade
+
+commit a16331f4f83a48bd2e11967056cd7d9482fc34cf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:14:06 2023 +0000
+
+    release-upgrade
+
+commit fb123dba67f012f9d8ef73e913d01ee7bce8734c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:13:00 2023 +0000
+
+    release-upgrade
+
+commit 5e5f56ea3d2885b0cab9308d4e0d4501c1df0393
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:10:26 2023 +0000
+
+    release-upgrade
+
+commit fb5f1d376409f9057bf6accf39aaec1fb5386f21
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jun 8 11:08:57 2023 +0000
+
+    release-upgrade
+
+commit da00166d3f1178cf0590424afa526cd51824b8ae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jan 7 15:37:24 2023 -0500
+
+    bumped changelog version
+
 commit a5101985394fdd49dc62a2ab6d3bd51914242750
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jan 7 15:31:37 2023 -0500
