@@ -88,9 +88,12 @@ set -o pipefail
 
 shopt -s nullglob
 
-version="1.5"
+version="1.6"
 
-true "INFO: (release-upgrade version: $version) Release upgrade from Debian buster to Debian bullseye in progress..."
+source_codename=buster
+target_codename=bullseye
+
+true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
 
 trap "error_handler" ERR
 
@@ -187,14 +190,14 @@ rm -f /etc/apt/sources.list.d/testing.list
 rm -f /etc/apt/sources.list.d/unstable.list
 rm -f /etc/apt/apt.conf.d/70defaultrelease
 
-true "INFO: Change APT suite from buster to bullseye..."
+true "INFO: Change APT suite from $source_codename to $target_codename..."
 for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
-   LANG=C str_replace "buster" "bullseye" "$file_name"
+   LANG=C str_replace "$source_codename" "$target_codename" "$file_name"
 done
 
-LANG=C str_replace "bullseye/updates" "bullseye-security" "/etc/apt/sources.list.d/debian.list"
+LANG=C str_replace "$target_codename/updates" "$target_codename-security" "/etc/apt/sources.list.d/debian.list"
 
-## Get bullseye apt package lists.
+## Get $target_codename apt package lists.
 true "INFO: Fetching package lists (2/2)..."
 if ! apt-get update ; then
    true "\
@@ -263,7 +266,7 @@ fi
 
 true "INFO: Install release upgrade (2/2)..."
 ## reinstall of sdwdate required to re-compile sclockadj for newer gcc version.
-## This will probably be no longer required for the bullseye -> bookworm release upgrade,
+## This will probably be no longer required for the $target_codename -> bookworm release upgrade,
 ## because sdwdate nowadays compiles sclockadj as part of systemd startup and no longer
 ## during postinst.
 if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install sdwdate ; then
