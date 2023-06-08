@@ -248,14 +248,14 @@ while read -r -d $'\n' line ; do
 done < <( apt-get-noninteractive --no-install-recommends --simulate dist-upgrade )
 set -x
 
-true "INFO: Install release upgrade of dependency packages..."
-## sdwdate Provides: time-daemon
-## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
-if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate fasttrack-archive-keyring ; then
-   true "\
-ERROR: An error was encountered during installation of dependency packages."
-   exit 1
-fi
+# true "INFO: Install release upgrade of dependency packages..."
+# ## sdwdate Provides: time-daemon
+# ## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
+# if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate fasttrack-archive-keyring ; then
+#    true "\
+# ERROR: An error was encountered during installation of dependency packages."
+#    exit 1
+# fi
 
 true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends dist-upgrade ; then
