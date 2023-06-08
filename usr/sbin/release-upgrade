@@ -221,6 +221,9 @@ fi
 #    exit 1
 # fi
 
+true "INFO: apt APT::Get::Trivial-Only=true..."
+apt-get-noninteractive -o APT::Get::Trivial-Only=true full-upgrade
+
 true "INFO: Download release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends --download-only dist-upgrade ; then
    true "\
