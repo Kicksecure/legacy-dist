@@ -284,11 +284,10 @@ dpkg-noninteractive --configure -a || true
 true "INFO: Checking potential issues and attempt to fix if any (post)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
-true "INFO: Setting a list of traditional dummy packages to automatically
-installed so these can be removed the next time the user runs apt autoremove."
+#true "INFO: Setting a list of traditional dummy packages to automatically installed so these can be removed the next time the user runs apt autoremove."
 ## '>/dev/null' to hide confusing messages such as "libcomerr2 can not be marked as it is not installed."
 ## '|| true' since non-essential.
-apt-mark auto e2fslibs gnupg2 libcomerr2 mime-support libgdk-pixbuf2.0-0 libiptc0 cryptsetup-run >/dev/null || true
+#apt-mark auto currently-non-TODO-remove >/dev/null || true
 
 true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --audit
