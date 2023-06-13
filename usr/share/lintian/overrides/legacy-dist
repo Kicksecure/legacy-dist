@@ -1,2 +1,2 @@
 ## Not using dpkg database only maintainer scripts directly.
-legacy-dist: uses-dpkg-database-directly usr/libexec/legacy-dist/fixes
+legacy-dist: uses-dpkg-database-directly [usr/libexec/legacy-dist/fixes]
