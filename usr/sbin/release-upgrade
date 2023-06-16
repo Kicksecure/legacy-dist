@@ -214,16 +214,6 @@ Check all other files in /etc/apt/sources.list.d if any."
    exit 1
 fi
 
-# true "INFO: Download pre release upgrade dependency packages..."
-# ## just in case: cpp gcc ncal
-# ## required on workstation for unknown reason: libc6-dev
-# if ! apt-get-noninteractive --yes --no-install-recommends --download-only install bsdmainutils gcc sdwdate cpp gcc ncal python-is-python2 libc6-dev fasttrack-archive-keyring ; then
-#    true "\
-# ERROR: An error was encountered during download of pre release upgrade dependency packages. Recommendation:
-# Fix network connection and retry."
-#    exit 1
-# fi
-
 true "INFO: Download release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends --download-only full-upgrade ; then
    true "\
@@ -251,18 +241,6 @@ while read -r -d $'\n' line ; do
 done < <( apt-get-noninteractive --no-install-recommends --simulate full-upgrade )
 set -x
 
-# true "INFO: Install release upgrade of dependency packages..."
-# ## sdwdate Provides: time-daemon
-# ## Otherwise package systemd would not upgrade because it depends on virtual package time-daemon.
-# if ! apt-get-noninteractive --yes --no-install-recommends install sdwdate fasttrack-archive-keyring ; then
-#    true "\
-# ERROR: An error was encountered during installation of dependency packages."
-#    exit 1
-# fi
-
-#true "INFO: apt APT::Get::Trivial-Only=true..."
-#apt-get-noninteractive --yes --no-install-recommends -o APT::Get::Trivial-Only=true full-upgrade
-
 if [ "$1" = "downloadonly" ]; then
    true "INFO: downloadonly. Stop."
    exit 0
@@ -274,17 +252,6 @@ if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade ; then
 ERROR: An error was encountered during installation of release upgrade. See above."
    exit 1
 fi
-
-# true "INFO: Install release upgrade (2/2)..."
-## reinstall of sdwdate required to re-compile sclockadj for newer gcc version.
-## This will probably be no longer required for the bookworm release upgrade,
-## because sdwdate nowadays compiles sclockadj as part of systemd startup and no longer
-## during postinst.
-# if ! apt-get-noninteractive --yes --no-install-recommends --reinstall install sdwdate ; then
-#    true "\
-# ERROR: An error was encountered during installation of release upgrade (2/2). See above."
-#    exit 1
-# fi
 
 trap "post_upgrade_failure" ERR
 
