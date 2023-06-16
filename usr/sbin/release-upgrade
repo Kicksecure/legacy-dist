@@ -224,9 +224,6 @@ fi
 #    exit 1
 # fi
 
-true "INFO: apt APT::Get::Trivial-Only=true..."
-apt-get-noninteractive -o APT::Get::Trivial-Only=true full-upgrade
-
 true "INFO: Download release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends --download-only full-upgrade ; then
    true "\
@@ -262,6 +259,9 @@ set -x
 # ERROR: An error was encountered during installation of dependency packages."
 #    exit 1
 # fi
+
+true "INFO: apt APT::Get::Trivial-Only=true..."
+apt-get-noninteractive --yes --no-install-recommends -o APT::Get::Trivial-Only=true full-upgrade
 
 true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade ; then
