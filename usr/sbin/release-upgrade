@@ -91,7 +91,7 @@ shopt -s nullglob
 version="2.0"
 
 [[ -v source_codename ]] || source_codename=bullseye
-[[ -v target_codename ]] || source_codename=bookworm
+[[ -v target_codename ]] || target_codename=bookworm
 
 true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
 
@@ -193,7 +193,7 @@ rm -f /etc/apt/sources.list.d/testing.list
 rm -f /etc/apt/sources.list.d/unstable.list
 rm -f /etc/apt/apt.conf.d/70defaultrelease
 
-true "INFO: Change APT suite from $source_codename to $target_codename..."
+true "INFO: Change APT suite from '$source_codename' to '$target_codename'..."
 for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
    LANG=C str_replace "$source_codename" "$target_codename" "$file_name"
 done
