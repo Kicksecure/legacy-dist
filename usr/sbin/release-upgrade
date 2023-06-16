@@ -263,6 +263,11 @@ set -x
 #true "INFO: apt APT::Get::Trivial-Only=true..."
 #apt-get-noninteractive --yes --no-install-recommends -o APT::Get::Trivial-Only=true full-upgrade
 
+if [ "$1" = "downloadonly" ]; the
+   true "INFO: downloadonly. Stop."
+   exit 0
+fi
+
 true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade ; then
    true "\
