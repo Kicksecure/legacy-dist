@@ -1,3 +1,15 @@
+commit ccb70d402fec9c327589bd43e94f3cfd3f05d146
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jun 23 07:58:01 2023 +0000
+
+    remove bashrc migration legacy
+
+commit 74f13290ec167fb7810fe8d9c0fc35f85edd2144
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jun 21 09:31:59 2023 +0000
+
+    bumped changelog version
+
 commit 73b7beafaef61d22b0ee1500eae21749cf421e91
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Jun 21 09:11:28 2023 +0000
