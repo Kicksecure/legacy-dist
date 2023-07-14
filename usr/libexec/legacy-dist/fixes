@@ -115,6 +115,38 @@ locales_fix() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+zsh_migration() {
+   local do_once_folder do_once_file
+   if test -f /run/qubes/this-is-appvm ; then
+      do_once_folder="/usr/local/var/lib/kicksecure/do_once"
+   else
+      do_once_folder="/var/lib/kicksecure/do_once"
+   fi
+   do_once_file="${do_once_folder}/${FUNCNAME}_version_1"
+
+   if [ -f "$do_once_file" ]; then
+      return 0
+   fi
+
+   local user_name
+   user_name="user"
+   ## https://github.com/Kicksecure/desktop-config-dist/blob/master/etc/skel/.zshrc
+   if test -f "/home/$user_name/.zshrc" ; then
+      return 0
+   fi
+   if [ ! -d "/home/$user_name" ]; then
+      return 0
+   fi
+   if ! id "$user_name" >&/dev/null ; then
+      return 0
+   fi
+
+   sudo --non-interactive -u "$user_name" touch "/home/$user_name/.zshrc" || true
+
+   mkdir --parents "$do_once_folder"
+   touch "$do_once_file"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -147,3 +179,5 @@ command_not_found_permission_fix
 bisq_desktop_directories_workaround
 
 locales_fix
+
+zsh_migration
