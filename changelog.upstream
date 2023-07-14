@@ -1,3 +1,17 @@
+commit 279a59ca687bc51635692edd51e2d96dfd76c982
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jul 14 08:20:02 2023 -0400
+
+    avoid zsh new user module for upgraded builds
+    
+    https://github.com/QubesOS/qubes-issues/issues/8343
+
+commit ab969ea5803ba7e81724c3decd37e47f0410587a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jun 23 08:17:47 2023 +0000
+
+    bumped changelog version
+
 commit ccb70d402fec9c327589bd43e94f3cfd3f05d146
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Jun 23 07:58:01 2023 +0000
