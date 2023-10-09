@@ -118,8 +118,12 @@ fi
 
 if ! test -f /etc/apt/sources.list.d/derivative.list ; then
    true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
-Derivative repository is not enabled. Enable it first before proceeding. See:
+
+Derivative repository is not enabled. Enable it first before proceeding.
+
+See:
 /wiki/Project-APT-Repository
+
 Aborting."
    exit 1
 fi
@@ -127,11 +131,45 @@ fi
 derivative_list_contents="$(cat "/etc/apt/sources.list.d/derivative.list" | grep --invert-match '\#' | grep --invert-match '^$')" || true
 if [ "$derivative_list_contents" = "" ]; then
    true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
+
 (Maybe only out commented (#) and empty lines.)
-Derivative repository is not enabled. Enable it first before proceeding. See:
+
+Derivative repository is not enabled. Enable it first before proceeding.
+
+See:
 /wiki/Project-APT-Repository
+
 Aborting."
    exit 1
+fi
+
+## Not ideal because of hardcoded domain names.
+if ! echo "$derivative_list_contents" | grep --quiet "kicksecure.com" ; then
+   if ! echo "$derivative_list_contents" | grep --quiet "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" ; then
+      true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Kicksecure repository.
+Kicksecure repository is not enabled. Enable it first before proceeding.
+
+See:
+https://www.kicksecure.com/wiki/Project-APT-Repository
+
+Aborting."
+      exit 1
+   fi
+fi
+
+if ! echo "$derivative_list_contents" | grep --quiet "whonix.org" ; then
+   if ! echo "$derivative_list_contents" | grep --quiet "http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" ; then
+      if test -e /usr/share/whonix/marker ; then
+         true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Whonix repository.
+Whonix repository is not enabled. Enable it first before proceeding.
+
+See:
+https://www.whonix.org/wiki/Project-APT-Repository
+
+Aborting."
+         exit 1
+      fi
+   fi
 fi
 
 meta_package_detect
