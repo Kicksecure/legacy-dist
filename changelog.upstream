@@ -1,3 +1,51 @@
+commit 45e9eb30914012a22a2ef42c1ef120b6cb2f46ee
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 10:18:36 2023 -0400
+
+    add debian install file (generated using "genmkfile debinstfile")
+
+commit 65b4b57d9c68181a82512a7681e417f877d941d6
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 09:52:38 2023 -0400
+
+    rename
+
+commit 3f93c832c1806717428f85d41c05ad160843d73f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 09:52:05 2023 -0400
+
+    update path
+
+commit d7da240449b718b69ade4f1bb4cb2d5b008be678
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 09:50:55 2023 -0400
+
+    import deprecation notice from systemcheck
+
+commit 201816573cc0296ef6e5ccaaf1b5b247a3b14d96
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 09:48:53 2023 -0400
+
+    Whonix 16 deprecation notice
+
+commit 574dfa05f1ec9919c89b7691160138c535592e02
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 09:39:19 2023 -0400
+
+    import deprecation popup from systemcheck
+
+commit 9d0cf82b377e126f350d39c5769e7bddfa19008f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 09:37:06 2023 -0400
+
+    release-upgrade: check if required repositories are enabled
+
+commit b817af1b42a9e3773867bd814f1555ab2ed8e87f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Jul 17 11:45:59 2023 -0400
+
+    bumped changelog version
+
 commit 66118a97aa8bc9d3b2cb2c786f15bb085421adc6
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Jul 17 11:18:33 2023 -0400
