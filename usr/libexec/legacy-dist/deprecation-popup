@@ -6,21 +6,34 @@
 ## https://forums.whonix.org/t/one-time-popup-notification-of-whonix-15-deprecation-once-whonix-16-was-released/11720
 ## https://forums.whonix.org/t/do-not-show-this-message-again-generic-one-time-popup/8066
 
+#set -x
+set -e
+
 #true "INFO: This version is not yet deprecated."
 #exit 0
 
-if test -x /usr/libexec/helper-scripts/origins-parser ; then
-   source /usr/libexec/helper-scripts/origins-parser
-fi
-
 if test -e /usr/share/qubes/marker-vm ; then
+   ## https://forums.whonix.org/t/current-status-qubes-4-1-whonix-16/17191
+   true "INFO: Skip in Qubes."
    exit 0
 fi
 
 if test -f /usr/share/whonix/marker ; then
    PROJECT_HOMEPAGE="https://www.whonix.org"
+   version=$(cat /etc/whonix_version)
 else
    PROJECT_HOMEPAGE="https://www.kicksecure.com"
+   version=$(cat /etc/kicksecure_version)
+fi
+
+if [ "$version" = "" ]; then
+   echo "ERROR: version file does not exist or is empty!"
+   exit 1
+fi
+
+if [ "$version" = "17" ]; then
+   true "INFO: Not yet deprecated, ok."
+   exit 0
 fi
 
 status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-16
@@ -29,7 +42,7 @@ title="DEPRECATION NOTICE"
 
 text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />
-<br />Major release version <u><code>16</code></u> has been deprecated.
+<br />Major release version <u><code>$version</code></u> has been deprecated.
 <br />
 <br />No more security support will be provided.
 <br />
