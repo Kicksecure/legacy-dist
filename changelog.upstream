@@ -1,3 +1,15 @@
+commit ca3fe0bf3fd487a8d90d94620690e67a3974407e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Oct 10 04:33:42 2023 -0400
+
+    improve deprecation popup
+
+commit d5cb9869ee89a03c941046cbfb207f4ca31d1f4d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 9 10:18:36 2023 -0400
+
+    bumped changelog version
+
 commit 45e9eb30914012a22a2ef42c1ef120b6cb2f46ee
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Oct 9 10:18:36 2023 -0400
