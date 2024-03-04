@@ -1,3 +1,21 @@
+commit d0454349dc15a1a79541fa53bb5fe9a989446064
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Mar 4 09:50:45 2024 -0500
+
+    set no longer required packages for auto removal
+    
+    apt-mark manual:
+    
+    * pulseaudio-qubes
+    * pulseaudio-utils
+    * pulseaudio
+
+commit 6d23197f68185242899880d56e798f75771f5ba5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Feb 2 12:35:20 2024 +0000
+
+    bumped changelog version
+
 commit 1ad7b2167db83d173c23b55dac2b83854622df0a
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Feb 2 07:32:26 2024 -0500
