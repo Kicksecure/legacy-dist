@@ -204,6 +204,8 @@ deborphan
 
 true "INFO: Fetching package lists (1/2)..."
 
+## TODO: This can fail if the oldstable repository is no longer available.
+## https://forums.whonix.org/t/solved-in-place-release-upgrade-not-succeeding-too-late/20003
 if ! apt-get update ; then
    true "\
 ERROR:
