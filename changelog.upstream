@@ -1,3 +1,20 @@
+commit 99631416bb1de8a48c91d975a4d9fb8038ebd117
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Jan 15 14:00:22 2025 -0500
+
+    Avoid auto removal of `qubes-core-agent-passwordless-root,
+    if it was already installed.
+    
+    (which was previously a `Depends:`)
+    
+    This is to avoid breaking existing user's workflows.
+
+commit a1bc7731f28f064b602aefb148d8ef8e1b58e06b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Dec 31 18:37:53 2024 +0000
+
+    bumped changelog version
+
 commit 2dee34875ec26081eb962a74893e6393e87d5f92
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Tue Dec 31 13:26:18 2024 -0500
