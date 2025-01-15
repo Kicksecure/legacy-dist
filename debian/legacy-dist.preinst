@@ -261,12 +261,24 @@ apt_mark_deprecated_packages_for_autoremoval_three() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+apt_mark_deprecated_packages_for_autoremoval_four() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   apt-mark manual qubes-core-agent-passwordless-root &>/dev/null || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 migrations_for_old_versions() {
    apt_mark_deprecated_packages_for_autoremoval
    apt_mark_deprecated_packages_for_autoremoval_two
    symlink_fix
    #apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval
    apt_mark_deprecated_packages_for_autoremoval_three
+   apt_mark_deprecated_packages_for_autoremoval_four
 }
 
 true "1: $1"
