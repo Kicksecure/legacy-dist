@@ -103,7 +103,7 @@ locales_fix() {
    fi
 
    ## LANG=C to avoid warning "perl: warning: Setting locale failed."
-   LANG=C str_replace "$search" "$replace" "$file_name" || true
+   str_replace "$search" "$replace" "$file_name" || true
 
    ## Using LANG=C because locale-gen is a perl script and as long as this is
    ## not fixed it would show a warning confusing for users:

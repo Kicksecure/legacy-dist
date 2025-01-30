@@ -235,10 +235,10 @@ rm -f /etc/apt/apt.conf.d/70defaultrelease
 
 true "INFO: Change APT suite from '$source_codename' to '$target_codename'..."
 for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
-   LANG=C str_replace "$source_codename" "$target_codename" "$file_name"
+   str_replace "$source_codename" "$target_codename" "$file_name"
 done
 
-LANG=C str_replace "$target_codename/updates" "$target_codename-security" "/etc/apt/sources.list.d/debian.list"
+str_replace "$target_codename/updates" "$target_codename-security" "/etc/apt/sources.list.d/debian.list"
 
 ## Get $target_codename apt package lists.
 true "INFO: Fetching package lists (2/2)..."
