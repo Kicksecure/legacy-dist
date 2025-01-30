@@ -102,14 +102,14 @@ locales_fix() {
       return 0
    fi
 
-   ## LANG=C to avoid warning "perl: warning: Setting locale failed."
    str_replace "$search" "$replace" "$file_name" || true
 
    ## Using LANG=C because locale-gen is a perl script and as long as this is
    ## not fixed it would show a warning confusing for users:
    ## "perl: warning: Setting locale failed."
    ## LANG=C only applies to the locale-gen script. Not to the end result of locale-gen.
-   LANG=C locale-gen || true
+   ## LANG=C might not be used if already using LC_ALL=C.
+   LC_ALL=C LANG=C locale-gen || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
