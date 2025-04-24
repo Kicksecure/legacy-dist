@@ -199,9 +199,6 @@ dpkg-noninteractive --configure -a
 true "INFO: Showing unofficial packages packages (excluding Whonix and Qubes) (pre):"
 apt-forktracer | grep --invert-match "whonix:" | grep --invert-match "Qubes Debian:" || true
 
-true "INFO: Running deborphan (pre)..."
-deborphan
-
 true "INFO: Fetching package lists (1/2)..."
 
 ## TODO: This can fail if the oldstable repository is no longer available.
@@ -322,9 +319,6 @@ dpkg-noninteractive --configure -a
 
 true "INFO: Showing unofficial packages packages (excluding Whonix and Qubes) (post):"
 apt-forktracer | grep --invert-match "whonix:" | grep --invert-match "Qubes Debian:" || true
-
-true "INFO: Running deborphan (post)..."
-deborphan
 
 ## Risky. User should review and do manually.
 ## /wiki/Debian_Packages#Re-install_Meta_Packages_and_Safely_Run_Autoremove
