@@ -1,3 +1,46 @@
+commit 439b5816cc1a415bf449bde626d8dc5cfbc2b2cb
+Merge: e77c5f4 41e62cc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 25 00:21:07 2025 -0400
+
+    Merge remote-tracking branch 'github-kicksecure/master'
+
+commit 41e62cc5a44e6404e47e00eb4b70a2dc8cb61e81
+Merge: e77c5f4 0b6e0a1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 25 00:20:17 2025 -0400
+
+    Merge pull request #1 from JeremyRand/deborphan
+    
+    Remove `deborphan`
+
+commit 0b6e0a19a8582667165e409776bf397b3194300b
+Author: Jeremy Rand <jeremyrand@danwin1210.de>
+Date:   Thu Apr 24 15:16:43 2025 +0000
+
+    Remove deborphan
+    
+    deborphan was removed from Debian Sid in Bug 1065312; it is not
+    present in Debian Trixie and higher (except that it still exists
+    in Sid for riscv64 for... some reason).
+    
+    Removing deborphan from Kicksecure dependencies fixes issues
+    when distro-morphing Debian Trixie and higher to Kicksecure. It
+    is also necessary for installing Kicksecure on ports-only
+    architectures such as ppc64.
+    
+    Debian bug 1074134 (asking for suggested alternatives) remains
+    open, but it doesn't look like it's going to be fixed anytime
+    soon, so I think we should cut our losses and remove it from
+    Kicksecure now, and maybe add an alternative later once one
+    exists.
+
+commit e77c5f44df34432520495fdccf76391bfdbe7f16
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 30 12:56:46 2025 +0000
+
+    bumped changelog version
+
 commit 837f5cfe0c351a073a6e597e847959eebb3a0991
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Jan 30 07:53:01 2025 -0500
