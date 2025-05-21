@@ -128,7 +128,7 @@ Aborting."
    exit 1
 fi
 
-derivative_list_contents="$(cat "/etc/apt/sources.list.d/derivative.list" | grep --invert-match '\#' | grep --invert-match '^$')" || true
+derivative_list_contents="$(cat -- "/etc/apt/sources.list.d/derivative.list" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
 if [ "$derivative_list_contents" = "" ]; then
    true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
 
@@ -144,8 +144,8 @@ Aborting."
 fi
 
 ## Not ideal because of hardcoded domain names.
-if ! echo "$derivative_list_contents" | grep --quiet "kicksecure.com" ; then
-   if ! echo "$derivative_list_contents" | grep --quiet "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" ; then
+if ! printf '%s\n' "$derivative_list_contents" | grep -- "kicksecure.com" >/dev/null 2>/dev/null; then
+   if ! printf '%s\n' "$derivative_list_contents" | grep -- "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
       true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Kicksecure repository.
 Kicksecure repository is not enabled. Enable it first before proceeding.
 
@@ -157,8 +157,8 @@ Aborting."
    fi
 fi
 
-if ! echo "$derivative_list_contents" | grep --quiet "whonix.org" ; then
-   if ! echo "$derivative_list_contents" | grep --quiet "http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" ; then
+if ! printf '%s\n' "$derivative_list_contents" | grep -- "whonix.org" >/dev/null 2>/dev/null; then
+   if ! printf '%s\n' "$derivative_list_contents" | grep -- "http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
       if test -e /usr/share/whonix/marker ; then
          true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Whonix repository.
 Whonix repository is not enabled. Enable it first before proceeding.
@@ -197,7 +197,7 @@ true "INFO: Running sanity test (pre)..."
 dpkg-noninteractive --configure -a
 
 true "INFO: Showing unofficial packages packages (excluding Whonix and Qubes) (pre):"
-apt-forktracer | grep --invert-match "whonix:" | grep --invert-match "Qubes Debian:" || true
+apt-forktracer | grep --invert-match -- "whonix:" | grep --invert-match -- "Qubes Debian:" || true
 
 true "INFO: Fetching package lists (1/2)..."
 
@@ -318,7 +318,7 @@ true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --configure -a
 
 true "INFO: Showing unofficial packages packages (excluding Whonix and Qubes) (post):"
-apt-forktracer | grep --invert-match "whonix:" | grep --invert-match "Qubes Debian:" || true
+apt-forktracer | grep --invert-match -- "whonix:" | grep --invert-match -- "Qubes Debian:" || true
 
 ## Risky. User should review and do manually.
 ## /wiki/Debian_Packages#Re-install_Meta_Packages_and_Safely_Run_Autoremove

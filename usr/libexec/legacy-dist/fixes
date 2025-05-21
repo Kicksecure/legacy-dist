@@ -59,7 +59,7 @@ bisq_desktop_directories_workaround() {
    fi
    ## Avoid running in Qubes DVM Template.
    ## https://phabricator.whonix.org/T726
-   if echo "$qubes_vm_name" | grep -q "\-dvm" ; then
+   if printf '%s\n' "$qubes_vm_name" | grep -- "-dvm" >/dev/null 2>/dev/null; then
       return 0
    fi
 
@@ -94,7 +94,7 @@ locales_fix() {
       return 0
    fi
 
-   etc_locale_gen_lines="$(cat "$file_name" | grep --invert-match '\#' | grep --invert-match '^$')" || true
+   etc_locale_gen_lines="$(cat -- "$file_name" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
 
    if [ ! "$etc_locale_gen_lines" = "" ]; then
       ## If file /etc/locale.gen is already non-empty, i.e. has an entry other
@@ -162,7 +162,7 @@ timeout --kill-after 60 60 /var/lib/dpkg/info/legacy-dist.preinst install || tru
 ## automate Tor permission fix
 ## https://www.whonix.org/wiki/Tor#Permissions_Fix
 ## https://forums.whonix.org/t/tor-error-your-tor-config-file-contains-at-least-one-error-var-lib-tor-tor-cannot-be-read-permission-denied/6200
-## cat /var/lib/dpkg/info/tor.postinst | grep chown
+## cat -- /var/lib/dpkg/info/tor.postinst | grep -- chown
 ## chown debian-tor:debian-tor /var/lib/tor
 ## chown debian-tor:adm /var/log/tor
 if [ -d "/var/lib/tor" ]; then
