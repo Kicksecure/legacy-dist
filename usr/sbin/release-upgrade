@@ -90,8 +90,8 @@ shopt -s nullglob
 
 version="2.0"
 
-[[ -v source_codename ]] || source_codename=bullseye
-[[ -v target_codename ]] || target_codename=bookworm
+[[ -v source_codename ]] || source_codename=bookworm
+[[ -v target_codename ]] || target_codename=trixie
 
 true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
 
