@@ -88,6 +88,8 @@ set -o pipefail
 
 shopt -s nullglob
 
+source /usr/libexec/helper-scripts/package_installed_check.bsh
+
 version="2.0"
 
 [[ -v source_codename ]] || source_codename=bookworm
@@ -104,6 +106,30 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 export DEBDEBUG=1
+
+true "INFO: Checking if SSH configuration changes in Trixie are dangerous..."
+if pkg_installed openssh-server; then
+  true "WARNING: opensssh-server is installed.
+
+Kicksecure 18 comes with a hardened sshd configuration that disables possibly
+dangerous features and requires the use of strong cryptography to successfully
+connect to the server. This may result in you losing access to the server
+if the new configuration is incompatible with your current ssh keys or
+workflow.
+
+You should check the configuration after the update and make any needed
+changes before rebooting, to avoid an accidental lockout.
+
+Proceed with upgrade? [Y/N]"
+
+  read -r proceed_with_upgrade
+  if [ "${proceed_with_upgrade,,}" = 'y' ]; then
+    true "User confirmed proceeding with upgrade, OK."
+  else
+    true "User did not confirm proceeding with upgrade. Aborting."
+    exit 1
+  fi
+fi
 
 true "INFO: Checking if tor@default systemd unit is running..."
 if ! systemctl --no-pager status tor@default ; then
@@ -196,7 +222,7 @@ dpkg-noninteractive --audit
 true "INFO: Running sanity test (pre)..."
 dpkg-noninteractive --configure -a
 
-true "INFO: Showing unofficial packages packages (excluding Whonix and Qubes) (pre):"
+true "INFO: Showing unofficial packages (excluding Whonix and Qubes) (pre):"
 apt-forktracer | grep --invert-match -- "whonix:" | grep --invert-match -- "Qubes Debian:" || true
 
 true "INFO: Fetching package lists (1/2)..."
@@ -235,7 +261,8 @@ for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
    str_replace "$source_codename" "$target_codename" "$file_name"
 done
 
-str_replace "$target_codename/updates" "$target_codename-security" "/etc/apt/sources.list.d/debian.list"
+## TODO: Still needed for Trixie?
+#str_replace "$target_codename/updates" "$target_codename-security" "/etc/apt/sources.list.d/debian.list"
 
 ## Get $target_codename apt package lists.
 true "INFO: Fetching package lists (2/2)..."
