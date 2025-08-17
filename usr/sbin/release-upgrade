@@ -357,4 +357,12 @@ apt-forktracer | grep --invert-match -- "whonix:" | grep --invert-match -- "Qube
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
 #/usr/libexec/helper-scripts/first-boot-skel || true
 
+true "INFO: Removing obsolete packages:"
+## tb-default-browser's functionality has been absorbed into open-link-confirmation.
+if ! apt-get-noninteractive --yes remove tb-default-browser ; then
+  true "\
+ERROR: Could not remove obsolete package 'tb-default-browser'. See above."
+  exit 1
+fi
+
 true "INFO: OK. (release-upgrade version: $version) Release upgrade success."
