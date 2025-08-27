@@ -109,7 +109,7 @@ export DEBDEBUG=1
 
 true "INFO: Checking if SSH configuration changes in Trixie are dangerous..."
 if pkg_installed openssh-server; then
-  true "WARNING: opensssh-server is installed.
+   true "WARNING: opensssh-server is installed.
 
 Kicksecure 18 comes with a hardened sshd configuration that disables possibly
 dangerous features and requires the use of strong cryptography to successfully
@@ -118,17 +118,21 @@ if the new configuration is incompatible with your current ssh keys or
 workflow.
 
 You should check the configuration after the update and make any needed
-changes before rebooting, to avoid an accidental lockout.
+changes before rebooting, to avoid an accidental lockout."
 
+   if [ "$DEBIAN_FRONTEND" = 'noninteractive' ]; then
+      true "'DEBIAN_FRONTEND' is 'noninteractive', proceeding automatically, OK."
+   else
+      true "
 Proceed with upgrade? [Y/N]"
-
-  read -r proceed_with_upgrade
-  if [ "${proceed_with_upgrade,,}" = 'y' ]; then
-    true "User confirmed proceeding with upgrade, OK."
-  else
-    true "User did not confirm proceeding with upgrade. Aborting."
-    exit 1
-  fi
+      read -r proceed_with_upgrade
+      if [ "${proceed_with_upgrade,,}" = 'y' ]; then
+         true "User confirmed proceeding with upgrade, OK."
+      else
+         true "User did not confirm proceeding with upgrade. Aborting."
+         exit 1
+      fi
+   fi
 fi
 
 true "INFO: Checking if tor@default systemd unit is running..."
