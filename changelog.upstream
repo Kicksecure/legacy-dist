@@ -1,3 +1,52 @@
+commit dc273598907dfdd54a8da0414108a437adca01ff
+Merge: 3f6cf91 d8943bf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 20 08:47:58 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 3f6cf9126100fc64684a595ff7e12b59129759dc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 20 06:57:27 2025 -0400
+
+    bumped Standards-Version
+
+commit aa558fce52ce738ba0b594d1c79232645d00d692
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 20 06:25:33 2025 -0400
+
+    readme
+
+commit d8943bfe2cd8660c8bd19ebaadfb9ffa801031ae
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sat Aug 16 22:19:58 2025 -0500
+
+    Remove tb-default-browser during updates
+
+commit 8b47066be0ff511d9e3a73f9e9215acbde5ec77e
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Fri Aug 15 17:27:57 2025 -0500
+
+    Allow release info origin and label changes during Bookworm -> Trixie upgrades
+
+commit fbeee3a3e6d64fa88f94fbcf1d4a37d9648c6248
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Aug 7 22:43:49 2025 -0500
+
+    Add SSH warning, disable probably unneeded repo change in release-upgrade
+
+commit 54d712f7b078b888e709f46b8a6f37acf622db3e
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Tue Aug 5 22:58:02 2025 -0500
+
+    Port to Trixie.
+
+commit b2e2ae028a347b77db6166be2669855a25f4b2fc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 21 13:56:35 2025 +0000
+
+    bumped changelog version
+
 commit 5ddd8ad9803b17259fa8e022c83e201a0a7c578f
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 21 08:31:40 2025 -0400
