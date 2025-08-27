@@ -1,3 +1,42 @@
+commit 3f7dbc794390f52cfb285a7a7c42eb2eeab2c7c0
+Merge: 70cafef 7d127e5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 27 04:15:52 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 7d127e56e3873870e09652fba53552a56c3c3a4f
+Merge: 5cc9a3f 70cafef
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Tue Aug 26 19:20:03 2025 -0500
+
+    Merge branch 'master' into arraybolt3/trixie
+
+commit 70cafef25fe0b18de92de3ecea2291527f801d85
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Aug 26 09:11:27 2025 +0000
+
+    bumped changelog version
+
+commit 5cc9a3ff6a732f6b2e19e0fa00c30d20c2bb53f0
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Aug 25 19:06:35 2025 -0500
+
+    Skip SSH confirmation if DEBIAN_FRONTEND = noninteractive
+
+commit dfbbaedb5fc1fa2d6a36a8a0e6eb05230c80402d
+Merge: 82c73ee dc27359
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Aug 21 19:56:33 2025 -0500
+
+    Merge branch 'master' into arraybolt3/trixie
+
+commit 82c73ee1cf9a74d21c69cb4b0163d7357919a2fb
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Aug 21 18:27:05 2025 -0500
+
+    Bump Kicksecure/Whonix major version number to 18
+
 commit dc273598907dfdd54a8da0414108a437adca01ff
 Merge: 3f6cf91 d8943bf
 Author: Patrick Schleizer <adrelanos@whonix.org>
