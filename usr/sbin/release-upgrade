@@ -293,6 +293,12 @@ fi
 true "INFO: Simulating release upgrade..."
 apt-get-noninteractive --no-install-recommends --simulate full-upgrade
 true "INFO: Checking if release upgrade is safe or would result in removal of the main meta package... This will take a moment..."
+## TODO: It is expected that the release upgrade will remove the main
+## metapackage due to the metapackage restructuring in Kicksecure 18. Instead,
+## determine which metapackage should replace the currently installed main
+## metapackage, and ensure that the old one will be removed and the new one
+## will be installed.
+##
 ## Disable xtrace because the following output would be too much of an output flood.
 set +x
 while read -r -d $'\n' line ; do
