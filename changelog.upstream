@@ -1,3 +1,16 @@
+commit 12d346f43058a26b3eb844c545b5203ed3a998bf
+Merge: b2e2ae0 bcb5fa7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 29 08:07:45 2025 -0400
+
+    Merge branch 'master' into HEAD
+
+commit bcb5fa7980497e282d0022a4053535704d30fa96
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Aug 27 19:26:06 2025 +0000
+
+    bumped changelog version
+
 commit 3f7dbc794390f52cfb285a7a7c42eb2eeab2c7c0
 Merge: 70cafef 7d127e5
 Author: Patrick Schleizer <adrelanos@whonix.org>
