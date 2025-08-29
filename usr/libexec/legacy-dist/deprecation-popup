@@ -12,11 +12,11 @@ set -e
 #true "INFO: This version is not yet deprecated."
 #exit 0
 
-if test -e /usr/share/qubes/marker-vm ; then
+#if test -e /usr/share/qubes/marker-vm ; then
    ## https://forums.whonix.org/t/current-status-qubes-4-1-whonix-16/17191
-   true "INFO: Skip in Qubes."
-   exit 0
-fi
+   #true "INFO: Skip in Qubes."
+   #exit 0
+#fi
 
 if test -f /usr/share/whonix/marker ; then
    PROJECT_HOMEPAGE="https://www.whonix.org"
