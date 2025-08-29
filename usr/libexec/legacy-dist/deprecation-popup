@@ -9,6 +9,8 @@
 #set -x
 set -e
 
+status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-16
+
 #true "INFO: This version is not yet deprecated."
 #exit 0
 
@@ -35,8 +37,6 @@ if [ "$version" = "18" ]; then
    true "INFO: Not yet deprecated, ok."
    exit 0
 fi
-
-status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-16
 
 title="DEPRECATION NOTICE"
 
