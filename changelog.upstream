@@ -1,3 +1,27 @@
+commit 5eef2762beffea0ca670c1128301b9ef0330eff4
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 29 08:47:53 2025 -0400
+
+    bump
+
+commit 846872851276a38ac1beafd3f32ddaabe36bba58
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 29 08:47:35 2025 -0400
+
+    refactoring
+
+commit af90cfbf654991133c05d70d5c1423806ef729f7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 29 08:45:42 2025 -0400
+
+    show deprecation popup also in Qubes
+
+commit 21190e008624725bf1d6a2a187d834caa57fc2cc
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 29 12:28:20 2025 +0000
+
+    bumped changelog version
+
 commit cc4c666b3fc00d8f806892191a841e071ab1c9d7
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Aug 29 08:27:22 2025 -0400
