@@ -9,7 +9,7 @@
 #set -x
 set -e
 
-status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-16
+status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-17
 
 #true "INFO: This version is not yet deprecated."
 #exit 0
