@@ -18,10 +18,10 @@ Depends: ${misc:Depends}, helper-scripts, apt-forktracer
 Provides: vbox-disable-timesync, whonix-legacy
 Replaces: vbox-disable-timesync, whonix-legacy
 Conflicts: vbox-disable-timesync, whonix-legacy
-Description: Prepare older Build Versions of Whonix for Upgrade
- Applies fixes required for upgrading from for example Whonix 8.x to Whonix
+Description: Prepare older Build Versions of Derivatives for Upgrade
+ Applies fixes required for upgrading from for example version 8.x to version
  9.x etc.
  .
- Upgrades from Whonix 7.x or older versions is unsupported.
+ Upgrades from version 7.x or older versions is unsupported.
  .
  Safe to remove.
