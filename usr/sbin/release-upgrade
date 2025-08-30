@@ -91,7 +91,7 @@ shopt -s nullglob
 source /usr/libexec/helper-scripts/package_installed_check.bsh
 
 ## TODO: Debian forkie
-version="2.0"
+version="3.0"
 [[ -v source_codename ]] || source_codename=bookworm
 [[ -v target_codename ]] || target_codename=trixie
 
