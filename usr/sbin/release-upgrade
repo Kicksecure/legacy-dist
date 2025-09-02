@@ -114,7 +114,7 @@ meta_package_detect() {
 }
 
 meta_package_installed_check() {
-   if dpkg --status "$old_meta_package" &> /dev/null ; then
+   if pkg_installed "$old_meta_package" ; then
       return 0
    fi
    return 1
