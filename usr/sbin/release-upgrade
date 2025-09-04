@@ -173,10 +173,15 @@ Proceed with upgrade? [Y/N]"
    fi
 fi
 
-true "INFO: Checking if tor@default systemd unit is running..."
-if ! systemctl --no-pager status tor@default ; then
-   true "INFO: tor@default is not running, trying to restart..."
-   systemctl --no-pager restart tor@default || true
+
+if test -f /run/qubes/this-is-templatevm ; then
+   true "INFO: Checking if tor@default systemd unit is running not needed because Qubes Template detected, OK."
+else
+   true "INFO: Checking if tor@default systemd unit is running..."
+   if ! systemctl --no-pager status tor@default ; then
+      true "INFO: tor@default is not running, trying to restart..."
+      systemctl --no-pager restart tor@default || true
+   fi
 fi
 
 ## bookworm -> trixie
