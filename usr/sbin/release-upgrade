@@ -179,13 +179,23 @@ if ! systemctl --no-pager status tor@default ; then
    systemctl --no-pager restart tor@default || true
 fi
 
+## bookworm -> trixie
 if ! test -f /etc/apt/sources.list.d/debian.list ; then
-   true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist! Aborting."
-   exit 1
+   ## trixie -> forky
+   ## Useful for idempotence when re-running release-upgrade on trixie.
+   if ! test -f /etc/apt/sources.list.d/debian.sources ; then
+      true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist!
+File /etc/apt/sources.list.d/debian.sources does not exist either!
+Aborting."
+      exit 1
+   fi
 fi
 
 if ! test -f /etc/apt/sources.list.d/derivative.list ; then
-   true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
+   if ! test -f /etc/apt/sources.list.d/derivative.sources ; then
+      true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
+
+File /etc/apt/sources.list.d/derivative.sources does not exist either!
 
 Derivative repository is not enabled. Enable it first before proceeding.
 
@@ -193,7 +203,8 @@ See:
 /wiki/Project-APT-Repository
 
 Aborting."
-   exit 1
+      exit 1
+   fi
 fi
 
 derivative_list_contents="$(cat -- "/etc/apt/sources.list.d/derivative.list" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
