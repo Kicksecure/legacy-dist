@@ -1,3 +1,15 @@
+commit 2f10945c508a66b7228d8d9cc20daaf7f8b6ae96
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 4 10:20:37 2025 -0400
+
+    fix: Checking if tor@default systemd unit is running not when Qubes Template has been detected.
+
+commit c4e8950175119fa99a7e6fcea3e15e74ee50fe0c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 4 14:18:11 2025 +0000
+
+    bumped changelog version
+
 commit 1ab26cc8d67e0e5a1495926dbc5a0d2211ef6f3e
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Sep 4 10:17:49 2025 -0400
