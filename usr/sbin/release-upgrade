@@ -406,6 +406,40 @@ ERROR: An error was encountered during installation of release upgrade. See abov
    exit 1
 fi
 
+true "INFO: Fixing dummy dependencies..."
+if pkg_installed dummy-dependency; then
+  dummy_install_list=()
+  if ! pkg_installed browser-choice; then
+     dummy_install_list+=('dummy-dependency-browser-choice')
+  fi
+  if ! pkg_installed firefox-esr; then
+     dummy_install_list+=('dummy-dependency-firefox-esr')
+  fi
+  if ! pkg_installed qubes-core-agent-passwordless-root; then
+     dummy_install_list+=('dummy-dependency-qubes-core-agent-passwordless-root')
+  fi
+  if ! pkg_installed tb-starter; then
+     dummy_install_list+=('tb-starter')
+  fi
+  if ! pkg_installed tb-updater; then
+     dummy_install_list+=('tb-updater')
+  fi
+
+  if [ -n "${dummy_install_list[*]}" ]; then
+     if ! apt-get-noninteractive --yes --no-install-recommends install "${dummy_install_list[@]}"; then
+        true "\
+ERROR: An error was encountered during installation of new dummy dependency packages. See above."
+        exit 1
+     fi
+  fi
+
+  if ! apt-get-noninteractive --yes remove dummy-dependency; then
+     true "\
+ERROR: An error was encountered during removal of the old 'dummy-dependency' package. See above."
+     exit 1
+  fi
+fi
+
 trap "post_upgrade_failure" ERR
 
 true "INFO: Checking potential issues and attempt to fix if any (post)..."
