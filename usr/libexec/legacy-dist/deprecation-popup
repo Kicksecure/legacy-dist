@@ -38,6 +38,17 @@ if [ "$version" = "18" ]; then
    exit 0
 fi
 
+if test -e /usr/share/qubes/marker-vm; then
+   true "INFO: Not yet deprecated, ok.
+
+Kicksecure 17 and Whonix 17 will remain supported until 1 month after Qubes R4.3 stable has been released.
+
+See also:
+decide availability of Kicksecure, and Whonix 18 (Debian trixie based) on Qubes R4.2 versus R4.3 #10219
+https://github.com/QubesOS/qubes-issues/issues/10219"
+   exit 0
+fi
+
 title="DEPRECATION NOTICE"
 
 text="<p>Support Status of this Major Version: <b>Deprecated!</b>
