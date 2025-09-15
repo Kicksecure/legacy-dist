@@ -1,3 +1,17 @@
+commit 555f22634e0b1591a7d15a890e68df95034f51e0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 15 08:06:23 2025 -0400
+
+    Kicksecure 17 and Whonix 17 will remain supported until 1 month after Qubes R4.3 stable has been released.
+    
+    https://github.com/QubesOS/qubes-issues/issues/10219
+
+commit 1ff36e2852c0e6212a8ffdae5641f464da1a8d84
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 9 15:56:23 2025 +0000
+
+    bumped changelog version
+
 commit 1ba3018cec7be576196316e0f6187129cb1bf588
 Merge: 6c9339d 46499d3
 Author: Patrick Schleizer <adrelanos@whonix.org>
