@@ -3,6 +3,20 @@
 ## Copyright (C) 2020 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+set -x
+set -e
+set -o pipefail
+shopt -s nullglob
+
+source /usr/libexec/helper-scripts/package_installed_check.bsh
+
+## TODO: Debian forky
+version="3.0"
+[[ -v source_codename ]] || source_codename=bookworm
+[[ -v target_codename ]] || target_codename=trixie
+
+true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
+
 error_handler() {
    true "\
 ###########################################################
@@ -13,6 +27,8 @@ error_handler() {
 "
    exit 1
 }
+
+trap "error_handler" ERR
 
 pre_upgrade_error() {
    true "\
@@ -119,23 +135,6 @@ meta_package_installed_check() {
    fi
    return 1
 }
-
-set -x
-set -e
-set -o pipefail
-
-shopt -s nullglob
-
-source /usr/libexec/helper-scripts/package_installed_check.bsh
-
-## TODO: Debian forky
-version="3.0"
-[[ -v source_codename ]] || source_codename=bookworm
-[[ -v target_codename ]] || target_codename=trixie
-
-true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
-
-trap "error_handler" ERR
 
 if [ "$(id -u)" != "0" ]; then
    true "ERROR: Must run as root. Run:"
