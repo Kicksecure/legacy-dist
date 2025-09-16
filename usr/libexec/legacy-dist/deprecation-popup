@@ -33,7 +33,7 @@ if [ "$version" = "" ]; then
    exit 1
 fi
 
-if [ "$version" = "18" ]; then
+if [ "$version" -ge "17" ]; then
    true "INFO: Not yet deprecated, ok."
    exit 0
 fi
