@@ -17,6 +17,7 @@ version="3.1"
 
 true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
 
+# shellcheck source=../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
 source /usr/libexec/helper-scripts/package_installed_check.bsh
 
 error_handler() {
