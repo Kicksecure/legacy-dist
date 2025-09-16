@@ -8,14 +8,16 @@ set -e
 set -o pipefail
 shopt -s nullglob
 
-true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
-
-source /usr/libexec/helper-scripts/package_installed_check.bsh
+true "INFO: START"
 
 ## TODO: Debian forky
 version="3.1"
 [[ -v source_codename ]] || source_codename=bookworm
 [[ -v target_codename ]] || target_codename=trixie
+
+true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
+
+source /usr/libexec/helper-scripts/package_installed_check.bsh
 
 error_handler() {
    true "\
@@ -143,6 +145,28 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 export DEBDEBUG=1
+
+## TODO: Qubes R4.3 and above: Once Qubes R4.2 support has been deprecated,
+##       the following 'if' clause should be removed.
+if test -f /usr/share/qubes/marker-vm; then
+   true "INFO: Qubes detected."
+   qubes_version="$(cat /usr/share/qubes/marker-vm | grep -v '^#')"
+   if printf "%s\n" "${qubes_version}" | grep -q -e '^4.2' ; then
+      true "\
+WARNING:
+
+* release-upgrade is unsupported on Qubes R4.2.
+* Kicksecure 18 and Whonix 18 are unsupported on Qubes R4.2. [1]
+* Release upgrade to Qubes R4.3 is required.
+* Release upgrading Kicksecure or Whonix to version 18 will cause issues. [2]
+
+[1] https://github.com/QubesOS/qubes-issues/issues/10219
+[2] https://forum.qubes-os.org/t/whonix-18-denied-sdwdate-connectcheck/36098
+"
+      ## TODO: Implement --force to override.
+      exit 1
+   fi
+fi
 
 true "INFO: Checking if SSH configuration changes in Trixie are dangerous..."
 if pkg_installed openssh-server; then
