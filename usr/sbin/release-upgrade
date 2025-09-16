@@ -144,13 +144,46 @@ if [ "$(id -u)" != "0" ]; then
    exit 112
 fi
 
+
+## Thanks to:
+## http://mywiki.wooledge.org/BashFAQ/035
+
+while true; do
+   case $1 in
+      --downloadonly)
+         downloadonly=true
+         shift
+         break
+         ;;
+      --force)
+         force=true
+         shift
+         break
+         ;;
+      --)
+         shift
+         break
+         ;;
+      -*)
+         true "ERROR: unknown option: '$1'" >&2
+         exit 1
+         ;;
+      *)
+         break
+         ;;
+   esac
+done
+
+## If there are input files (for example) that follow the options, they
+## will remain in the "$@" positional parameters.
+
 export DEBDEBUG=1
 
 ## TODO: Qubes R4.3 and above: Once Qubes R4.2 support has been deprecated,
 ##       the following 'if' clause should be removed.
 if test -f /usr/share/qubes/marker-vm; then
    true "INFO: Qubes detected."
-   qubes_version="$(cat /usr/share/qubes/marker-vm | grep -v '^#')"
+   qubes_version="$(grep -v /usr/share/qubes/marker-vm '^#')"
    if printf "%s\n" "${qubes_version}" | grep -q -e '^4.2' ; then
       true "\
 WARNING:
@@ -161,10 +194,13 @@ WARNING:
 * Release upgrading Kicksecure or Whonix to version 18 will cause issues. [2]
 
 [1] https://github.com/QubesOS/qubes-issues/issues/10219
-[2] https://forum.qubes-os.org/t/whonix-18-denied-sdwdate-connectcheck/36098
-"
-      ## TODO: Implement --force to override.
-      exit 1
+[2] https://forum.qubes-os.org/t/whonix-18-denied-sdwdate-connectcheck/36098"
+      if [ "$force" = "true" ]; then
+         true "WARNING: Proceeding due to --force."
+      else
+         true "ERROR: Stop, because Qubes R4.2 detected."
+         exit 1
+      fi
    fi
 fi
 
@@ -417,8 +453,8 @@ else
   fi
 fi
 
-if [ "$1" = "downloadonly" ]; then
-   true "INFO: downloadonly. Stop."
+if [ "$downloadonly" = "true" ]; then
+   true "INFO: --downloadonly. Stop."
    exit 0
 fi
 
