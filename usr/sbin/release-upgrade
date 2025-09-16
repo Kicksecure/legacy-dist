@@ -184,7 +184,7 @@ export DEBDEBUG=1
 ##       the following 'if' clause should be removed.
 if test -f /usr/share/qubes/marker-vm; then
    true "INFO: Qubes detected."
-   qubes_version="$(grep -v /usr/share/qubes/marker-vm '^#')"
+   qubes_version="$(grep -v '^#' /usr/share/qubes/marker-vm)"
    if printf "%s\n" "${qubes_version}" | grep -q -e '^4.2' ; then
       true "\
 WARNING:
