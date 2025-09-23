@@ -17,6 +17,15 @@ source /usr/libexec/helper-scripts/origins-parser
 still_supported_version=17
 status_file=~"/.config/legacy-dist/deprecation-notice/dismissed-version-${still_supported_version}"
 
+if [ "$1" = "cli" ]; then
+  cli=true
+elif [ "$1" = "gui" ]; then
+  gui=true
+else
+  cli=true
+  gui=true
+fi
+
 if [ "$derivative_major_release_version" = "" ]; then
   printf '%s\n' "ERROR: version file does not exist or is empty!" >&2
   exit 1
@@ -53,6 +62,9 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 </p>"
 
 stripped_text="$(strip-html "$text")"
-printf '%s\n' "$stripped_text" >&2
 
-/usr/libexec/msgcollector/one-time-popup "$status_file" "$title" "$text"
+if [ "$cli" = "true" ]; then
+  printf '%s\n' "$stripped_text" >&2
+elif [ "$gui" = "true" ]; then
+  /usr/libexec/msgcollector/one-time-popup "$status_file" "$title" "$text"
+fi
