@@ -3,7 +3,7 @@
 
 [Unit]
 Description=Derivative Distribution Legacy Versions Fixes
-Documentation=https://github.com/Whonix/legacy-dist
+Documentation=https://github.com/Kicksecure/legacy-dist
 
 Before=qubes-gui-agent.service
 
