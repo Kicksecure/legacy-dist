@@ -16,15 +16,6 @@ source /usr/libexec/helper-scripts/origins-parser
 
 status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-17
 
-#true "INFO: This version is not yet deprecated."
-#exit 0
-
-#if test -e /usr/share/qubes/marker-vm ; then
-   ## https://forums.whonix.org/t/current-status-qubes-4-1-whonix-16/17191
-   #true "INFO: Skip in Qubes."
-   #exit 0
-#fi
-
 if [ "$derivative_major_release_version" = "" ]; then
    echo "ERROR: version file does not exist or is empty!"
    exit 1
