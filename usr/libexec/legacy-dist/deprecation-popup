@@ -14,14 +14,15 @@ set -e
 ## sets: derivative_major_release_version
 source /usr/libexec/helper-scripts/origins-parser
 
-status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-17
+still_supported_version=17
+status_file=~"/.config/legacy-dist/deprecation-notice/dismissed-version-${still_supported_version}"
 
 if [ "$derivative_major_release_version" = "" ]; then
-  echo "ERROR: version file does not exist or is empty!"
+  printf '%s\n' "ERROR: version file does not exist or is empty!" >&2
   exit 1
 fi
 
-if [ "$derivative_major_release_version" -ge "17" ]; then
+if [ "$derivative_major_release_version" -ge "${still_supported_version}" ]; then
   true "INFO: Not yet deprecated, ok."
   exit 0
 fi
@@ -29,7 +30,7 @@ fi
 if test -e /usr/share/qubes/marker-vm; then
   true "INFO: Not yet deprecated, ok.
 
-Kicksecure 17 and Whonix 17 will remain supported until 1 month after Qubes R4.3 stable has been released.
+Kicksecure ${still_supported_version} and Whonix ${still_supported_version} will remain supported until 1 month after Qubes R4.3 stable has been released.
 
 See also:
 decide availability of Kicksecure, and Whonix 18 (Debian trixie based) on Qubes R4.2 versus R4.3 #10219
@@ -50,5 +51,8 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />${PROJECT_HOMEPAGE}/wiki/Stay_Tuned
 <br />${PROJECT_HOMEPAGE}/wiki/Release_Upgrade
 </p>"
+
+stripped_text="$(strip-html "$text")"
+printf '%s\n' "$stripped_text" >&2
 
 /usr/libexec/msgcollector/one-time-popup "$status_file" "$title" "$text"
