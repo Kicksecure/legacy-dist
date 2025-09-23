@@ -9,6 +9,11 @@
 #set -x
 set -e
 
+## sets: PROJECT_NAME
+## sets: PROJECT_HOMEPAGE
+## sets: derivative_major_release_version
+source /usr/libexec/helper-scripts/origins-parser
+
 status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-17
 
 #true "INFO: This version is not yet deprecated."
@@ -20,20 +25,12 @@ status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-17
    #exit 0
 #fi
 
-if test -f /usr/share/whonix/marker ; then
-   PROJECT_HOMEPAGE="https://www.whonix.org"
-   version=$(cat /etc/whonix_version)
-else
-   PROJECT_HOMEPAGE="https://www.kicksecure.com"
-   version=$(cat /etc/kicksecure_version)
-fi
-
-if [ "$version" = "" ]; then
+if [ "$derivative_major_release_version" = "" ]; then
    echo "ERROR: version file does not exist or is empty!"
    exit 1
 fi
 
-if [ "$version" -ge "17" ]; then
+if [ "$derivative_major_release_version" -ge "17" ]; then
    true "INFO: Not yet deprecated, ok."
    exit 0
 fi
@@ -53,7 +50,7 @@ title="DEPRECATION NOTICE"
 
 text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />
-<br />Major release version <u><code>$version</code></u> has been deprecated.
+<br />Major release version <u><code>$derivative_major_release_version</code></u> has been deprecated.
 <br />
 <br />No more security support will be provided.
 <br />
