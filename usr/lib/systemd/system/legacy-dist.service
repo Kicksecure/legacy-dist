@@ -15,15 +15,6 @@ Before=anon-gw-anonymizer-config.service
 
 After=qubes-mount-dirs.service
 
-## Legacy.
-After=qubes-mount-home.service
-
-## Legacy Qubes pre R3.1.
-## We need to wait until qubes-whonix-postinit.service is done, since
-## /usr/lib/qubes-whonix/bind-directories is still run by
-## qubes-whonix-postinit.service. - https://phabricator.whonix.org/T414
-After=qubes-whonix-postinit.service
-
 [Service]
 Type=oneshot
 RemainAfterExit=yes
