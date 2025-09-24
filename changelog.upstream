@@ -1,3 +1,51 @@
+commit 5061bbbac6fbdb52a53f62680b534959b4b7ddbe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:40:55 2025 -0400
+
+    add cli deprecation popup message to Debian maintainer postinst script
+
+commit 69e652b41819699fd9855448bb7574c714f84537
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:18:15 2025 -0400
+
+    added CLI support
+
+commit 804d7da3c5a86f1b93bb896537f9005b9d2468de
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:13:31 2025 -0400
+
+    indent
+
+commit 73ee54753c5797bf40d082aa8d5fe566df2821ec
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:12:27 2025 -0400
+
+    cleanup
+
+commit 58e255cff2de83a18bfb9ca070914852f76c6b39
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:11:57 2025 -0400
+
+    refactoring
+
+commit 284ad08b71a92d39bf6b8f71d3d00cdaaa7a065a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:06:29 2025 -0400
+
+    cleanup
+
+commit aea2e478708bc186a4c557f876298714f6647914
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:04:54 2025 -0400
+
+    update link
+
+commit 4d52e0fa6948c8d8e720a0f0c1b97ddd7a88dcfb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 22 17:25:05 2025 +0000
+
+    bumped changelog version
+
 commit 42b9327862750f150bd9e6ef227d7dcd346c16da
 Merge: 9812619 670d33c
 Author: Patrick Schleizer <adrelanos@whonix.org>
