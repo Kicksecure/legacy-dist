@@ -51,7 +51,8 @@ BASH_COMMAND: $BASH_COMMAND"
    exit 1
 }
 
-virt_mode="$(systemd-detect-virt)"
+## systemd-detect-virt exists non-zero on hardware.
+virt_mode="$(systemd-detect-virt)" || true
 
 meta_package_detect() {
    if [ ! "$old_meta_package" = "" ]; then
