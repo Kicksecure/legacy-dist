@@ -199,6 +199,10 @@ WARNING:
 [2] https://forum.qubes-os.org/t/whonix-18-denied-sdwdate-connectcheck/36098"
       if [ "$force" = "true" ]; then
          true "WARNING: Proceeding due to --force."
+
+         ## Package 'qubes-core-agent-pcmanfm-qt' is non-existing for
+         ## Qubes R4.2.
+         dummy-dependency qubes-core-agent-pcmanfm-qt
       else
          true "ERROR: Stop, because Qubes R4.2 detected."
          exit 1
