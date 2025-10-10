@@ -1,3 +1,21 @@
+commit 99ee513c9ba021549bb0f22cfa96907584ddf73b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 10 05:04:55 2025 -0400
+
+    fix
+
+commit f8e630a0987fe3c57457bafee7c2f5a47e6dcaf5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 10 04:58:03 2025 -0400
+
+    release-upgrade: Qubes R4.2 hack: `dummy-dependency qubes-core-agent-pcmanfm-qt`
+
+commit 94785e91f0bf600286d06cb0a66abe503f65e986
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 13:59:44 2025 +0000
+
+    bumped changelog version
+
 commit 190b375e86c5e91aa292f389cc3a7176027be865
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Sep 28 09:59:32 2025 -0400
