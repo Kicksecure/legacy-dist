@@ -202,7 +202,7 @@ WARNING:
 
          ## Package 'qubes-core-agent-pcmanfm-qt' is non-existing for
          ## Qubes R4.2.
-         dummy-dependency qubes-core-agent-pcmanfm-qt
+         dummy-dependency --yes qubes-core-agent-pcmanfm-qt
       else
          true "ERROR: Stop, because Qubes R4.2 detected."
          exit 1
