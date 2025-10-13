@@ -263,7 +263,7 @@ fi
 
 ## In case already on trixie or above.
 if ! test -f /etc/apt/sources.list.d/derivative.sources; then
-  ## /etc/apt/sources.list.d/derivative.sources does not exist.
+   ## /etc/apt/sources.list.d/derivative.sources does not exist.
    if ! test -f /etc/apt/sources.list.d/derivative.list ; then
       if ! test -f /etc/apt/sources.list.d/derivative.sources ; then
          true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
