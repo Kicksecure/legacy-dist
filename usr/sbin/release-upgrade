@@ -261,9 +261,12 @@ Aborting."
    fi
 fi
 
-if ! test -f /etc/apt/sources.list.d/derivative.list ; then
-   if ! test -f /etc/apt/sources.list.d/derivative.sources ; then
-      true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
+## In case already on trixie or above.
+if ! test -f /etc/apt/sources.list.d/derivative.sources; then
+  ## /etc/apt/sources.list.d/derivative.sources does not exist.
+   if ! test -f /etc/apt/sources.list.d/derivative.list ; then
+      if ! test -f /etc/apt/sources.list.d/derivative.sources ; then
+         true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
 
 File /etc/apt/sources.list.d/derivative.sources does not exist either!
 
@@ -273,13 +276,13 @@ See:
 /wiki/Project-APT-Repository
 
 Aborting."
-      exit 1
+         exit 1
+      fi
    fi
-fi
 
-derivative_list_contents="$(cat -- "/etc/apt/sources.list.d/derivative.list" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
-if [ "$derivative_list_contents" = "" ]; then
-   true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
+   derivative_list_contents="$(cat -- "/etc/apt/sources.list.d/derivative.list" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
+   if [ "$derivative_list_contents" = "" ]; then
+      true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
 
 (Maybe only out commented (#) and empty lines.)
 
@@ -289,12 +292,12 @@ See:
 /wiki/Project-APT-Repository
 
 Aborting."
-   exit 1
-fi
+      exit 1
+   fi
 
-## Not ideal because of hardcoded domain names.
-if ! printf '%s\n' "$derivative_list_contents" | grep -- "kicksecure.com" >/dev/null 2>/dev/null; then
-   if ! printf '%s\n' "$derivative_list_contents" | grep -- "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
+   ## Not ideal because of hardcoded domain names.
+   if ! printf '%s\n' "$derivative_list_contents" | grep -- "kicksecure.com" >/dev/null 2>/dev/null; then
+      if ! printf '%s\n' "$derivative_list_contents" | grep -- "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
       true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Kicksecure repository.
 Kicksecure repository is not enabled. Enable it first before proceeding.
 
@@ -302,7 +305,8 @@ See:
 https://www.kicksecure.com/wiki/Project-APT-Repository
 
 Aborting."
-      exit 1
+         exit 1
+      fi
    fi
 fi
 
