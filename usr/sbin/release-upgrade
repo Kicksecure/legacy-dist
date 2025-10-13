@@ -137,6 +137,9 @@ meta_package_installed_check() {
    if pkg_installed "$old_meta_package" ; then
       return 0
    fi
+   if pkg_installed "$new_meta_package" ; then
+      return 0
+   fi
    return 1
 }
 
@@ -431,6 +434,7 @@ true "INFO: Simulating release upgrade..."
 upgrade_simulate_results="$(apt-get-noninteractive --no-install-recommends --simulate full-upgrade "$new_meta_package")"
 true "$upgrade_simulate_results"
 true "INFO: Checking if release upgrade is safe or would result in removal of the main meta package... This will take a moment..."
+
 set +x
 old_meta_will_be_removed='false'
 new_meta_will_be_installed='false'
@@ -450,17 +454,22 @@ while read -r -d $'\n' line ; do
    fi
 done <<< "$upgrade_simulate_results"
 set -x
-if [ "$old_meta_package" = "$new_meta_package" ]; then
-   if [ "$old_meta_will_be_removed" = 'true' ] \
-      || [ "$new_meta_will_be_installed" = 'true' ]; then
-      true "ERROR: Release upgrade would remove meta package $old_meta_package. Release upgrade aborted!"
-      exit 1
-   fi
+
+if pkg_installed "$new_meta_package" ; then
+  true
 else
-  if [ "$old_meta_will_be_removed" = 'false' ] \
-     || [ "$new_meta_will_be_installed" = 'false' ]; then
-     true "ERROR: Release upgrade would not replace old meta package $old_meta_package with new meta package $new_meta_package. Release upgrade aborted!"
-     exit 1
+  if [ "$old_meta_package" = "$new_meta_package" ]; then
+    if [ "$old_meta_will_be_removed" = 'true' ] \
+      || [ "$new_meta_will_be_installed" = 'true' ]; then
+        true "ERROR: Release upgrade would remove meta package $old_meta_package. Release upgrade aborted!"
+        exit 1
+    fi
+  else
+    if [ "$old_meta_will_be_removed" = 'false' ] \
+      || [ "$new_meta_will_be_installed" = 'false' ]; then
+       true "ERROR: Release upgrade would not replace old meta package $old_meta_package with new meta package $new_meta_package. Release upgrade aborted!"
+       exit 1
+    fi
   fi
 fi
 
