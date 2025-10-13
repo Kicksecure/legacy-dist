@@ -357,7 +357,7 @@ true "INFO: Fetching package lists (1/2)..."
 
 ## TODO: This can fail if the oldstable repository is no longer available.
 ## https://forums.whonix.org/t/solved-in-place-release-upgrade-not-succeeding-too-late/20003
-if ! apt-get update ; then
+if ! apt-get-noninteractive update ; then
    true "\
 ERROR:
 Could not fetch package lists. Networking issues?
@@ -407,7 +407,7 @@ done
 
 ## Get $target_codename apt package lists.
 true "INFO: Fetching package lists (2/2)..."
-if ! apt-get update --allow-releaseinfo-change-origin --allow-releaseinfo-change-label; then
+if ! apt-get-noninteractive update --allow-releaseinfo-change-origin --allow-releaseinfo-change-label; then
    true "\
 ERROR: An error was encountered during download of release upgrade package lists. Recommendation:
 - Fix network connection and retry.
