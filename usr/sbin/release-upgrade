@@ -332,7 +332,8 @@ if [ "$old_meta_package" = "" ]; then
    exit 1
 fi
 
-true "INFO: meta_package detected: $old_meta_package"
+true "INFO: old_meta_package: $old_meta_package"
+true "INFO: new_meta_package: $new_meta_package"
 
 trap "pre_upgrade_error" ERR
 
