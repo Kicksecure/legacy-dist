@@ -533,6 +533,12 @@ true "INFO: Setting a list of traditional dummy packages to automatically instal
 ## '|| true' since non-essential.
 apt-mark auto tb-default-browser >/dev/null || true
 
+true "INFO: Disabling existing display manager and enabling greetd in its place."
+systemctl disable display-manager.service || true
+if ! systemctl enable greetd.service ; then
+   true "WARNING: Unable to enable greetd.service!"
+fi
+
 true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --audit
 true "INFO: Running sanity test (post)..."
