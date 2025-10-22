@@ -1,3 +1,22 @@
+commit 9dada8597bc9531c21bf3adca2775c9753e46c7d
+Merge: 8c100b7 2ced60c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 22 00:32:59 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 2ced60ca2f41f310a70e0af5b88202c432b78cb3
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Oct 20 20:13:46 2025 -0500
+
+    Replace lightdm (or the active display manager) with greetd on upgrade
+
+commit 8c100b73da7763fd0c39e0ee69eeea563ff4007b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 13:50:22 2025 +0000
+
+    bumped changelog version
+
 commit f176de48b8ba3e490f9d2d5b45c9d76bf1b021f7
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Oct 13 09:06:37 2025 -0400
