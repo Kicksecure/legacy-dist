@@ -11,7 +11,7 @@ shopt -s nullglob
 true "INFO: START"
 
 ## TODO: Debian forky
-version="3.2"
+version="3.3"
 [[ -v source_codename ]] || source_codename=bookworm
 [[ -v target_codename ]] || target_codename=trixie
 
