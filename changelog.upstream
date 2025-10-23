@@ -1,3 +1,40 @@
+commit 6f2d8d6fc483d00015695142e87cda654b0c712b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 23 01:43:56 2025 -0400
+
+    version bump
+
+commit 1f99bc05c08fbab10ddfb75c690364dcf6bab847
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 23 01:43:13 2025 -0400
+
+    end-of-options
+
+commit bf1f506087c953b5aacae666b6a0d7e62c828d81
+Merge: dc4a019 d417ce0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 23 01:42:38 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit d417ce038eb9d5ebc951b3ae354cc8682298c78f
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Oct 22 23:27:26 2025 -0500
+
+    Get rid of /etc/dracut.conf.d/30-repart.conf during upgrades, it causes spurious errors on Trixie when run within dracut on Trixie
+
+commit 7f91838b8878ded1f45479d4d9ecc7b01414c454
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Oct 22 22:55:36 2025 -0500
+
+    Remove xscreensaver during release upgrade to Trixie
+
+commit dc4a019675f81bd46e823b2c5bdb191216a86fce
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 22 04:39:31 2025 +0000
+
+    bumped changelog version
+
 commit 9dada8597bc9531c21bf3adca2775c9753e46c7d
 Merge: 8c100b7 2ced60c
 Author: Patrick Schleizer <adrelanos@whonix.org>
