@@ -478,6 +478,9 @@ if [ "$downloadonly" = "true" ]; then
    exit 0
 fi
 
+true "INFO: Removing '/etc/dracut.conf.d/30-repart.conf' to prevent spurious systemd-repart errors."
+safe-rm --force /etc/dracut.conf.d/30-repart.conf
+
 true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade "$new_meta_package" ; then
    true "\
@@ -517,6 +520,13 @@ ERROR: An error was encountered during installation of new dummy dependency pack
 ERROR: An error was encountered during removal of the old 'dummy-dependency' package. See above."
      exit 1
   fi
+fi
+
+true "INFO: Removing 'xscreensaver' to prevent display issues under Wayland."
+if ! apt-get-noninteractive --yes remove xscreensaver ; then
+  true "\
+ERROR: An error was encountered during the removal of the old 'xscreensaver' package. See above."
+  exit 1
 fi
 
 trap "post_upgrade_failure" ERR
