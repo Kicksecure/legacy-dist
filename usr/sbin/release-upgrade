@@ -479,7 +479,7 @@ if [ "$downloadonly" = "true" ]; then
 fi
 
 true "INFO: Removing '/etc/dracut.conf.d/30-repart.conf' to prevent spurious systemd-repart errors."
-safe-rm --force /etc/dracut.conf.d/30-repart.conf
+safe-rm --force -- /etc/dracut.conf.d/30-repart.conf
 
 true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade "$new_meta_package" ; then
