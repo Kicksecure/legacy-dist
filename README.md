@@ -1,9 +1,9 @@
-# Prepare older Build Versions of Whonix for Upgrade #
+# Prepare older Build Versions of Derivatives for Upgrade #
 
-Applies fixes required for upgrading from for example Whonix 8.x to Whonix
+Applies fixes required for upgrading from for example version 8.x to version
 9.x etc.
 
-Upgrades from Whonix 7.x or older versions is unsupported.
+Upgrades from version 7.x or older versions is unsupported.
 
 Safe to remove.
 
