@@ -1,3 +1,17 @@
+commit 2d5bdce28e73e2a9c679407829f89e05ea18ba89
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 2 07:29:14 2025 -0500
+
+    fix
+    
+    https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning-ominous-warning-etc-hosts-is-not-linked-to-either-hosts-whonix-or-hosts-whonix-orig/8045/14
+
+commit 273ee155c3f7a97bc8c8240602265163d079f77d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 27 11:47:39 2025 +0000
+
+    bumped changelog version
+
 commit fdc8977992591f05c599ac267e9b9357ef3ab173
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Oct 27 07:06:15 2025 -0400
