@@ -72,16 +72,16 @@ symlink_fix() {
       return 0
    fi
 
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_4" ]; then
       return 0
    fi
 
    ## output if ok:
    ## ls -la /etc/hosts
-   ## lrwxrwxrwx 1 root root 14 Sep  9 09:34 /etc/hosts -> hosts.anondist
+   ## lrwxrwxrwx 1 root root 14 Sep  9 09:34 /etc/hosts -> hosts.whonix
 
    ## config package dev does:
-   ## ln -s hosts.anondist /etc/hosts
+   ## ln -s hosts.whonix /etc/hosts
 
    pushd /etc >/dev/null || true
 
@@ -95,33 +95,33 @@ symlink_fix() {
    fi
 
    if [ -f "/etc/hostname" ]; then
-      if test -f "/etc/hostname.anondist" ; then
+      if test -f "/etc/hostname.whonix" ; then
          chattr -i "/etc/hostname" &>/dev/null || true
          unlink "/etc/hostname" &>/dev/null || true
          rm -f "/etc/hostname" &>/dev/null || true
-         ln -s "$(basename "/etc/hostname.anondist")" "/etc/hostname" || true
+         ln -s "$(basename "/etc/hostname.whonix")" "/etc/hostname" || true
       fi
    fi
 
    if [ -f "/etc/hosts" ]; then
-      if test -f "/etc/hosts.anondist" ; then
+      if test -f "/etc/hosts.whonix" ; then
          chattr -i "/etc/hosts" &>/dev/null || true
          unlink "/etc/hosts" &>/dev/null || true
          rm -f "/etc/hosts" &>/dev/null || true
-         ln -s "$(basename "/etc/hosts.anondist")" "/etc/hosts" || true
+         ln -s "$(basename "/etc/hosts.whonix")" "/etc/hosts" || true
       fi
    fi
 
    for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts ; do
       ## Debugging / Info.
-      ls -la "$broken_file" || true
-      cat "$broken_file" || true
+      ls -la -- "$broken_file" || true
+      #cat -- "$broken_file" || true
    done
 
    popd >/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_4"
 }
 
 keyboard_configuration_debconf_preseed() {
