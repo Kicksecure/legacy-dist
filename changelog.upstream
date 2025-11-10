@@ -1,3 +1,15 @@
+commit 31c5ddb8d362bebb1b29220bb6d2ac36e6385fa8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 10 03:04:12 2025 -0500
+
+    rewrite sdwdate-gui configuration gateway=sys-whonix to gateway="sys-whonix"
+
+commit 3b301c2582b43aa502b90ef658c80c83417b6b98
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Nov 2 12:30:37 2025 +0000
+
+    bumped changelog version
+
 commit 2d5bdce28e73e2a9c679407829f89e05ea18ba89
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Nov 2 07:29:14 2025 -0500
