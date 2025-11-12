@@ -1,3 +1,22 @@
+commit 48975e74556e6352d9533494858d0ab0c5f61943
+Merge: c813b10 98610ef
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Nov 11 23:56:18 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 98610ef11cf32da1b36eea36c0e743172bf6a633
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Tue Nov 11 19:01:54 2025 -0600
+
+    Move sdwdate-gui config migration code to sdwdate-gui postinst
+
+commit c813b10d63280fda71c8db84e5c42d9eb191c6fd
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Nov 10 08:05:20 2025 +0000
+
+    bumped changelog version
+
 commit 31c5ddb8d362bebb1b29220bb6d2ac36e6385fa8
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Mon Nov 10 03:04:12 2025 -0500
