@@ -17,8 +17,20 @@ version="3.3"
 
 true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
 
-# shellcheck source=../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
-source /usr/libexec/helper-scripts/package_installed_check.bsh
+## provides function: pkg_installed
+##
+## Compatibility with trixie.
+## TODO: Debian forky: port to 'package-installed-check'
+if test -e /usr/libexec/helper-scripts/package_installed_check.sh; then
+   # shellcheck source=../helper-scripts/usr/libexec/helper-scripts/package_installed_check.sh
+   source /usr/libexec/helper-scripts/package_installed_check.sh
+fi
+## TODO: Debian forky: remove
+## Compatibility with bookworm.
+if test -e /usr/libexec/helper-scripts/package_installed_check.bsh; then
+   # shellcheck source=../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
+   source /usr/libexec/helper-scripts/package_installed_check.bsh
+fi
 
 error_handler() {
    true "\
