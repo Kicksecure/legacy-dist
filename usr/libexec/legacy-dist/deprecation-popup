@@ -61,7 +61,7 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />${PROJECT_HOMEPAGE}/wiki/Release_Upgrade
 </p>"
 
-stripped_text="$(strip-html "$text")"
+stripped_text="$(strip-markup -- "$text")"
 
 if [ "$cli" = "true" ]; then
   printf '%s\n' "$stripped_text" >&2
