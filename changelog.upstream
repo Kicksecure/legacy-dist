@@ -1,3 +1,22 @@
+commit 38721b9d853cc93b7186ff0c6a6ef672a3ccfb52
+Merge: ee3d2ca 61a9a05
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Dec 2 04:37:13 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 61a9a0543020a49cba6b798c94d20ede791d6270
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Dec 1 20:29:28 2025 -0600
+
+    Rename strip-html -> strip-markup
+
+commit ee3d2ca26b8d7375f970bcf896b3e9e32e31121d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Nov 14 06:21:05 2025 +0000
+
+    bumped changelog version
+
 commit 0e5a0dfe277c2eee118723ccfb71d875d62c4337
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Nov 14 00:43:51 2025 -0500
