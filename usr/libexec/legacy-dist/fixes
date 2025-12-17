@@ -4,7 +4,7 @@
 ## See the file COPYING for copying conditions.
 
 command_not_found_sources_list_fix() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
@@ -14,11 +14,11 @@ command_not_found_sources_list_fix() {
    fi
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 command_not_found_permission_fix() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
@@ -28,7 +28,7 @@ command_not_found_permission_fix() {
    fi
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 bisq_desktop_directories_workaround() {
@@ -36,10 +36,11 @@ bisq_desktop_directories_workaround() {
       return 0
    fi
 
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
+   local user_name qubes_vm_name
    user_name="user"
    if test -f "/home/$user_name/.local/share/Bisq/btc_mainnet/tor/tor" ; then
       return 0
@@ -67,17 +68,17 @@ bisq_desktop_directories_workaround() {
    sudo --non-interactive -u "$user_name" touch "/home/$user_name/.local/share/Bisq/btc_mainnet/tor/tor" || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 locales_fix() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
    ## https://github.com/QubesOS/qubes-issues/issues/4889
 
-   local search replace file_name
+   local search replace file_name etc_locale_gen_lines
 
    search="# en_US.UTF-8 UTF-8"
    replace="en_US.UTF-8 UTF-8"
@@ -112,7 +113,7 @@ locales_fix() {
    LC_ALL=C LANG=C locale-gen || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 zsh_migration() {
@@ -122,7 +123,7 @@ zsh_migration() {
    else
       do_once_folder="/var/lib/kicksecure/do_once"
    fi
-   do_once_file="${do_once_folder}/${FUNCNAME}_version_1"
+   do_once_file="${do_once_folder}/${FUNCNAME[0]}_version_1"
 
    if [ -f "$do_once_file" ]; then
       return 0
@@ -145,6 +146,31 @@ zsh_migration() {
 
    mkdir --parents "$do_once_folder"
    touch "$do_once_file"
+}
+
+qterminal_confirm_multiline_paste() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+      return 0
+   fi
+
+   local user_list user_name config_file config_file_contents
+
+   readarray -t user_list < <(/usr/libexec/helper-scripts/get-user-list)
+   for user_name in "${user_list[@]}"; do
+      config_file="/home/${user_name}/.config/qterminal.org/qterminal.ini"
+      if ! test -f "${config_file}"; then
+         continue
+      fi
+      config_file_contents="$(cat "${config_file}")"
+      if grep '^ConfirmMultilinePaste=false$' <<< "${config_file_contents}" >dev/null; then
+         # shellcheck disable=SC2001
+         config_file_contents="$(sed 's/^ConfirmMultilinePaste=false$/ConfirmMultilinePaste=true/' <<< "${config_file_contents}")"
+         printf '%s\n' "${config_file_contents}" | sponge "${config_file}"
+      fi
+   done
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 if [ "$(id -u)" != "0" ]; then
@@ -181,3 +207,5 @@ bisq_desktop_directories_workaround
 locales_fix
 
 zsh_migration
+
+qterminal_confirm_multiline_paste

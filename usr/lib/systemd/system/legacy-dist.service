@@ -12,6 +12,7 @@ Before=qubes-gui-agent.service
 ## -> 40_tor_control_panel.conf.
 Before=tor-control-panel.service
 Before=anon-gw-anonymizer-config.service
+Before=multi-user.target
 
 After=qubes-mount-dirs.service
 
