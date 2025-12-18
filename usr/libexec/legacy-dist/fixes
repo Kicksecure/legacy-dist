@@ -3,6 +3,16 @@
 ## Copyright (C) 2012 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+user_list=()
+user_list_loaded='false'
+
+load_user_list() {
+   if [ "${user_list_loaded}" = 'false' ]; then
+      readarray -t user_list < <(/usr/libexec/helper-scripts/get-user-list)
+      user_list_loaded='true'
+   fi
+}
+
 command_not_found_sources_list_fix() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
@@ -148,17 +158,18 @@ zsh_migration() {
    touch "$do_once_file"
 }
 
+## Enables multiline-paste configuration for all active users.
 qterminal_confirm_multiline_paste() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
-   local user_list user_name config_file config_file_contents
+   local user_name config_file config_file_contents
 
-   readarray -t user_list < <(/usr/libexec/helper-scripts/get-user-list)
+   load_user_list
    for user_name in "${user_list[@]}"; do
       config_file="/home/${user_name}/.config/qterminal.org/qterminal.ini"
-      if ! test -f "${config_file}"; then
+      if ! [ -f "${config_file}" ]; then
          continue
       fi
       config_file_contents="$(cat "${config_file}")"
@@ -167,6 +178,29 @@ qterminal_confirm_multiline_paste() {
          config_file_contents="$(sed 's/^ConfirmMultilinePaste=false$/ConfirmMultilinePaste=true/' <<< "${config_file_contents}")"
          printf '%s\n' "${config_file_contents}" | sponge "${config_file}"
       fi
+   done
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
+}
+
+## Fixes an issue where QTerminal attempts to save its bookmarks file in the
+## home folder of a user account other than the account QTerminal is
+## running as.
+qterminal_bookmarks_file() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+      return 0
+   fi
+
+   local user_name
+
+   load_user_list
+   for user_name in "${user_list[@]}"; do
+      config_file="/home/${user_name}/.config/qterminal.org/qterminal.ini"
+      if ! [ -f "${config_file}" ]; then
+         continue
+      fi
+      sed -i '/BookmarksFile=\/home\/user\/.config\/qterminal.org\/qterminal_bookmarks.xml/d' "${config_file}"
    done
 
    mkdir --parents "/var/lib/whonix/do_once"
@@ -209,3 +243,5 @@ locales_fix
 zsh_migration
 
 qterminal_confirm_multiline_paste
+
+qterminal_bookmarks_file
