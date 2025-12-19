@@ -199,7 +199,7 @@ qterminal_bookmarks_file() {
       return 0
    fi
 
-   local user_entry
+   local user_entry config_file
 
    load_user_list
    for user_entry in "${user_list[@]}"; do
