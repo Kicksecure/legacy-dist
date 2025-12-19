@@ -179,11 +179,11 @@ qterminal_confirm_multiline_paste() {
       if ! [ -f "${config_file}" ]; then
          continue
       fi
-      config_file_contents="$(cat "${config_file}")"
+      config_file_contents="$(cat -- "${config_file}")"
       if grep '^ConfirmMultilinePaste=false$' <<< "${config_file_contents}" >/dev/null; then
          # shellcheck disable=SC2001
          config_file_contents="$(sed 's/^ConfirmMultilinePaste=false$/ConfirmMultilinePaste=true/' <<< "${config_file_contents}")"
-         printf '%s\n' "${config_file_contents}" | sponge "${config_file}"
+         printf '%s\n' "${config_file_contents}" | sponge -- "${config_file}"
       fi
    done
 
