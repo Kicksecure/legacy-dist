@@ -1,3 +1,28 @@
+commit 2b1ae6c853ea5595a22fc282ca5bc53acdffda9c
+Merge: 198d326 5831932
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Dec 19 03:37:18 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 5831932eb833ca503a56ac7736f02acb88d76470
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Dec 17 22:14:48 2025 -0600
+
+    Fix QTerminal being configured to always save bookmarks under /home/user, regardless of the user account it runs as
+
+commit 62e762545f80efeb0e7994acf69e3e5f0450f32b
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Dec 17 17:43:41 2025 -0600
+
+    Enable qterminal ConfirmMultilinePaste=true for all users, make shellcheck and BashSupportPro happy, run legacy-dist fixes before multi-user.target comes up
+
+commit 198d3262d213250b412f27d955357ac1176f652a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Dec 3 08:28:55 2025 +0000
+
+    bumped changelog version
+
 commit 38721b9d853cc93b7186ff0c6a6ef672a3ccfb52
 Merge: ee3d2ca 61a9a05
 Author: Patrick Schleizer <adrelanos@whonix.org>
