@@ -4,13 +4,20 @@
 ## See the file COPYING for copying conditions.
 
 user_list=()
-user_list_loaded='false'
+user_list_already_loaded='false'
 
 load_user_list() {
-   if [ "${user_list_loaded}" = 'false' ]; then
-      readarray -t user_list < <(/usr/libexec/helper-scripts/get-user-list)
-      user_list_loaded='true'
+   if [ "${user_list_already_loaded}" = 'true' ]; then
+      return 0
    fi
+
+   if ! user_list_str="$(/usr/libexec/helper-scripts/get-user-list)"; then
+      printf "%s\n" "$0: ERROR: Failed to get user list!" >&2
+      return 1
+   fi
+   readarray -t user_list <<< "$user_list_str"
+
+   user_list_already_loaded='true'
 }
 
 command_not_found_sources_list_fix() {
