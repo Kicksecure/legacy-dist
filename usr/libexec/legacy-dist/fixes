@@ -171,11 +171,11 @@ qterminal_confirm_multiline_paste() {
       return 0
    fi
 
-   local user_name config_file config_file_contents
+   local user_entry config_file config_file_contents
 
    load_user_list
-   for user_name in "${user_list[@]}"; do
-      config_file="/home/${user_name}/.config/qterminal.org/qterminal.ini"
+   for user_entry in "${user_list[@]}"; do
+      config_file="/home/${user_entry}/.config/qterminal.org/qterminal.ini"
       if ! [ -f "${config_file}" ]; then
          continue
       fi
@@ -199,11 +199,11 @@ qterminal_bookmarks_file() {
       return 0
    fi
 
-   local user_name
+   local user_entry
 
    load_user_list
-   for user_name in "${user_list[@]}"; do
-      config_file="/home/${user_name}/.config/qterminal.org/qterminal.ini"
+   for user_entry in "${user_list[@]}"; do
+      config_file="/home/${user_entry}/.config/qterminal.org/qterminal.ini"
       if ! [ -f "${config_file}" ]; then
          continue
       fi
