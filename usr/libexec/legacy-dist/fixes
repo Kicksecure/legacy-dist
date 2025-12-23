@@ -7,6 +7,8 @@ user_list=()
 user_list_already_loaded='false'
 
 load_user_list() {
+   local user_list_str
+
    if [ "${user_list_already_loaded}" = 'true' ]; then
       return 0
    fi
@@ -214,6 +216,34 @@ qterminal_bookmarks_file() {
    touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
+## Fixes removable media automount being enabled by default in pcmanfm-qt
+## (this is a security risk)
+pcmanfm_qt_removable_media_automount() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+      return 0
+   fi
+   local user_entry config_file config_file_variant_list config_file_variant
+
+   load_user_list
+   for user_entry in "${user_list[@]}"; do
+      config_file_variant_list=(
+         'lxqt'
+         'default'
+      )
+      for config_file_variant in "${config_file_variant_list[@]}"; do
+         config_file="/home/${user_entry}/.config/pcmanfm-qt/${config_file_variant}/settings.conf";
+         if ! [ -f "${config_file}" ]; then
+            continue
+         fi
+         sed -i 's/^MountOnStartup=true$/MountOnStartup=false/' "${config_file}"
+         sed -i 's/^MountRemovable=true$/MountRemovable=false/' "${config_file}"
+      done
+   done
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
+}
+
 if [ "$(id -u)" != "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -252,3 +282,5 @@ zsh_migration
 qterminal_confirm_multiline_paste || true
 
 qterminal_bookmarks_file || true
+
+pcmanfm_qt_removable_media_automount || true
