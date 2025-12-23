@@ -3,6 +3,10 @@
 ## Copyright (C) 2012 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+set -e
+
+true "$0: START"
+
 user_list=()
 user_list_already_loaded='false'
 
@@ -286,3 +290,5 @@ qterminal_confirm_multiline_paste || true
 qterminal_bookmarks_file || true
 
 pcmanfm_qt_removable_media_automount || true
+
+true "$0: END"
