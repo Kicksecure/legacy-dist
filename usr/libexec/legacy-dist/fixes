@@ -99,6 +99,8 @@ locales_fix() {
 
    local search replace file_name etc_locale_gen_lines
 
+   command -v str_replace >/dev/null
+
    search="# en_US.UTF-8 UTF-8"
    replace="en_US.UTF-8 UTF-8"
    file_name="/etc/locale.gen"
@@ -116,7 +118,7 @@ locales_fix() {
 
    etc_locale_gen_lines="$(cat -- "$file_name" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
 
-   if [ ! "$etc_locale_gen_lines" = "" ]; then
+   if ! [ "$etc_locale_gen_lines" = "" ]; then
       ## If file /etc/locale.gen is already non-empty, i.e. has an entry other
       ## blank lines or comments (lines starting with "#") then this should not be needed.
       return 0
@@ -244,7 +246,7 @@ pcmanfm_qt_removable_media_automount() {
    touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
-if [ "$(id -u)" != "0" ]; then
+if ! [ "$(id -u)" = "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
 fi
