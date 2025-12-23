@@ -275,15 +275,15 @@ if [ -d "/var/log/tor" ]; then
    chown --recursive debian-tor:adm /var/log/tor || true
 fi
 
-command_not_found_sources_list_fix
+command_not_found_sources_list_fix || true
 
-command_not_found_permission_fix
+command_not_found_permission_fix || true
 
-bisq_desktop_directories_workaround
+bisq_desktop_directories_workaround || true
 
-locales_fix
+locales_fix || true
 
-zsh_migration
+zsh_migration || true
 
 qterminal_confirm_multiline_paste || true
 
