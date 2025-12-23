@@ -1,3 +1,22 @@
+commit 6cae4fd1ee01c9e94552020179050d1a4a617a02
+Merge: a5b748c 14d7e61
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Dec 22 22:05:43 2025 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 14d7e61e3dd0cc1f5e92a078467f93848d90008d
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Dec 22 20:58:14 2025 -0600
+
+    Disable removable media automount for existing users
+
+commit a5b748c078b110ccf25549f9684aa3049df6cd6d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Dec 19 11:38:01 2025 +0000
+
+    bumped changelog version
+
 commit 90336885053b565d6630cd037dc3b590678b11dd
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Dec 19 06:34:45 2025 -0500
