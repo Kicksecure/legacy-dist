@@ -21,7 +21,7 @@ load_user_list() {
       printf "%s\n" "$0: ERROR: Failed to get user list!" >&2
       return 1
    fi
-   readarray -t user_list <<< "$user_list_str"
+   readarray -t user_list <<< "$user_list_str" || return 1
 
    user_list_already_loaded='true'
 }
@@ -181,7 +181,7 @@ qterminal_confirm_multiline_paste() {
 
    local user_entry config_file config_file_contents
 
-   load_user_list
+   load_user_list || return 1
    for user_entry in "${user_list[@]}"; do
       config_file="/home/${user_entry}/.config/qterminal.org/qterminal.ini"
       if ! [ -f "${config_file}" ]; then
@@ -209,7 +209,7 @@ qterminal_bookmarks_file() {
 
    local user_entry config_file
 
-   load_user_list
+   load_user_list || return 1
    for user_entry in "${user_list[@]}"; do
       config_file="/home/${user_entry}/.config/qterminal.org/qterminal.ini"
       if ! [ -f "${config_file}" ]; then
@@ -230,7 +230,7 @@ pcmanfm_qt_removable_media_automount() {
    fi
    local user_entry config_file config_file_variant_list config_file_variant
 
-   load_user_list
+   load_user_list || return 1
    for user_entry in "${user_list[@]}"; do
       config_file_variant_list=(
          'lxqt'
