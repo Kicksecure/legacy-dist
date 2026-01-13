@@ -539,6 +539,7 @@ ERROR: An error was encountered during removal of the old 'dummy-dependency' pac
 fi
 
 true "INFO: Removing 'xscreensaver' to prevent display issues under Wayland."
+## TODO: do not error out if already removed
 if ! apt-get-noninteractive --yes remove xscreensaver ; then
   true "\
 ERROR: An error was encountered during the removal of the old 'xscreensaver' package. See above."
