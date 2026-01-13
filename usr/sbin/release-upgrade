@@ -67,7 +67,8 @@ BASH_COMMAND: $BASH_COMMAND"
 virt_mode="$(systemd-detect-virt)" || true
 
 meta_package_detect() {
-   if [ ! "$old_meta_package" = "" ]; then
+   if [ -n "$old_meta_package" ]; then
+      true "INFO: variable old_meta_package is already set to $old_meta_package"
       return 0
    fi
    if test -e /usr/share/qubes/marker-vm ; then
