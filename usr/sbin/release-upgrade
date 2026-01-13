@@ -63,7 +63,9 @@ BASH_COMMAND: $BASH_COMMAND"
    exit 1
 }
 
-## systemd-detect-virt exists non-zero on hardware.
+## exit-code: 'systemd-detect-virt' exits non-zero on hardware,
+##            therefore overwrite with '|| true'
+## https://forums.kicksecure.com/t/in-place-upgrade-of-distromorphed-kicksecure-17-with-wrong-meta-package/1480
 virt_mode="$(systemd-detect-virt)" || true
 
 meta_package_detect() {
