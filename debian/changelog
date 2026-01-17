@@ -1,3 +1,9 @@
+legacy-dist (3:19.4-1) unstable; urgency=medium
+
+  * New upstream version (local package).
+
+ -- Patrick Schleizer <adrelanos@whonix.org>  Sat, 17 Jan 2026 15:00:24 +0000
+
 legacy-dist (3:19.3-1) unstable; urgency=medium
 
   * New upstream version (local package).
