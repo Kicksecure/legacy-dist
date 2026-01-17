@@ -27,7 +27,7 @@ else
 fi
 
 if [ "$derivative_major_release_version" = "" ]; then
-  printf '%s\n' "ERROR: version file does not exist or is empty!" >&2
+  printf '%s\n' "INFO: version file does not exist or is empty. This is expected during initial installation." >&2
   exit 1
 fi
 
