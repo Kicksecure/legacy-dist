@@ -119,7 +119,7 @@ meta_package_detect() {
             fi
             if meta_package_installed_check ; then return 0 ; fi
             old_meta_package=non-qubes-whonix-workstation-cli
-           if [ "${virt_mode}" = 'none' ]; then
+            if [ "${virt_mode}" = 'none' ]; then
                new_meta_package=whonix-workstation-baremetal-cli
             else
                new_meta_package=whonix-workstation-vm-cli
