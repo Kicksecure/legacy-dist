@@ -272,6 +272,20 @@ apt_mark_deprecated_packages_for_autoremoval_four() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+apt_mark_deprecated_packages_for_autoremoval_five() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## See:
+   ## package dist-base-files
+   ## file /etc/dracut.conf.d/60-dist-base-files.conf
+   apt-mark manual dracut-config-generic &>/dev/null || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 migrations_for_old_versions() {
    apt_mark_deprecated_packages_for_autoremoval
    apt_mark_deprecated_packages_for_autoremoval_two
@@ -279,6 +293,7 @@ migrations_for_old_versions() {
    #apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval
    apt_mark_deprecated_packages_for_autoremoval_three
    apt_mark_deprecated_packages_for_autoremoval_four
+   apt_mark_deprecated_packages_for_autoremoval_five
 }
 
 true "1: $1"
