@@ -1,3 +1,19 @@
+commit eace5b34f59e4e28bb5acf9995f784e9fff052b5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 22 05:34:18 2026 -0500
+
+    mark `dracut-config-generic` for APT autoremoval since no longer required
+    
+    `apt-mark manual dracut-config-generic`
+    
+    see also package `dist-base-files` file `/etc/dracut.conf.d/60-dist-base-files.conf`
+
+commit d61c585e8ca1b507c2172d57c1c603948529d329
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Jan 17 15:00:25 2026 +0000
+
+    bumped changelog version
+
 commit 896778a1f7e379f2ab6f80307241a201243034ec
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Jan 17 03:42:35 2026 -0500
