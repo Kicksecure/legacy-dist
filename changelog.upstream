@@ -1,3 +1,28 @@
+commit d4a8b6da61b29c28c25cae352ff26ede3051980d
+Merge: dcd6e73 92c4445
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jan 23 04:43:58 2026 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 92c444598215402bcaa1881f70597669a6507920
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Jan 22 22:31:52 2026 -0600
+
+    fix
+
+commit 9a1a09f65f0d2af35722041f38e23f7a1d207cce
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Thu Jan 22 22:10:41 2026 -0600
+
+    Move MOK cleanup code from systemcheck to legacy-dist
+
+commit dcd6e73f70c0797b1260b8904bdba58a0fd060de
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 22 11:30:29 2026 +0000
+
+    bumped changelog version
+
 commit 722b9ba38f764d2020f9ab4aab83d05ee8757e86
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Jan 22 06:10:09 2026 -0500
