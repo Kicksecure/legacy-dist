@@ -250,6 +250,55 @@ pcmanfm_qt_removable_media_automount() {
    touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
+## Removes insecure MOK keys that were accidentally shipped in installation
+## images previously, but only if it is safe to do so.
+##
+## Note that this function CANNOT be placed in either legacy-dist.preinst or
+## legacy-dist.postinst. If the user has a vulnerable key enrolled in their
+## firmware, starts the process of resetting the MOK keys, but then generates
+## new keys before rebooting and finishing the reset process, helper-scripts'
+## 'check-image-builtin-mok' script will detect what it thinks is a
+## vulnerable-but-not-enrolled key. What *should* be done in this situation is
+## the key should be deleted, but if the deletion logic is in a package
+## maintainer script, it won't be run again to remove the new keys. This will
+## result in a confusing systemcheck warning about needing to upgrade
+## legacy-dist.
+##
+## Theoretically, we could allow users to generate their new MOK keys after
+## starting a MOK reset but before finishing it. Doing so would require saving
+## a hash of the old insecure key somewhere so that we could tell that the new
+## key was a different key. This probably isn't a good idea though, because if
+## the user generates a new key using the shim-enroll-mok helper, the new key
+## creation request will override the pending MOK reset request. Then when the
+## user reboots and enrolls the newly generated key, the vulnerable key will
+## still be present in the MOK store. If we relied on the hash trick above,
+## 'check-image-builtin-mok' would then see that the existing key is
+## different, and assume the system is safe, when in reality it is still
+## vulnerable.
+##
+## We could work around *that* too by dumping the MOK store and checking to
+## see if any of the keys are the previously detected vulnerable key, but
+## it's far simpler if we just require that new MOK keys are only generated
+## after the reset is complete. Putting this function here implements that.
+secure_boot_mok_cleanup() {
+   local check_image_builtin_mok_retcode
+
+   check_image_builtin_mok_retcode='0'
+   ## Note that 'check-image-builtin-mok' handles the do_once mechanism
+   ## itself.
+   /usr/libexec/helper-scripts/check-image-builtin-mok || check_image_builtin_mok_retcode="$?"
+   if [ "${check_image_builtin_mok_retcode}" = '1' ]; then
+      ## Vulnerable key is present but may be safely wiped, delete them
+
+      # shellcheck source=../../helper-scripts/usr/sbin/shim-signed-mok-setup
+      source /usr/sbin/shim-signed-mok-setup
+      dkms_mok_variables_set
+
+      safe-rm --force -- "${dkms_mok_public_file}"
+      safe-rm --force -- "${dkms_mok_private_file}"
+   fi
+}
+
 if ! [ "$(id -u)" = "0" ]; then
    echo "$0 ERROR: must run as root!" >&2
    exit 1
@@ -290,5 +339,7 @@ qterminal_confirm_multiline_paste || true
 qterminal_bookmarks_file || true
 
 pcmanfm_qt_removable_media_automount || true
+
+secure_boot_mok_cleanup || true
 
 true "$0: END"
