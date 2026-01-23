@@ -280,7 +280,7 @@ apt_mark_deprecated_packages_for_autoremoval_five() {
    ## See:
    ## package dist-base-files
    ## file /etc/dracut.conf.d/60-dist-base-files.conf
-   apt-mark manual dracut-config-generic &>/dev/null || true
+   apt-mark auto dracut-config-generic &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
