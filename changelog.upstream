@@ -1,3 +1,19 @@
+commit 568dc9fec4bb151d5f1408968ba977efa440124a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 25 03:09:42 2026 -0500
+
+    apt-mark manual
+    kicksecure-network-conf
+    kicksecure-network-conf-gui
+    tirdad
+    tirdad-dkms
+
+commit d56584093c3154fd8b35fc3ef10aec459a1b992c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Jan 23 09:47:44 2026 +0000
+
+    bumped changelog version
+
 commit d4a8b6da61b29c28c25cae352ff26ede3051980d
 Merge: dcd6e73 92c4445
 Author: Patrick Schleizer <adrelanos@whonix.org>
