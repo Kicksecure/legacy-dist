@@ -286,6 +286,27 @@ apt_mark_deprecated_packages_for_autoremoval_five() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+apt_mark_keep_one() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## 'apt-mark manual' - keep
+   ## 'apt-mark auto'   - mark as automatically installed for 'apt autoremove'
+
+   ## * In the past, a meta packages has 'Depends:' on these packages.
+   ## * Nowadays, these are "weak recommended packages". No meta package
+   ##   'Depends:' on these packages. These packages are conditionally
+   ##   installed by build steps **_install-packages' and '*_create-lb-iso'.
+   apt-mark manual kicksecure-network-conf &>/dev/null || true
+   apt-mark manual kicksecure-network-conf-gui &>/dev/null || true
+   apt-mark manual tirdad &>/dev/null || true
+   apt-mark manual tirdad-dkms &>/dev/null || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 migrations_for_old_versions() {
    apt_mark_deprecated_packages_for_autoremoval
    apt_mark_deprecated_packages_for_autoremoval_two
@@ -294,6 +315,7 @@ migrations_for_old_versions() {
    apt_mark_deprecated_packages_for_autoremoval_three
    apt_mark_deprecated_packages_for_autoremoval_four
    apt_mark_deprecated_packages_for_autoremoval_five
+   apt_mark_keep_one
 }
 
 true "1: $1"
