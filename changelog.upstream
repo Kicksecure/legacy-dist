@@ -1,3 +1,15 @@
+commit 5309e4ee91197707ae055c3b007ca2762205c739
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 29 05:40:02 2026 -0500
+
+    apt-mark manual firmware-nonfreedom-network
+
+commit 0aa8117ce767cffc897f886ba86e9d8d1820d7f8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Jan 25 08:10:28 2026 +0000
+
+    bumped changelog version
+
 commit 568dc9fec4bb151d5f1408968ba977efa440124a
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sun Jan 25 03:09:42 2026 -0500
