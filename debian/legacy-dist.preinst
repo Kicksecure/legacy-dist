@@ -287,7 +287,7 @@ apt_mark_deprecated_packages_for_autoremoval_five() {
 }
 
 apt_mark_keep_one() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
       return 0
    fi
 
@@ -302,9 +302,10 @@ apt_mark_keep_one() {
    apt-mark manual kicksecure-network-conf-gui &>/dev/null || true
    apt-mark manual tirdad &>/dev/null || true
    apt-mark manual tirdad-dkms &>/dev/null || true
+   apt-mark manual firmware-nonfreedom-network &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
 }
 
 migrations_for_old_versions() {
