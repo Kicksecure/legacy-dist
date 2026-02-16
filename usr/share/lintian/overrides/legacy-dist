@@ -1,2 +1,6 @@
 ## Not using dpkg database only maintainer scripts directly.
 legacy-dist: uses-dpkg-database-directly [usr/libexec/legacy-dist/fixes]
+
+## deb-systemd-helper is not designed to run the fixup routine for kloak in
+## legacy-dist.postinst.
+legacy-dist: maintainer-script-calls-systemctl

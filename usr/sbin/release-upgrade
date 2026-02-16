@@ -45,6 +45,20 @@ error_handler() {
 
 trap "error_handler" ERR
 
+override_policy_rc_d() {
+   true "INFO: Overriding policy-rc.d..."
+   printf '%s\n' "#!/bin/sh
+exit 101" > /usr/sbin/policy-rc.d.legacy-dist
+   update-alternatives --install /usr/sbin/policy-rc.d policy-rc.d /usr/sbin/policy-rc.d.legacy-dist 1000
+   chmod 0755 /usr/sbin/policy-rc.d.legacy-dist
+}
+
+revert_policy_rc_d_override() {
+   true "INFO: Removing override of policy-rc.d if necessary..."
+   update-alternatives --remove policy-rc.d /usr/sbin/policy-rc.d.legacy-dist || true
+   rm -f /usr/sbin/policy-rc.d.legacy-dist || true
+}
+
 pre_upgrade_error() {
    true "\
 ERROR: An error was encountered during upgrade preparation:
@@ -52,6 +66,7 @@ The following command failed:
 BASH_COMMAND: $BASH_COMMAND
 The system is in a broken state prior upgrade.
 Therefore aborting upgrade."
+   revert_policy_rc_d_override
    exit 1
 }
 
@@ -60,6 +75,7 @@ post_upgrade_failure() {
 ERROR: An error was encountered after release upgrade:
 The following command failed:
 BASH_COMMAND: $BASH_COMMAND"
+   revert_policy_rc_d_override
    exit 1
 }
 
@@ -496,6 +512,8 @@ fi
 true "INFO: Removing '/etc/dracut.conf.d/30-repart.conf' to prevent spurious systemd-repart errors."
 safe-rm --force -- /etc/dracut.conf.d/30-repart.conf
 
+override_policy_rc_d
+
 true "INFO: Install release upgrade..."
 if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade "$new_meta_package" ; then
    true "\
@@ -591,5 +609,7 @@ apt-forktracer | grep --invert-match -- "whonix:" | grep --invert-match -- "Qube
 ## Currently not required.
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
 #/usr/libexec/helper-scripts/first-boot-skel || true
+
+revert_policy_rc_d_override
 
 true "INFO: OK. (release-upgrade version: $version) Release upgrade success."
