@@ -15,8 +15,9 @@ Rules-Requires-Root: no
 Package: legacy-dist
 Architecture: all
 Depends: ${misc:Depends}, helper-scripts, apt-forktracer, moreutils
+Breaks: kloak (<< 0:0.6.3-1)
 Provides: vbox-disable-timesync, whonix-legacy
-Replaces: vbox-disable-timesync, whonix-legacy
+Replaces: vbox-disable-timesync, whonix-legacy, kloak(<< 0:0.6.3-1)
 Conflicts: vbox-disable-timesync, whonix-legacy
 Description: Prepare older Build Versions of Derivatives for Upgrade
  Applies fixes required for upgrading from for example version 8.x to version
