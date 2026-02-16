@@ -1,3 +1,28 @@
+commit 4e3f7d78fda918f6c49d193ab79fb80ed447c149
+Merge: 29bef27 1b22c2d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Feb 16 05:20:12 2026 -0500
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 1b22c2dbead015c6617b17ca38490e23b5beccfe
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun Feb 15 23:50:20 2026 -0600
+
+    Fix kloak failing to start after a Whonix-Workstation 17 release upgrade
+
+commit 037a89c000c327d2199a6e38a9a513633b6ee8f3
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun Feb 15 23:28:33 2026 -0600
+
+    Fix release upgrade bug caused by usability-misc's policy-rc.d disappearing mid-upgrade
+
+commit 29bef27278912ca232ca21058f4d4e6788206cd3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Jan 29 10:43:10 2026 +0000
+
+    bumped changelog version
+
 commit 5309e4ee91197707ae055c3b007ca2762205c739
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Thu Jan 29 05:40:02 2026 -0500
