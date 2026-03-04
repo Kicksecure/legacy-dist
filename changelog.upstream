@@ -1,3 +1,15 @@
+commit 563f8f57b5ff405d8aaf6eec7e9c550f8b4a7487
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Mar 4 04:07:59 2026 -0500
+
+    deprecate version 17
+
+commit 9b88dd291d6b42258171d8b2147f5f8367ed8011
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Feb 16 10:30:13 2026 +0000
+
+    bumped changelog version
+
 commit 4e3f7d78fda918f6c49d193ab79fb80ed447c149
 Merge: 29bef27 1b22c2d
 Author: Patrick Schleizer <adrelanos@whonix.org>
