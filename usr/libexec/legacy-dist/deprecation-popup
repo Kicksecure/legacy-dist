@@ -14,7 +14,7 @@ set -e
 ## sets: derivative_major_release_version
 source /usr/libexec/helper-scripts/origins-parser
 
-still_supported_version=17
+still_supported_version=18
 status_file=~"/.config/legacy-dist/deprecation-notice/dismissed-version-${still_supported_version}"
 
 if [ "$1" = "cli" ]; then
