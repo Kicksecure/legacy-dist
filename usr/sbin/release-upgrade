@@ -22,13 +22,13 @@ true "INFO: (release-upgrade version: $version) Release upgrade from Debian $sou
 ## Compatibility with trixie.
 ## TODO: Debian forky: port to 'package-installed-check'
 if test -e /usr/libexec/helper-scripts/package_installed_check.sh; then
-   # shellcheck source=../helper-scripts/usr/libexec/helper-scripts/package_installed_check.sh
+   # shellcheck source=../../../helper-scripts/usr/libexec/helper-scripts/package_installed_check.sh
    source /usr/libexec/helper-scripts/package_installed_check.sh
 fi
 ## TODO: Debian forky: remove
 ## Compatibility with bookworm.
 if test -e /usr/libexec/helper-scripts/package_installed_check.bsh; then
-   # shellcheck source=../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
+   # shellcheck source=../../../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
    source /usr/libexec/helper-scripts/package_installed_check.bsh
 fi
 
@@ -80,7 +80,7 @@ BASH_COMMAND: $BASH_COMMAND"
 }
 
 ## exit-code: 'systemd-detect-virt' exits non-zero on hardware,
-##            therefore overwrite with '|| true'
+##            therefore override with '|| true'
 ## https://forums.kicksecure.com/t/in-place-upgrade-of-distromorphed-kicksecure-17-with-wrong-meta-package/1480
 virt_mode="$(systemd-detect-virt)" || true
 
@@ -556,12 +556,13 @@ ERROR: An error was encountered during removal of the old 'dummy-dependency' pac
   fi
 fi
 
-true "INFO: Removing 'xscreensaver' to prevent display issues under Wayland."
-## TODO: do not error out if already removed
-if ! apt-get-noninteractive --yes remove xscreensaver ; then
-  true "\
+if pkg_installed xscreensaver ; then
+   true "INFO: Removing 'xscreensaver' to prevent display issues under Wayland."
+   if ! apt-get-noninteractive --yes remove xscreensaver ; then
+      true "\
 ERROR: An error was encountered during the removal of the old 'xscreensaver' package. See above."
-  exit 1
+      exit 1
+   fi
 fi
 
 trap "post_upgrade_failure" ERR
