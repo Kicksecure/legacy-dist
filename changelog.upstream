@@ -1,3 +1,28 @@
+commit ab443703fc431ce72355f059e0eccd780e128a0f
+Merge: ac2d1b5 4a303ae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Mar 14 03:05:29 2026 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 4a303aef1f2d94085797e36154628873c9057976
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Thu Mar 12 12:56:42 2026 -0400
+
+    Avoid error if dummy-dependency is not installed at upgrade time
+
+commit c2796dcba7086ef2397f4b65fd84087f9368f334
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Thu Mar 12 12:49:20 2026 -0400
+
+    Comments, avoid error if xscreensaver is not installed at upgrade time
+
+commit ac2d1b590917ca18527e60d51a196c2f005f01e5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Mar 4 09:08:32 2026 +0000
+
+    bumped changelog version
+
 commit 563f8f57b5ff405d8aaf6eec7e9c550f8b4a7487
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed Mar 4 04:07:59 2026 -0500
