@@ -3,6 +3,23 @@
 ## Copyright (C) 2020 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+set -x
+set -e
+set -o pipefail
+shopt -s nullglob
+
+true "INFO: START"
+
+## TODO: Debian forky
+version="3.3"
+[[ -v source_codename ]] || source_codename=bookworm
+[[ -v target_codename ]] || target_codename=trixie
+
+true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
+
+# shellcheck source=../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
+source /usr/libexec/helper-scripts/package_installed_check.bsh
+
 error_handler() {
    true "\
 ###########################################################
@@ -14,6 +31,22 @@ error_handler() {
    exit 1
 }
 
+trap "error_handler" ERR
+
+override_policy_rc_d() {
+   true "INFO: Overriding policy-rc.d..."
+   printf '%s\n' "#!/bin/sh
+exit 101" > /usr/sbin/policy-rc.d.legacy-dist
+   update-alternatives --install /usr/sbin/policy-rc.d policy-rc.d /usr/sbin/policy-rc.d.legacy-dist 1000
+   chmod 0755 /usr/sbin/policy-rc.d.legacy-dist
+}
+
+revert_policy_rc_d_override() {
+   true "INFO: Removing override of policy-rc.d if necessary..."
+   update-alternatives --remove policy-rc.d /usr/sbin/policy-rc.d.legacy-dist || true
+   rm -f /usr/sbin/policy-rc.d.legacy-dist || true
+}
+
 pre_upgrade_error() {
    true "\
 ERROR: An error was encountered during upgrade preparation:
@@ -21,6 +54,7 @@ The following command failed:
 BASH_COMMAND: $BASH_COMMAND
 The system is in a broken state prior upgrade.
 Therefore aborting upgrade."
+   revert_policy_rc_d_override
    exit 1
 }
 
@@ -29,75 +63,104 @@ post_upgrade_failure() {
 ERROR: An error was encountered after release upgrade:
 The following command failed:
 BASH_COMMAND: $BASH_COMMAND"
+   revert_policy_rc_d_override
    exit 1
 }
 
+## exit-code: 'systemd-detect-virt' exits non-zero on hardware,
+##            therefore override with '|| true'
+## https://forums.kicksecure.com/t/in-place-upgrade-of-distromorphed-kicksecure-17-with-wrong-meta-package/1480
+virt_mode="$(systemd-detect-virt)" || true
+
 meta_package_detect() {
-   if [ ! "$meta_package" = "" ]; then
+   if [ -n "$old_meta_package" ]; then
+      true "INFO: variable old_meta_package is already set to $old_meta_package"
       return 0
    fi
    if test -e /usr/share/qubes/marker-vm ; then
       if test -e /usr/share/whonix/marker ; then
          if test -e /usr/share/anon-gw-base-files/gateway ; then
-            meta_package=qubes-whonix-gateway
+            old_meta_package=qubes-whonix-gateway
+            new_meta_package=whonix-gateway-qubes-gui-lxqt
             if meta_package_installed_check ; then return 0 ; fi
          fi
          if test -e /usr/share/anon-ws-base-files/workstation ; then
-            meta_package=qubes-whonix-workstation
+            old_meta_package=qubes-whonix-workstation
+            new_meta_package=whonix-workstation-qubes-gui-lxqt
             if meta_package_installed_check ; then return 0 ; fi
          fi
       elif test -e /usr/share/kicksecure/marker ; then
-         meta_package=kicksecure-qubes-gui
+         old_meta_package=kicksecure-qubes-gui
+         new_meta_package=kicksecure-qubes-gui-lxqt
          if meta_package_installed_check ; then return 0 ; fi
-         meta_package=kicksecure-qubes-cli
+         old_meta_package=kicksecure-qubes-cli
+         new_meta_package=kicksecure-qubes-cli
          if meta_package_installed_check ; then return 0 ; fi
       fi
    else
       if test -e /usr/share/whonix/marker ; then
          if test -e /usr/share/anon-gw-base-files/gateway ; then
-            meta_package=non-qubes-whonix-gateway-xfce
+            old_meta_package=non-qubes-whonix-gateway-xfce
+            if [ "${virt_mode}" = 'none' ]; then
+               new_meta_package=whonix-gateway-baremetal-gui-lxqt
+            else
+               new_meta_package=whonix-gateway-vm-gui-lxqt
+            fi
             if meta_package_installed_check ; then return 0 ; fi
-            meta_package=non-qubes-whonix-gateway-cli
+            old_meta_package=non-qubes-whonix-gateway-cli
+            if [ "${virt_mode}" = 'none' ]; then
+               new_meta_package=whonix-gateway-baremetal-cli
+            else
+               new_meta_package=whonix-gateway-vm-cli
+            fi
             if meta_package_installed_check ; then return 0 ; fi
          elif test -e /usr/share/anon-ws-base-files/workstation ; then
-            meta_package=non-qubes-whonix-workstation-xfce
+            old_meta_package=non-qubes-whonix-workstation-xfce
+            if [ "${virt_mode}" = 'none' ]; then
+               new_meta_package=whonix-workstation-baremetal-gui-lxqt
+            else
+               new_meta_package=whonix-workstation-vm-gui-lxqt
+            fi
             if meta_package_installed_check ; then return 0 ; fi
-            meta_package=non-qubes-whonix-workstation-cli
+            old_meta_package=non-qubes-whonix-workstation-cli
+            if [ "${virt_mode}" = 'none' ]; then
+               new_meta_package=whonix-workstation-baremetal-cli
+            else
+               new_meta_package=whonix-workstation-vm-cli
+            fi
             if meta_package_installed_check ; then return 0 ; fi
          fi
       elif test -e /usr/share/kicksecure/marker ; then
-         meta_package=kicksecure-xfce
-         if meta_package_installed_check ; then return 0 ; fi
-         meta_package=kicksecure-cli
-         if meta_package_installed_check ; then return 0 ; fi
+         if [ "${virt_mode}" = 'none' ]; then
+            old_meta_package=kicksecure-xfce-host
+            new_meta_package=kicksecure-baremetal-gui-lxqt
+            if meta_package_installed_check ; then return 0 ; fi
+            old_meta_package=kicksecure-cli-host
+            new_meta_package=kicksecure-baremetal-cli
+            if meta_package_installed_check ; then return 0 ; fi
+         else
+            old_meta_package=kicksecure-xfce-vm
+            new_meta_package=kicksecure-vm-gui-lxqt
+            if meta_package_installed_check ; then return 0 ; fi
+            old_meta_package=kicksecure-cli-vm
+            new_meta_package=kicksecure-vm-cli
+            if meta_package_installed_check ; then return 0 ; fi
+         fi
       fi
    fi
-   meta_package=""
+   old_meta_package=""
+   new_meta_package=""
 }
 
 meta_package_installed_check() {
-   if dpkg --status "$meta_package" &> /dev/null ; then
+   if pkg_installed "$old_meta_package" ; then
+      return 0
+   fi
+   if pkg_installed "$new_meta_package" ; then
       return 0
    fi
    return 1
 }
-
-set -x
-set -e
-set -o pipefail
-
-shopt -s nullglob
-
-source /usr/libexec/helper-scripts/package_installed_check.bsh
-
-## TODO: Debian forkie
-version="3.0"
-[[ -v source_codename ]] || source_codename=bookworm
-[[ -v target_codename ]] || target_codename=trixie
-
-true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
-
-trap "error_handler" ERR
 
 if [ "$(id -u)" != "0" ]; then
    true "ERROR: Must run as root. Run:"
@@ -105,7 +168,69 @@ if [ "$(id -u)" != "0" ]; then
    exit 112
 fi
 
+
+## Thanks to:
+## http://mywiki.wooledge.org/BashFAQ/035
+
+while true; do
+   case $1 in
+      --downloadonly)
+         downloadonly=true
+         shift
+         break
+         ;;
+      --force)
+         force=true
+         shift
+         break
+         ;;
+      --)
+         shift
+         break
+         ;;
+      -*)
+         true "ERROR: unknown option: '$1'" >&2
+         exit 1
+         ;;
+      *)
+         break
+         ;;
+   esac
+done
+
+## If there are input files (for example) that follow the options, they
+## will remain in the "$@" positional parameters.
+
 export DEBDEBUG=1
+
+## TODO: Qubes R4.3 and above: Once Qubes R4.2 support has been deprecated,
+##       the following 'if' clause should be removed.
+if test -f /usr/share/qubes/marker-vm; then
+   true "INFO: Qubes detected."
+   qubes_version="$(grep -v '^#' /usr/share/qubes/marker-vm)"
+   if printf "%s\n" "${qubes_version}" | grep -q -e '^4.2' ; then
+      true "\
+WARNING:
+
+* release-upgrade is unsupported on Qubes R4.2.
+* Kicksecure 18 and Whonix 18 are unsupported on Qubes R4.2. [1]
+* Release upgrade to Qubes R4.3 is required.
+* Release upgrading Kicksecure or Whonix to version 18 will cause issues. [2]
+
+[1] https://github.com/QubesOS/qubes-issues/issues/10219
+[2] https://forum.qubes-os.org/t/whonix-18-denied-sdwdate-connectcheck/36098"
+      if [ "$force" = "true" ]; then
+         true "WARNING: Proceeding due to --force."
+
+         ## Package 'qubes-core-agent-pcmanfm-qt' is non-existing for
+         ## Qubes R4.2.
+         dummy-dependency --yes qubes-core-agent-pcmanfm-qt
+      else
+         true "ERROR: Stop, because Qubes R4.2 detected."
+         exit 1
+      fi
+   fi
+fi
 
 true "INFO: Checking if SSH configuration changes in Trixie are dangerous..."
 if pkg_installed openssh-server; then
@@ -135,19 +260,37 @@ Proceed with upgrade? [Y/N]"
    fi
 fi
 
-true "INFO: Checking if tor@default systemd unit is running..."
-if ! systemctl --no-pager status tor@default ; then
-   true "INFO: tor@default is not running, trying to restart..."
-   systemctl --no-pager restart tor@default || true
+
+if test -f /run/qubes/this-is-templatevm ; then
+   true "INFO: Checking if tor@default systemd unit is running not needed because Qubes Template detected, OK."
+else
+   true "INFO: Checking if tor@default systemd unit is running..."
+   if ! systemctl --no-pager status tor@default ; then
+      true "INFO: tor@default is not running, trying to restart..."
+      systemctl --no-pager restart tor@default || true
+   fi
 fi
 
+## bookworm -> trixie
 if ! test -f /etc/apt/sources.list.d/debian.list ; then
-   true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist! Aborting."
-   exit 1
+   ## trixie -> forky
+   ## Useful for idempotence when re-running release-upgrade on trixie.
+   if ! test -f /etc/apt/sources.list.d/debian.sources ; then
+      true "ERROR: File /etc/apt/sources.list.d/debian.list does not exist!
+File /etc/apt/sources.list.d/debian.sources does not exist either!
+Aborting."
+      exit 1
+   fi
 fi
 
-if ! test -f /etc/apt/sources.list.d/derivative.list ; then
-   true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
+## In case already on trixie or above.
+if ! test -f /etc/apt/sources.list.d/derivative.sources; then
+   ## /etc/apt/sources.list.d/derivative.sources does not exist.
+   if ! test -f /etc/apt/sources.list.d/derivative.list ; then
+      if ! test -f /etc/apt/sources.list.d/derivative.sources ; then
+         true "ERROR: File /etc/apt/sources.list.d/derivative.list does not exist!
+
+File /etc/apt/sources.list.d/derivative.sources does not exist either!
 
 Derivative repository is not enabled. Enable it first before proceeding.
 
@@ -155,12 +298,13 @@ See:
 /wiki/Project-APT-Repository
 
 Aborting."
-   exit 1
-fi
+         exit 1
+      fi
+   fi
 
-derivative_list_contents="$(cat -- "/etc/apt/sources.list.d/derivative.list" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
-if [ "$derivative_list_contents" = "" ]; then
-   true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
+   derivative_list_contents="$(cat -- "/etc/apt/sources.list.d/derivative.list" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
+   if [ "$derivative_list_contents" = "" ]; then
+      true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
 
 (Maybe only out commented (#) and empty lines.)
 
@@ -170,12 +314,12 @@ See:
 /wiki/Project-APT-Repository
 
 Aborting."
-   exit 1
-fi
+      exit 1
+   fi
 
-## Not ideal because of hardcoded domain names.
-if ! printf '%s\n' "$derivative_list_contents" | grep -- "kicksecure.com" >/dev/null 2>/dev/null; then
-   if ! printf '%s\n' "$derivative_list_contents" | grep -- "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
+   ## Not ideal because of hardcoded domain names.
+   if ! printf '%s\n' "$derivative_list_contents" | grep -- "kicksecure.com" >/dev/null 2>/dev/null; then
+      if ! printf '%s\n' "$derivative_list_contents" | grep -- "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
       true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Kicksecure repository.
 Kicksecure repository is not enabled. Enable it first before proceeding.
 
@@ -183,7 +327,8 @@ See:
 https://www.kicksecure.com/wiki/Project-APT-Repository
 
 Aborting."
-      exit 1
+         exit 1
+      fi
    fi
 fi
 
@@ -204,12 +349,13 @@ fi
 
 meta_package_detect
 
-if [ "$meta_package" = "" ]; then
+if [ "$old_meta_package" = "" ]; then
    true "ERROR: no installed meta package detected!"
    exit 1
 fi
 
-true "INFO: meta_package detected: $meta_package"
+true "INFO: old_meta_package: $old_meta_package"
+true "INFO: new_meta_package: $new_meta_package"
 
 trap "pre_upgrade_error" ERR
 
@@ -233,7 +379,7 @@ true "INFO: Fetching package lists (1/2)..."
 
 ## TODO: This can fail if the oldstable repository is no longer available.
 ## https://forums.whonix.org/t/solved-in-place-release-upgrade-not-succeeding-too-late/20003
-if ! apt-get update ; then
+if ! apt-get-noninteractive update ; then
    true "\
 ERROR:
 Could not fetch package lists. Networking issues?
@@ -249,6 +395,19 @@ true "INFO: Running sanity test..."
 dpkg-noninteractive --audit
 true "INFO: Running sanity test..."
 dpkg-noninteractive --configure -a
+true "INFO: Running sanity test..."
+if [ -f /etc/apt/sources.list.d/extrepo_whonix.sources ]; then
+   true "ERROR: /etc/apt/sources.list.d/extrepo_whonix.sources found!
+Packages from this repo cannot be upgraded by this tool.
+Please disable the repository before upgrading. You may re-enable it after the upgrade."
+   exit 1
+fi
+if [ -f /etc/apt/sources.list.d/extrepo_kicksecure.sources ]; then
+   true "ERROR: /etc/apt/sources.list.d/extrepo_kicksecure.sources found!
+Packages from this repo cannot be upgraded by this tool.
+Most likely this system was distribution morphed from Debian to Kicksecure, but not all post-installation steps were done.
+Please complete the post-installation steps at https://www.kicksecure.com/wiki/Debian#Post-Installation to prepare this system to be upgraded."
+fi
 
 trap "error_handler" ERR
 
@@ -268,12 +427,9 @@ for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
    str_replace "$source_codename" "$target_codename" "$file_name"
 done
 
-## TODO: Still needed for Trixie?
-#str_replace "$target_codename/updates" "$target_codename-security" "/etc/apt/sources.list.d/debian.list"
-
 ## Get $target_codename apt package lists.
 true "INFO: Fetching package lists (2/2)..."
-if ! apt-get update --allow-releaseinfo-change-origin --allow-releaseinfo-change-label; then
+if ! apt-get-noninteractive update --allow-releaseinfo-change-origin --allow-releaseinfo-change-label; then
    true "\
 ERROR: An error was encountered during download of release upgrade package lists. Recommendation:
 - Fix network connection and retry.
@@ -286,7 +442,7 @@ Check all other files in /etc/apt/sources.list.d if any."
 fi
 
 true "INFO: Download release upgrade..."
-if ! apt-get-noninteractive --yes --no-install-recommends --download-only full-upgrade ; then
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only full-upgrade "$new_meta_package" ; then
    true "\
 ERROR: An error was encountered during download of release upgrade packages. Recommendation:
 Fix network connection and retry."
@@ -294,34 +450,108 @@ Fix network connection and retry."
 fi
 
 true "INFO: Simulating release upgrade..."
-apt-get-noninteractive --no-install-recommends --simulate full-upgrade
+upgrade_simulate_results="$(apt-get-noninteractive --no-install-recommends --simulate full-upgrade "$new_meta_package")"
+true "$upgrade_simulate_results"
 true "INFO: Checking if release upgrade is safe or would result in removal of the main meta package... This will take a moment..."
-## Disable xtrace because the following output would be too much of an output flood.
+
 set +x
+old_meta_will_be_removed='false'
+new_meta_will_be_installed='false'
 while read -r -d $'\n' line ; do
    read -r first_word second_word _ <<< "$line"
-   if [ ! "$first_word" = "Remv" ]; then
+   if [ ! "$second_word" = "$old_meta_package" ] \
+      && [ ! "$second_word" = "$new_meta_package" ]; then
       continue
    fi
-   if [ ! "$second_word" = "$meta_package" ]; then
-      continue
+   if [ "$first_word" = 'Remv' ] \
+      && [ "$second_word" = "$old_meta_package" ]; then
+      old_meta_will_be_removed='true'
    fi
-   ## `echo`, not `true` because "set +x" was set above.
-   echo "ERROR: Release upgrade would remove meta package $meta_package. Release upgrade aborted!"
-   exit 1
-done < <( apt-get-noninteractive --no-install-recommends --simulate full-upgrade )
+   if [ "$first_word" = 'Inst' ] \
+      && [ "$second_word" = "$new_meta_package" ]; then
+      new_meta_will_be_installed='true'
+   fi
+done <<< "$upgrade_simulate_results"
 set -x
 
-if [ "$1" = "downloadonly" ]; then
-   true "INFO: downloadonly. Stop."
+if pkg_installed "$new_meta_package" ; then
+  true
+else
+  if [ "$old_meta_package" = "$new_meta_package" ]; then
+    if [ "$old_meta_will_be_removed" = 'true' ] \
+      || [ "$new_meta_will_be_installed" = 'true' ]; then
+        true "ERROR: Release upgrade would remove meta package $old_meta_package. Release upgrade aborted!"
+        exit 1
+    fi
+  else
+    if [ "$old_meta_will_be_removed" = 'false' ] \
+      || [ "$new_meta_will_be_installed" = 'false' ]; then
+       true "ERROR: Release upgrade would not replace old meta package $old_meta_package with new meta package $new_meta_package. Release upgrade aborted!"
+       exit 1
+    fi
+  fi
+fi
+
+if [ "$downloadonly" = "true" ]; then
+   true "INFO: --downloadonly. Stop."
    exit 0
 fi
 
+true "INFO: Removing '/etc/dracut.conf.d/30-repart.conf' to prevent spurious systemd-repart errors."
+safe-rm --force -- /etc/dracut.conf.d/30-repart.conf
+
+override_policy_rc_d
+
 true "INFO: Install release upgrade..."
-if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade ; then
+if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade "$new_meta_package" ; then
    true "\
 ERROR: An error was encountered during installation of release upgrade. See above."
    exit 1
+fi
+
+true "INFO: Fixing dummy dependencies..."
+if pkg_installed dummy-dependency; then
+  dummy_install_list=()
+  if ! pkg_installed browser-choice; then
+     dummy_install_list+=('dummy-dependency-browser-choice')
+  fi
+  if ! pkg_installed firefox-esr; then
+     dummy_install_list+=('dummy-dependency-firefox-esr')
+  fi
+  if ! pkg_installed qubes-core-agent-passwordless-root; then
+     dummy_install_list+=('dummy-dependency-qubes-core-agent-passwordless-root')
+  fi
+  if ! pkg_installed tb-starter; then
+     dummy_install_list+=('tb-starter')
+  fi
+  if ! pkg_installed tb-updater; then
+     dummy_install_list+=('tb-updater')
+  fi
+
+  if [ -n "${dummy_install_list[*]}" ]; then
+     if ! apt-get-noninteractive --yes --no-install-recommends install "${dummy_install_list[@]}"; then
+        true "\
+ERROR: An error was encountered during installation of new dummy dependency packages. See above."
+        exit 1
+     fi
+  fi
+
+  if pkg_installed dummy-dependency ; then
+     if ! apt-get-noninteractive --yes remove dummy-dependency; then
+        true "\
+ERROR: An error was encountered during removal of the old 'dummy-dependency' package. See above."
+        exit 1
+     fi
+  fi
+fi
+
+if pkg_installed xscreensaver ; then
+   true "INFO: Removing 'xscreensaver' to prevent display issues under Wayland."
+   if ! apt-get-noninteractive --yes remove xscreensaver ; then
+      true "\
+ERROR: An error was encountered during the removal of the old 'xscreensaver' package. See above."
+      exit 1
+   fi
 fi
 
 trap "post_upgrade_failure" ERR
@@ -333,10 +563,16 @@ dpkg-noninteractive --configure -a || true
 true "INFO: Checking potential issues and attempt to fix if any (post)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
 
-#true "INFO: Setting a list of traditional dummy packages to automatically installed so these can be removed the next time the user runs apt autoremove."
+true "INFO: Setting a list of traditional dummy packages to automatically installed so these can be removed the next time the user runs apt autoremove."
 ## '>/dev/null' to hide confusing messages such as "libcomerr2 can not be marked as it is not installed."
 ## '|| true' since non-essential.
-#apt-mark auto currently-non-TODO-remove >/dev/null || true
+apt-mark auto tb-default-browser >/dev/null || true
+
+true "INFO: Disabling existing display manager and enabling greetd in its place."
+systemctl disable display-manager.service || true
+if ! systemctl enable greetd.service ; then
+   true "WARNING: Unable to enable greetd.service!"
+fi
 
 true "INFO: Running sanity test (post)..."
 dpkg-noninteractive --audit
@@ -364,12 +600,6 @@ apt-forktracer | grep --invert-match -- "whonix:" | grep --invert-match -- "Qube
 #rm -f /var/cache/anon-base-files/first-boot-skel.done || true
 #/usr/libexec/helper-scripts/first-boot-skel || true
 
-true "INFO: Removing obsolete packages:"
-## tb-default-browser's functionality has been absorbed into open-link-confirmation.
-if ! apt-get-noninteractive --yes remove tb-default-browser ; then
-  true "\
-ERROR: Could not remove obsolete package 'tb-default-browser'. See above."
-  exit 1
-fi
+revert_policy_rc_d_override
 
 true "INFO: OK. (release-upgrade version: $version) Release upgrade success."

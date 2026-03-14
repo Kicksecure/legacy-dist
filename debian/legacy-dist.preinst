@@ -158,7 +158,7 @@ kexec_tools_preseed() {
       return 0
    fi
 
-   ## kexec-tools is a dependency of security-misc.
+   ## kexec-tools is a dependency of ram-wipe.
    ## Prevent question "Should kexec-tools handle reboots (sysvinit only)?"
    echo "kexec-tools	kexec-tools/load_kexec	boolean	false" | debconf-set-selections
 

@@ -9,40 +9,49 @@
 #set -x
 set -e
 
-status_file=~/.config/legacy-dist/deprecation-notice/dismissed-version-17
+## sets: PROJECT_NAME
+## sets: PROJECT_HOMEPAGE
+## sets: derivative_major_release_version
+source /usr/libexec/helper-scripts/origins-parser
 
-#true "INFO: This version is not yet deprecated."
-#exit 0
+still_supported_version=18
+status_file=~"/.config/legacy-dist/deprecation-notice/dismissed-version-${still_supported_version}"
 
-#if test -e /usr/share/qubes/marker-vm ; then
-   ## https://forums.whonix.org/t/current-status-qubes-4-1-whonix-16/17191
-   #true "INFO: Skip in Qubes."
-   #exit 0
-#fi
-
-if test -f /usr/share/whonix/marker ; then
-   PROJECT_HOMEPAGE="https://www.whonix.org"
-   version=$(cat /etc/whonix_version)
+if [ "$1" = "cli" ]; then
+  cli=true
+elif [ "$1" = "gui" ]; then
+  gui=true
 else
-   PROJECT_HOMEPAGE="https://www.kicksecure.com"
-   version=$(cat /etc/kicksecure_version)
+  cli=true
+  gui=true
 fi
 
-if [ "$version" = "" ]; then
-   echo "ERROR: version file does not exist or is empty!"
-   exit 1
+if [ "$derivative_major_release_version" = "" ]; then
+  printf '%s\n' "ERROR: version file does not exist or is empty!" >&2
+  exit 1
 fi
 
-if [ "$version" = "18" ]; then
-   true "INFO: Not yet deprecated, ok."
-   exit 0
+if [ "$derivative_major_release_version" -ge "${still_supported_version}" ]; then
+  true "INFO: Not yet deprecated, ok."
+  exit 0
+fi
+
+if test -e /usr/share/qubes/marker-vm; then
+  true "INFO: Not yet deprecated, ok.
+
+Kicksecure ${still_supported_version} and Whonix ${still_supported_version} will remain supported until 1 month after Qubes R4.3 stable has been released.
+
+See also:
+decide availability of Kicksecure, and Whonix 18 (Debian trixie based) on Qubes R4.2 versus R4.3 #10219
+https://github.com/QubesOS/qubes-issues/issues/10219"
+  exit 0
 fi
 
 title="DEPRECATION NOTICE"
 
 text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />
-<br />Major release version <u><code>$version</code></u> has been deprecated.
+<br />Major release version <u><code>$derivative_major_release_version</code></u> has been deprecated.
 <br />
 <br />No more security support will be provided.
 <br />
@@ -52,4 +61,10 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />${PROJECT_HOMEPAGE}/wiki/Release_Upgrade
 </p>"
 
-/usr/libexec/msgcollector/one-time-popup "$status_file" "$title" "$text"
+stripped_text="$(strip-html "$text")"
+
+if [ "$cli" = "true" ]; then
+  printf '%s\n' "$stripped_text" >&2
+elif [ "$gui" = "true" ]; then
+  /usr/libexec/msgcollector/one-time-popup "$status_file" "$title" "$text"
+fi

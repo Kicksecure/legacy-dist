@@ -1,3 +1,377 @@
+commit 6f2d8d6fc483d00015695142e87cda654b0c712b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 23 01:43:56 2025 -0400
+
+    version bump
+
+commit 1f99bc05c08fbab10ddfb75c690364dcf6bab847
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 23 01:43:13 2025 -0400
+
+    end-of-options
+
+commit bf1f506087c953b5aacae666b6a0d7e62c828d81
+Merge: dc4a019 d417ce0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Oct 23 01:42:38 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit d417ce038eb9d5ebc951b3ae354cc8682298c78f
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Oct 22 23:27:26 2025 -0500
+
+    Get rid of /etc/dracut.conf.d/30-repart.conf during upgrades, it causes spurious errors on Trixie when run within dracut on Trixie
+
+commit 7f91838b8878ded1f45479d4d9ecc7b01414c454
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Oct 22 22:55:36 2025 -0500
+
+    Remove xscreensaver during release upgrade to Trixie
+
+commit dc4a019675f81bd46e823b2c5bdb191216a86fce
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 22 04:39:31 2025 +0000
+
+    bumped changelog version
+
+commit 9dada8597bc9531c21bf3adca2775c9753e46c7d
+Merge: 8c100b7 2ced60c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Oct 22 00:32:59 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 2ced60ca2f41f310a70e0af5b88202c432b78cb3
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Mon Oct 20 20:13:46 2025 -0500
+
+    Replace lightdm (or the active display manager) with greetd on upgrade
+
+commit 8c100b73da7763fd0c39e0ee69eeea563ff4007b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 13:50:22 2025 +0000
+
+    bumped changelog version
+
+commit f176de48b8ba3e490f9d2d5b45c9d76bf1b021f7
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 09:06:37 2025 -0400
+
+    bumped version number
+
+commit dd626d09a538edfaef53437f15010362f09246a2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 09:06:00 2025 -0400
+
+    idempotent
+
+commit f500e2f9d12149f969a1d6d5bb8614cb218b9b33
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 08:54:04 2025 -0400
+
+    minor
+
+commit c433a7dd7736c1efa5f349a888425eaf8435d6f2
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 08:53:15 2025 -0400
+
+    fix
+
+commit 539db27ab29d0cb2dcc850a16d9743fcea52c7d0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 08:52:17 2025 -0400
+
+    output
+
+commit fd2ae01472e6ebac820df84b0363ce6f0e7d1f74
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Oct 13 08:48:19 2025 -0400
+
+    idempotent
+
+commit 814b2c8eb98751cfda19d0b875f17e5d752e655a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 10 09:10:41 2025 +0000
+
+    bumped changelog version
+
+commit 99ee513c9ba021549bb0f22cfa96907584ddf73b
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 10 05:04:55 2025 -0400
+
+    fix
+
+commit f8e630a0987fe3c57457bafee7c2f5a47e6dcaf5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Oct 10 04:58:03 2025 -0400
+
+    release-upgrade: Qubes R4.2 hack: `dummy-dependency qubes-core-agent-pcmanfm-qt`
+
+commit 94785e91f0bf600286d06cb0a66abe503f65e986
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 13:59:44 2025 +0000
+
+    bumped changelog version
+
+commit 190b375e86c5e91aa292f389cc3a7176027be865
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Sep 28 09:59:32 2025 -0400
+
+    fix
+
+commit 00c212d97d9a7a4dffcec6be249c443d7659a587
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed Sep 24 14:10:31 2025 +0000
+
+    bumped changelog version
+
+commit 5061bbbac6fbdb52a53f62680b534959b4b7ddbe
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:40:55 2025 -0400
+
+    add cli deprecation popup message to Debian maintainer postinst script
+
+commit 69e652b41819699fd9855448bb7574c714f84537
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:18:15 2025 -0400
+
+    added CLI support
+
+commit 804d7da3c5a86f1b93bb896537f9005b9d2468de
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:13:31 2025 -0400
+
+    indent
+
+commit 73ee54753c5797bf40d082aa8d5fe566df2821ec
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:12:27 2025 -0400
+
+    cleanup
+
+commit 58e255cff2de83a18bfb9ca070914852f76c6b39
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:11:57 2025 -0400
+
+    refactoring
+
+commit 284ad08b71a92d39bf6b8f71d3d00cdaaa7a065a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:06:29 2025 -0400
+
+    cleanup
+
+commit aea2e478708bc186a4c557f876298714f6647914
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 23 10:04:54 2025 -0400
+
+    update link
+
+commit 4d52e0fa6948c8d8e720a0f0c1b97ddd7a88dcfb
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 22 17:25:05 2025 +0000
+
+    bumped changelog version
+
+commit 42b9327862750f150bd9e6ef227d7dcd346c16da
+Merge: 9812619 670d33c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 22 13:00:13 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 670d33cda1255992cec862c4a18be9caa644f500
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Sep 21 16:04:41 2025 -0500
+
+    Comment fix
+
+commit 9812619feeafee89baf49e845b5b3643dea9e566
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 11:03:43 2025 +0000
+
+    bumped changelog version
+
+commit 1f8131a9d84e2adab6b4ff8604a3608fb32e9abf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 07:02:19 2025 -0400
+
+    fix
+
+commit 569972cc57a6d5452d9301bc95c755be9d715790
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 05:01:16 2025 -0400
+
+    shellcheck
+
+commit 0bba24026d7337957a09c7ccafd5369a503bbf23
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 04:56:25 2025 -0400
+
+    release-upgrade: implemented `--force`
+
+commit 37d46602903fbcf023577effd3d9496a643e0496
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 03:51:13 2025 -0400
+
+    Prohibit release upgrade on Qubes R4.2. Require Qubes R4.3.
+
+commit f549620e3f97fde13e9b5827d68ca1e983315f25
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 03:37:32 2025 -0400
+
+    refactoring
+
+commit c0646b4718111d05a99b3e338614398c5bbda8a5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 03:36:39 2025 -0400
+
+    bump version
+
+commit d0258c83546a5cbe3caa0a25c64579990868b654
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 03:36:23 2025 -0400
+
+    refactoring
+
+commit 6c493ae25658476b3961a17cc61da4dc9a193808
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 05:15:16 2025 +0000
+
+    bumped changelog version
+
+commit 757a0733682e9cf4c40db4455b2a0f569e812982
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 16 01:12:42 2025 -0400
+
+    not yet deprecated
+
+commit c5163d72b6043b9ccf69717dd79fcfa746b4e3e1
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 15 12:07:03 2025 +0000
+
+    bumped changelog version
+
+commit 555f22634e0b1591a7d15a890e68df95034f51e0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Sep 15 08:06:23 2025 -0400
+
+    Kicksecure 17 and Whonix 17 will remain supported until 1 month after Qubes R4.3 stable has been released.
+    
+    https://github.com/QubesOS/qubes-issues/issues/10219
+
+commit 1ff36e2852c0e6212a8ffdae5641f464da1a8d84
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 9 15:56:23 2025 +0000
+
+    bumped changelog version
+
+commit 1ba3018cec7be576196316e0f6187129cb1bf588
+Merge: 6c9339d 46499d3
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 9 11:49:26 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 46499d341544e021ea394138a4845d269c3e281d
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Sep 7 11:53:53 2025 -0500
+
+    Rework dummy-dependency metapackage system
+
+commit 6c9339d05100134af3382f3c2c68a8d97a1b3c67
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Sep 5 08:02:09 2025 +0000
+
+    bumped changelog version
+
+commit 2f10945c508a66b7228d8d9cc20daaf7f8b6ae96
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 4 10:20:37 2025 -0400
+
+    fix: Checking if tor@default systemd unit is running not when Qubes Template has been detected.
+
+commit c4e8950175119fa99a7e6fcea3e15e74ee50fe0c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 4 14:18:11 2025 +0000
+
+    bumped changelog version
+
+commit 1ab26cc8d67e0e5a1495926dbc5a0d2211ef6f3e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Sep 4 10:17:49 2025 -0400
+
+    idempotent
+
+commit 216188c8e46a7266f5c1cb384abf59c59a25cc7a
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 2 15:20:36 2025 +0000
+
+    bumped changelog version
+
+commit 2cf08ed81b446abe8520bed8abd2b24db00cd02e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 2 13:37:24 2025 +0000
+
+    bumped changelog version
+
+commit 09378542a8e81afec937fb2337ac50606215b76c
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 2 08:48:02 2025 -0400
+
+    fix
+
+commit dd6bd245bce00dcef446710d8e3b7dcd65ccff33
+Merge: 3e3e8b1 000d2db
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Sep 2 08:24:26 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 000d2db8cd1c20aa156568aed9fb007062083a0a
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Sun Aug 31 18:10:10 2025 -0500
+
+    Add metapackage transition handling
+
+commit 3e3e8b12718884f27f19c42e95e202e70578997f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 30 14:17:44 2025 +0000
+
+    bumped changelog version
+
+commit 6e82ad412af3c0c90020160d393f475945d430fe
+Merge: 0f6284b 278d1d8
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 30 07:57:25 2025 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 0f6284b201ebc1a89e313af82da68f254d6d6776
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 30 07:36:25 2025 -0400
+
+    description
+
+commit 2ac49f67ef2f3c95549dda81f561174a9c71cfaf
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 30 05:37:16 2025 -0400
+
+    bump
+
+commit 5cfce73065dc895be0b17cede1d5ce7cb4de8c73
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 30 05:36:47 2025 -0400
+
+    comment
+
+commit a2e1c6a30aaf077e70bd5d674f586f02ef6d96ae
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Aug 29 12:49:13 2025 +0000
+
+    bumped changelog version
+
 commit 5eef2762beffea0ca670c1128301b9ef0330eff4
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Aug 29 08:47:53 2025 -0400
@@ -40,6 +414,12 @@ Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Fri Aug 29 08:07:45 2025 -0400
 
     Merge branch 'master' into HEAD
+
+commit 278d1d8ed50c63c6698e8a030a2cd4c7b7f2ea9d
+Author: Aaron Rainbolt <arraybolt3@ubuntu.com>
+Date:   Wed Aug 27 19:35:11 2025 -0500
+
+    todo
 
 commit bcb5fa7980497e282d0022a4053535704d30fa96
 Author: Patrick Schleizer <adrelanos@whonix.org>
