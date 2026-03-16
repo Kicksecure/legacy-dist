@@ -14,6 +14,8 @@ set -e
 ## sets: derivative_major_release_version
 source /usr/libexec/helper-scripts/origins-parser
 
+source /usr/libexec/helper-scripts/log_run_die.sh
+
 still_supported_version=18
 status_file=~"/.config/legacy-dist/deprecation-notice/dismissed-version-${still_supported_version}"
 
@@ -64,7 +66,7 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 stripped_text="$(strip-markup -- "$text")"
 
 if [ "$cli" = "true" ]; then
-  printf '%s\n' "$stripped_text" >&2
+  log warn "$stripped_text"
 elif [ "$gui" = "true" ]; then
   /usr/libexec/msgcollector/one-time-popup "$status_file" "$title" "$text"
 fi
