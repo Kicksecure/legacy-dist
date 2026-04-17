@@ -286,6 +286,19 @@ apt_mark_deprecated_packages_for_autoremoval_five() {
    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
 }
 
+apt_mark_deprecated_packages_for_autoremoval_six() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+      return 0
+   fi
+
+   ## Semi-redundant with htop, buggy. See:
+   ## https://github.com/lxqt/qps/issues/528
+   apt-mark auto qps &>/dev/null || true
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+}
+
 apt_mark_keep_one() {
    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
       return 0
@@ -316,6 +329,7 @@ migrations_for_old_versions() {
    apt_mark_deprecated_packages_for_autoremoval_three
    apt_mark_deprecated_packages_for_autoremoval_four
    apt_mark_deprecated_packages_for_autoremoval_five
+   apt_mark_deprecated_packages_for_autoremoval_six
    apt_mark_keep_one
 }
 
