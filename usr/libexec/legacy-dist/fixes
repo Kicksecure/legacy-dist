@@ -250,6 +250,32 @@ pcmanfm_qt_removable_media_automount() {
    touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
+## Fixes the default archiver being xarchiver (which isn't installed by
+## default)
+pcmanfm_qt_archiver() {
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+      return 0
+   fi
+
+   load_user_list || return 1
+   for user_entry in "${user_list[@]}"; do
+      config_file_variant_list=(
+         'lxqt'
+         'default'
+      )
+      for config_file_variant in "${config_file_variant_list[@]}"; do
+         config_file="/home/${user_entry}/.config/pcmanfm-qt/${config_file_variant}/settings.conf";
+         if ! [ -f "${config_file}" ]; then
+            continue
+         fi
+         sed -i 's/^Archiver=xarchiver$/Archiver=lxqt-archiver/' "${config_file}"
+      done
+   done
+
+   mkdir --parents "/var/lib/whonix/do_once"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
+}
+
 ## Removes insecure MOK keys that were accidentally shipped in installation
 ## images previously, but only if it is safe to do so.
 ##
@@ -290,7 +316,7 @@ secure_boot_mok_cleanup() {
    if [ "${check_image_builtin_mok_retcode}" = '1' ]; then
       ## Vulnerable key is present but may be safely wiped, delete them
 
-      # shellcheck source=../../helper-scripts/usr/sbin/shim-signed-mok-setup
+      # shellcheck source=../../../../helper-scripts/usr/sbin/shim-signed-mok-setup
       source /usr/sbin/shim-signed-mok-setup
       dkms_mok_variables_set
 
@@ -339,6 +365,8 @@ qterminal_confirm_multiline_paste || true
 qterminal_bookmarks_file || true
 
 pcmanfm_qt_removable_media_automount || true
+
+pcmanfm_qt_archiver || true
 
 secure_boot_mok_cleanup || true
 
