@@ -1,3 +1,22 @@
+commit ae990c0d0c18e19c37d40fc1bc7b788791f088b8
+Merge: 6f284e4 36e364d
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Thu Apr 23 04:44:50 2026 -0400
+
+    Merge remote-tracking branch 'ArrayBolt3/arraybolt3/trixie'
+
+commit 36e364d7bbf3691d1e3fa505ba4927e2d8c20d6b
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Wed Apr 22 19:00:39 2026 -0400
+
+    Fix default archiver setting for existing users, fix a broken shellcheck include
+
+commit 6f284e44d934d859dd6086c48d3856bb3bf624ee
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Fri Apr 17 07:31:37 2026 +0000
+
+    bumped changelog version
+
 commit 850bf34cedbbb7c142b1144f6dd35139aa321940
 Merge: 32a7b8b b89eb5b
 Author: Patrick Schleizer <adrelanos@whonix.org>
