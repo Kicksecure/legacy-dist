@@ -1,1 +1,6 @@
+#!/bin/bash
+
+## Copyright (C) 2026 - 2026 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
+## See the file COPYING for copying conditions.
+
 genmkfile_lintian_post_opts+=" --suppress-tags newer-standards-version"
