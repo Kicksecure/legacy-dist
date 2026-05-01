@@ -175,7 +175,7 @@ zsh_migration() {
 
 ## Enables multiline-paste configuration for all active users.
 qterminal_confirm_multiline_paste() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2" ]; then
       return 0
    fi
 
@@ -196,14 +196,14 @@ qterminal_confirm_multiline_paste() {
    done
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2"
 }
 
 ## Fixes an issue where QTerminal attempts to save its bookmarks file in the
 ## home folder of a user account other than the account QTerminal is
 ## running as.
 qterminal_bookmarks_file() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2" ]; then
       return 0
    fi
 
@@ -219,13 +219,13 @@ qterminal_bookmarks_file() {
    done
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2"
 }
 
 ## Fixes removable media automount being enabled by default in pcmanfm-qt
 ## (this is a security risk)
 pcmanfm_qt_removable_media_automount() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2" ]; then
       return 0
    fi
    local user_entry config_file config_file_variant_list config_file_variant
@@ -247,13 +247,13 @@ pcmanfm_qt_removable_media_automount() {
    done
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2"
 }
 
 ## Fixes the default archiver being xarchiver (which isn't installed by
 ## default)
 pcmanfm_qt_archiver() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2" ]; then
       return 0
    fi
 
@@ -273,7 +273,7 @@ pcmanfm_qt_archiver() {
    done
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2"
 }
 
 ## Removes insecure MOK keys that were accidentally shipped in installation
