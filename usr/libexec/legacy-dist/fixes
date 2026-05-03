@@ -4,6 +4,9 @@
 ## See the file COPYING for copying conditions.
 
 set -e
+if [ -e /run/qubes-service/debug-kicksecure ]; then
+  set -x
+fi
 
 true "$0: START"
 
