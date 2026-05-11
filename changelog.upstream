@@ -1,3 +1,28 @@
+commit 8a80e042c946580e4cf2370bc08ccbf8af6f17a4
+Merge: 878a009 0738609
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun May 10 12:42:45 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit 0738609396fcef7a681c63865058b4247306e234
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Sun May 3 11:25:07 2026 -0400
+
+    Enable set -x when debug-kicksecure qvm-service is enabled
+
+commit 146aeb05f943db44e1b92532da3748a8c4d06b39
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Thu Apr 30 20:43:43 2026 -0400
+
+    Prevent legacy-dist.service (re)start during installation, version bump functions that may need to rerun
+
+commit 878a009a477e556379d4c8fe0856ac637d99ef59
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Apr 25 10:29:09 2026 +0000
+
+    bumped changelog version
+
 commit a769b2487c4efa3d8aeed5e0f7f10584ad049467
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Apr 25 06:16:02 2026 -0400
