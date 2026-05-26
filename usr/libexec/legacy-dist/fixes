@@ -4,7 +4,7 @@
 ## See the file COPYING for copying conditions.
 
 set -e
-if [ -e /run/qubes-service/debug-kicksecure ]; then
+if /usr/libexec/helper-scripts/debug-kicksecure-enabled; then
   set -x
 fi
 
