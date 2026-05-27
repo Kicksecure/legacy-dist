@@ -1,3 +1,22 @@
+commit 1d94d7d3efa9b645f6671d46baea8fded13d77b7
+Merge: 7cbf0a0 43a7b76
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue May 26 07:27:12 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/ArrayBolt3/arraybolt3/trixie'
+
+commit 43a7b7609ecbfcb6e9030d2b91c9dc48935e4392
+Author: Aaron Rainbolt <arraybolt3@gmail.com>
+Date:   Tue May 26 00:12:44 2026 -0400
+
+    Use debug-kicksecure-enabled helper in fixes script
+
+commit 7cbf0a03d6120805d88d11c8a479eb030e26617f
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Wed May 20 22:11:10 2026 +0000
+
+    bumped changelog version
+
 commit 1ee4828333c90442bbfd19ecdab445d674330b9c
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Wed May 20 16:56:57 2026 -0400
