@@ -68,5 +68,5 @@ stripped_text="$(strip-markup -- "$text")"
 if [ "$cli" = "true" ]; then
   log warn "$stripped_text"
 elif [ "$gui" = "true" ]; then
-  /usr/libexec/msgcollector/one-time-popup "$status_file" "$title" "$text"
+  /usr/libexec/msgcollector/one-time-popup.py "$status_file" "$title" "$text"
 fi
