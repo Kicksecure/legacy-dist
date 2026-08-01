@@ -3,15 +3,29 @@
 ## Copyright (C) 2012 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
+## A dpkg PREINST runs before this package's Depends are configured, so nothing
+## from another package can be assumed present. The three waivers below all
+## follow from that; none of them is a preference.
+## style-ok: no-strict -- 'set -e' is the Debian maintainer-script convention.
+##   'set -o nounset' would abort an install on any unset DPKG_* variable, and
+##   errexit/inherit_errexit change the failure semantics dpkg relies on.
+## style-ok: no-has -- 'has' comes from helper-scripts, which this script itself
+##   only sources conditionally ('if [ -f ... ]') for exactly this reason.
+## style-ok: no-safe-rm -- safe-rm is not even a Depends of this package, so it
+##   may be absent; a 'safe-rm || rm' fallback is prohibited, so plain rm it is.
+
 if [ -f /usr/libexec/helper-scripts/pre.bsh ]; then
    source /usr/libexec/helper-scripts/pre.bsh
 fi
 
 set -e
 
+## dpkg exports DPKG_MAINTSCRIPT_* into every maintainer script; nothing in
+## this file assigns them, which is what SC2154 reports.
+# shellcheck disable=SC2154
 true "
 #####################################################################
-## INFO: BEGIN: $DPKG_MAINTSCRIPT_PACKAGE $DPKG_MAINTSCRIPT_NAME $@
+## INFO: BEGIN: ${DPKG_MAINTSCRIPT_PACKAGE} ${DPKG_MAINTSCRIPT_NAME} $*
 #####################################################################
 "
 
@@ -30,41 +44,41 @@ get_build_version() {
       build_version_file="/var/lib/dist-base-files/build_version"
    fi
 
-   if [ "$build_version_file" = "" ]; then
+   if [ "${build_version_file}" = "" ]; then
       dist_build_version="There is no Whonix Build Version File. (Code: 4) Please report this bug!"
    else
-      if [ -f "$build_version_file" ]; then
-         dist_build_version="$(cat "$build_version_file")"
+      if [ -f "${build_version_file}" ]; then
+         dist_build_version="$(cat "${build_version_file}")"
       fi
    fi
 
    ## fallback
-   if [ "$dist_build_version" = "" ]; then
+   if [ "${dist_build_version}" = "" ]; then
       dist_build_version="Could not read Whonix Build Version File. (Code: 5) Please report this bug!"
    fi
 
-   true "dist_build_version: $dist_build_version"
+   true "dist_build_version: ${dist_build_version}"
 }
 
 nonfree_firmware_preseed() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
    ## https://git-tails.immerda.ch/tails/tree/config/chroot_local-preseed/firmware
-   echo b43-fwcutter b43-fwcutter/cut_firmware boolean true | debconf-set-selections
-   echo firmware-ipw2x00 firmware-ipw2x00/license/accepted boolean true | debconf-set-selections
-   echo firmware-iwlwifi firmware-iwlwifi/license/accepted boolean true | debconf-set-selections
-   echo firmware-ralink firmware-ralink/license/accepted boolean true | debconf-set-selections
+   printf '%s\n' "b43-fwcutter b43-fwcutter/cut_firmware boolean true" | debconf-set-selections
+   printf '%s\n' "firmware-ipw2x00 firmware-ipw2x00/license/accepted boolean true" | debconf-set-selections
+   printf '%s\n' "firmware-iwlwifi firmware-iwlwifi/license/accepted boolean true" | debconf-set-selections
+   printf '%s\n' "firmware-ralink firmware-ralink/license/accepted boolean true" | debconf-set-selections
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 ## https://forums.whonix.org/t/setting-up-anon-base-files-shows-machine-id-prompt-followed-by-ominous-warning/8045
 symlink_fix() {
-   if dpkg --compare-versions "$my_old_package_version" ge "3:9.9-1" ; then
-      true "INFO: 'dpkg --compare-versions $my_old_package_version ge 3:9.9-1', skipping."
+   if dpkg --compare-versions "${my_old_package_version}" ge "3:9.9-1" ; then
+      true "INFO: 'dpkg --compare-versions ${my_old_package_version} ge 3:9.9-1', skipping."
       return 0
    fi
 
@@ -72,7 +86,7 @@ symlink_fix() {
       return 0
    fi
 
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_4" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_4" ]; then
       return 0
    fi
 
@@ -114,65 +128,72 @@ symlink_fix() {
 
    for broken_file in /etc/resolv.conf /etc/hostname /etc/hosts ; do
       ## Debugging / Info.
-      ls -la -- "$broken_file" || true
+      ls -la -- "${broken_file}" || true
       #cat -- "$broken_file" || true
    done
 
    popd >/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_4"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_4"
 }
 
 keyboard_configuration_debconf_preseed() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2" ]; then
       return 0
    fi
 
    ## https://forums.whonix.org/t/keyboard-configuration-debconf-popup-during-apt-get-dist-upgrade/8318
-   echo "keyboard-configuration	keyboard-configuration/variantcode	string	" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/altgr	select	The default for the keyboard layout" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/compose	select	No compose key" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/ctrl_alt_bksp	boolean	false" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/unsupported_config_options	boolean	true" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/model	select	Generic 105-key PC (intl.)" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/switch	select	No temporary switch" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/unsupported_options	boolean	true" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/layoutcode	string	us" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/toggle	select	No toggling" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/variant	select	English (US)" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/store_defaults_in_debconf_db	boolean	false" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/optionscode	string	" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/xkb-keymap	select	us" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/unsupported_layout	boolean	true" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/layout	select	" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/unsupported_config_layout	boolean	true" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/modelcode	string	pc105" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/variantcode	string	" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/altgr	select	The default for the keyboard layout" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/compose	select	No compose key" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/ctrl_alt_bksp	boolean	false" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/unsupported_config_options	boolean	true" | debconf-set-selections
+   ## "Generic 105-key PC (intl.)" does not exist in trixie -- 0 hits in
+   ## keyboard-configuration.config, in xkb-data's rule files, and in the shipped
+   ## templates.dat. A select answer naming no choice is not inert: where
+   ## keyboard-configuration detects a keyboard it asks the question, finds the
+   ## stored value invalid and takes the FIRST entry of CHOICES -- "A4Tech KB-21",
+   ## which is what CI-built images currently ship in /etc/default/keyboard.
+   ## The intended model is the one modelcode already names below: pc105.
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/model	select	Generic 105-key PC" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/switch	select	No temporary switch" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/unsupported_options	boolean	true" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/layoutcode	string	us" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/toggle	select	No toggling" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/variant	select	English (US)" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/store_defaults_in_debconf_db	boolean	false" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/optionscode	string	" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/xkb-keymap	select	us" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/unsupported_layout	boolean	true" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/layout	select	" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/unsupported_config_layout	boolean	true" | debconf-set-selections
+   printf '%s\n' "keyboard-configuration	keyboard-configuration/modelcode	string	pc105" | debconf-set-selections
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2"
 }
 
 kexec_tools_preseed() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
    ## kexec-tools is a dependency of ram-wipe.
    ## Prevent question "Should kexec-tools handle reboots (sysvinit only)?"
-   echo "kexec-tools	kexec-tools/load_kexec	boolean	false" | debconf-set-selections
+   printf '%s\n' "kexec-tools	kexec-tools/load_kexec	boolean	false" | debconf-set-selections
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 apt_mark_deprecated_packages_for_autoremoval() {
-   if dpkg --compare-versions "$my_old_package_version" ge "3:9.9-1" ; then
-      true "INFO: 'dpkg --compare-versions $my_old_package_version ge 3:9.9-1', skipping."
+   if dpkg --compare-versions "${my_old_package_version}" ge "3:9.9-1" ; then
+      true "INFO: 'dpkg --compare-versions ${my_old_package_version} ge 3:9.9-1', skipping."
       return 0
    fi
 
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_3" ]; then
       return 0
    fi
    apt-mark auto hardened-packages-dependencies-cli &>/dev/null || true
@@ -220,23 +241,23 @@ apt_mark_deprecated_packages_for_autoremoval() {
    apt-mark manual exim4-daemon-light &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_3"
 }
 
 apt_mark_deprecated_packages_for_autoremoval_two() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_3" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_3" ]; then
       return 0
    fi
 
    apt-mark manual secbrowser &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_3"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_3"
 }
 
 ## TODO
 # apt_mark_virtualbox_guest_addition_from_debian_package_autoremoval() {
-#    if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+#    if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
 #       return 0
 #    fi
 #
@@ -245,11 +266,11 @@ apt_mark_deprecated_packages_for_autoremoval_two() {
 #    apt-mark manual virtualbox-guest-x11 &>/dev/null || true
 #
 #    mkdir --parents "/var/lib/whonix/do_once"
-#    touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+#    touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 # }
 
 apt_mark_deprecated_packages_for_autoremoval_three() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
@@ -258,22 +279,22 @@ apt_mark_deprecated_packages_for_autoremoval_three() {
    apt-mark manual pulseaudio &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 apt_mark_deprecated_packages_for_autoremoval_four() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
    apt-mark manual qubes-core-agent-passwordless-root &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 apt_mark_deprecated_packages_for_autoremoval_five() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
@@ -283,11 +304,11 @@ apt_mark_deprecated_packages_for_autoremoval_five() {
    apt-mark auto dracut-config-generic &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 apt_mark_deprecated_packages_for_autoremoval_six() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1" ]; then
       return 0
    fi
 
@@ -296,11 +317,11 @@ apt_mark_deprecated_packages_for_autoremoval_six() {
    apt-mark auto qps &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
 }
 
 apt_mark_keep_one() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2" ]; then
       return 0
    fi
 
@@ -318,7 +339,7 @@ apt_mark_keep_one() {
    apt-mark manual firmware-nonfreedom-network &>/dev/null || true
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
+   touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_2"
 }
 
 migrations_for_old_versions() {
@@ -333,10 +354,13 @@ migrations_for_old_versions() {
    apt_mark_keep_one
 }
 
+## dpkg exports DPKG_MAINTSCRIPT_* into every maintainer script; nothing in
+## this file assigns them, which is what SC2154 reports.
+# shellcheck disable=SC2154
 true "1: $1"
 true "2: $2"
 
-true "INFO: Configuring $DPKG_MAINTSCRIPT_PACKAGE..."
+true "INFO: Configuring ${DPKG_MAINTSCRIPT_PACKAGE}..."
 
 get_build_version
 
@@ -350,13 +374,13 @@ keyboard_configuration_debconf_preseed
 kexec_tools_preseed
 
 if [ "$1" = "install" ]; then
-   true "INFO: $DPKG_MAINTSCRIPT_PACKAGE not installed yet."
+   true "INFO: ${DPKG_MAINTSCRIPT_PACKAGE} not installed yet."
 else
-   true "INFO: $DPKG_MAINTSCRIPT_PACKAGE already installed."
+   true "INFO: ${DPKG_MAINTSCRIPT_PACKAGE} already installed."
    migrations_for_old_versions
 fi
 
-true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
+true "INFO: End configuring ${DPKG_MAINTSCRIPT_PACKAGE}."
 
 true "INFO: debhelper beginning here."
 
@@ -366,7 +390,7 @@ true "INFO: Done with debhelper."
 
 true "
 #####################################################################
-## INFO: END  : $DPKG_MAINTSCRIPT_PACKAGE $DPKG_MAINTSCRIPT_NAME $@
+## INFO: END  : ${DPKG_MAINTSCRIPT_PACKAGE} ${DPKG_MAINTSCRIPT_NAME} $*
 #####################################################################
 "
 
