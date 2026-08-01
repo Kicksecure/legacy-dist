@@ -125,7 +125,7 @@ symlink_fix() {
 }
 
 keyboard_configuration_debconf_preseed() {
-   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_1" ]; then
+   if [ -f "/var/lib/whonix/do_once/${FUNCNAME}_version_2" ]; then
       return 0
    fi
 
@@ -135,7 +135,14 @@ keyboard_configuration_debconf_preseed() {
    echo "keyboard-configuration	keyboard-configuration/compose	select	No compose key" | debconf-set-selections
    echo "keyboard-configuration	keyboard-configuration/ctrl_alt_bksp	boolean	false" | debconf-set-selections
    echo "keyboard-configuration	keyboard-configuration/unsupported_config_options	boolean	true" | debconf-set-selections
-   echo "keyboard-configuration	keyboard-configuration/model	select	Generic 105-key PC (intl.)" | debconf-set-selections
+   ## "Generic 105-key PC (intl.)" does not exist in trixie -- 0 hits in
+   ## keyboard-configuration.config, in xkb-data's rule files, and in the shipped
+   ## templates.dat. A select answer naming no choice is not inert: where
+   ## keyboard-configuration detects a keyboard it asks the question, finds the
+   ## stored value invalid and takes the FIRST entry of CHOICES -- "A4Tech KB-21",
+   ## which is what CI-built images currently ship in /etc/default/keyboard.
+   ## The intended model is the one modelcode already names below: pc105.
+   echo "keyboard-configuration	keyboard-configuration/model	select	Generic 105-key PC" | debconf-set-selections
    echo "keyboard-configuration	keyboard-configuration/switch	select	No temporary switch" | debconf-set-selections
    echo "keyboard-configuration	keyboard-configuration/unsupported_options	boolean	true" | debconf-set-selections
    echo "keyboard-configuration	keyboard-configuration/layoutcode	string	us" | debconf-set-selections
@@ -150,7 +157,7 @@ keyboard_configuration_debconf_preseed() {
    echo "keyboard-configuration	keyboard-configuration/modelcode	string	pc105" | debconf-set-selections
 
    mkdir --parents "/var/lib/whonix/do_once"
-   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_1"
+   touch "/var/lib/whonix/do_once/${FUNCNAME}_version_2"
 }
 
 kexec_tools_preseed() {
