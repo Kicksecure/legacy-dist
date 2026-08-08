@@ -77,8 +77,18 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 
 stripped_text="$(strip-markup -- "${text}")"
 
+## TWO independent 'if's, not an if/elif.
+##
+## No argument means BOTH (see the dispatch above), which is the default
+## invocation -- and with an 'elif' the cli branch matched first, so the GUI
+## popup was never shown. The popup this script exists to display has therefore
+## never appeared in its most common configuration.
+##
+## cli and gui are separate switches; they must be decided separately.
 if [ "${cli}" = "true" ]; then
   log warn "${stripped_text}"
-elif [ "${gui}" = "true" ]; then
+fi
+
+if [ "${gui}" = "true" ]; then
   /usr/libexec/msgcollector/one-time-popup.py "${status_file}" "${title}" "${text}"
 fi
