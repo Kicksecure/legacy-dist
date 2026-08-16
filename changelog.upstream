@@ -1,3 +1,122 @@
+commit e477e58271b6b29b8872691088a01b6be40a6454
+Merge: 4ca2367 0e37d27
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sat Aug 15 12:54:27 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/master'
+
+commit 0e37d27a4c92b82b0b15170a52efce4375b0a5d5
+Merge: 4ca2367 78e3793
+Author: assisted-by-ai (Bot Account) (Machine Account) <228987186+assisted-by-ai@users.noreply.github.com>
+Date:   Sat Aug 1 06:19:23 2026 -0400
+
+    keyboard preseed: name a model that exists (#2)
+
+    Preseeded the keyboard-configuration model 'Generic 105-key PC (intl.)', which
+    exists in neither xkb rules file, so debconf discarded the answer on every
+    install -- behaving exactly like no preseed at all. Corrected to 'Generic 105-key
+    PC', the description paired with the already-preseeded modelcode pc105.
+
+    Also fixes shellcheck findings and the echo/printf conversion, including a
+    regression in that conversion which split four firmware debconf records into four
+    lines each.
+
+    Reviewed: all threads answered; gate green; regression tests in dist-ai.
+
+commit 78e3793286b50243108aee18260a06c151432c29
+Author: claude (dev141 763ccfe0-7bd8-4e8c-afd0-c39aceb48d72) <noreply@anthropic.com>
+Date:   Sat Aug 1 06:01:27 2026 -0400
+
+    preinst: restore the firmware preseeds broken by the echo -> printf conversion
+
+    From PR #2 review (coderabbit, major). Correct, and a regression I introduced in
+    the previous commit while calling it mechanical.
+
+    'echo' and 'printf' do not agree on multiple arguments:
+      echo   a b c d          -> "a b c d"      (one line)
+      printf '%s\n' a b c d   -> "a\nb\nc\nd"   (FOUR lines)
+
+    A debconf record is 'package question type value' on ONE line. The four firmware
+    preseeds were written unquoted, so the conversion turned each into four
+    malformed fragments. They then did not apply -- silently, exactly like the
+    nonexistent keyboard model this PR exists to fix.
+
+    The 19 keyboard preseeds were already quoted as single arguments and were never
+    affected; counted with a real parser rather than a shell split, because the
+    records contain literal TABs.
+
+    Regression test: dist-ai debconf_preseed_records_test.sh asserts every
+    debconf-set-selections feed passes exactly ONE argument, with a canary proving
+    the unquoted form is detected. It fails on the previous commit, naming all four
+    lines.
+
+commit 162e9142429f888594afe4e26214ba351235aa4a
+Author: claude (dev141 763ccfe0-7bd8-4e8c-afd0-c39aceb48d72) <noreply@anthropic.com>
+Date:   Fri Jul 31 22:22:20 2026 -0400
+
+    preinst: fix shellcheck findings and echo/printf; document the three waivers
+
+    - SC2145: "$@" inside a string -> $*.
+    - SC2128: ${FUNCNAME} -> ${FUNCNAME[0]} (identical expansion, explicit index).
+      The do_once stamp paths embed it, so the stamp names are unchanged.
+    - SC2250: braces around every variable reference (shellcheck --format=diff).
+    - SC2154: DPKG_MAINTSCRIPT_* come from dpkg; disabled with the reason inline.
+    - R-034: echo -> printf '%s\n' for the 23 debconf-set-selections lines.
+      The values contain literal tabs; printf preserves them.
+    - Waivers, all consequences of running in a PREINST, before this package's
+      Depends are configured, and each stated in the file:
+      no-strict  -- 'set -e' is the maintainer-script convention; nounset would
+                    abort an install on any unset DPKG_* variable.
+      no-has     -- 'has' is from helper-scripts, which this script itself only
+                    sources conditionally for that reason.
+      no-safe-rm -- safe-rm is not a Depends, and a 'safe-rm || rm' fallback is
+                    prohibited.
+    - pre-push-static now passes on this file.
+
+commit c03a99727955b688197034a1dba8fe852ab78afa
+Author: claude (dev141 763ccfe0-7bd8-4e8c-afd0-c39aceb48d72) <noreply@anthropic.com>
+Date:   Fri Jul 31 21:38:18 2026 -0400
+
+    keyboard preseed: name a model that exists
+
+    The preseed answered keyboard-configuration/model with
+    "Generic 105-key PC (intl.)". That string does not exist in trixie -- 0 hits in
+    keyboard-configuration.config (1.242~deb13u1), in xkb-data 2.42's rule files, and
+    in the shipped templates.dat. Verified directly in the build image.
+
+    A select answer naming no choice is not inert. keyboard-configuration's config
+    script only skips the question when it detects no keyboard; where it does detect
+    one it asks, finds the stored value invalid, and falls back to the FIRST entry of
+    CHOICES -- "A4Tech KB-21". CI runners have an emulated AT keyboard, so images
+    built there ship XKBMODEL="a4techKB21" in /etc/default/keyboard. That is the
+    current published state.
+
+    It also made the image depend on the BUILD HOST's hardware: help-steps/chroot-raw
+    mounts a fresh proc and sysfs into the chroot, so the detection inspects the
+    machine doing the build. A host without an AT keyboard (a Qubes domU) takes the
+    skip branch and keeps the preseed, giving pc105 -- so the same commit produced
+    two different keyboard configurations, which is how this was found at all.
+
+    The intended model was never in doubt: modelcode below already says pc105. This
+    names the string that currently maps to it, "Generic 105-key PC", so the answer
+    is valid and both detection branches agree.
+
+    The do_once stamp goes to _version_2 -- scoped to this function only -- or the
+    corrected value would never apply to an existing installation.
+
+    Follow-up worth considering: writing /etc/default/keyboard directly would be
+    version-proof, since the config script reads it before asking, whereas this
+    re-breaks if xkb-data renames the model again. It would mean writing another
+    package's conffile, so it is left as a decision rather than done here.
+
+    Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+
+commit 4ca2367d9c35cedaa124dd3f3e461cd60ba146b0
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Tue Jul 21 10:37:01 2026 +0000
+
+    bumped changelog version
+
 commit ea9e6cfc2fb89869d48f4e0938c0a562984d4056
 Merge: 9f9bd48 94234dc
 Author: Patrick Schleizer <adrelanos@whonix.org>
