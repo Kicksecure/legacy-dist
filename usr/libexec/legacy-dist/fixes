@@ -9,17 +9,14 @@ set -o pipefail
 set -o errtrace
 shopt -s inherit_errexit
 shopt -s shift_verbose
+export LC_ALL=C
 
 if /usr/libexec/helper-scripts/debug-kicksecure-enabled; then
   set -x
 fi
 
-## shellcheck cannot follow this in an isolated single-repo checkout, where
-## helper-scripts is not a sibling; the source= path documents where the file
-## lives in the derivative-maker tree.
 # shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/has.sh
-# shellcheck disable=SC1091
-source /usr/libexec/helper-scripts/has.sh
+source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/has.sh
 
 ## Set by dpkg when this runs from a maintainer script, absent when it does
 ## not; a bare read would abort every fix under nounset.
@@ -343,8 +340,7 @@ secure_boot_mok_cleanup() {
       ## Vulnerable key is present but may be safely wiped, delete them
 
       # shellcheck source=../../../../helper-scripts/usr/sbin/shim-signed-mok-setup
-      # shellcheck disable=SC1091
-      source /usr/sbin/shim-signed-mok-setup
+      source "${HELPER_SCRIPTS_PATH:-}"/usr/sbin/shim-signed-mok-setup
       dkms_mok_variables_set
 
       ## Both are assigned by dkms_mok_variables_set in the file sourced

@@ -12,6 +12,7 @@ set -o pipefail
 set -o errtrace
 shopt -s inherit_errexit
 shopt -s shift_verbose
+export LC_ALL=C
 
 ## Read below as booleans, but each is assigned only on ONE branch of the
 ## argument dispatch -- so 'cli' is unset whenever 'gui' was chosen and vice
@@ -23,19 +24,11 @@ gui=""
 ## sets: PROJECT_NAME
 ## sets: PROJECT_HOMEPAGE
 ## sets: derivative_major_release_version
-##
-## The source= paths document where these live in the derivative-maker tree.
-## CI checks this repo out ALONE and does not install helper-scripts, so
-## shellcheck can follow neither the relative path nor the runtime absolute
-## one there -- hence the SC1091 waivers, and the SC2154 waivers below on the
-## variables these two files assign.
 # shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/origins-parser
-# shellcheck disable=SC1091
-source /usr/libexec/helper-scripts/origins-parser
+source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/origins-parser
 
 # shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/log_run_die.sh
-# shellcheck disable=SC1091
-source /usr/libexec/helper-scripts/log_run_die.sh
+source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/log_run_die.sh
 
 still_supported_version=18
 status_file=~"/.config/legacy-dist/deprecation-notice/dismissed-version-${still_supported_version}"

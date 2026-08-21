@@ -11,6 +11,7 @@ set -o errtrace
 shopt -s inherit_errexit
 shopt -s shift_verbose
 shopt -s nullglob
+export LC_ALL=C
 
 true "INFO: START"
 
@@ -43,15 +44,13 @@ true "INFO: (release-upgrade version: ${version}) Release upgrade from Debian ${
 ## TODO: Debian forky: port to 'package-installed-check'
 if test -e /usr/libexec/helper-scripts/package_installed_check.sh; then
    # shellcheck source=../../../helper-scripts/usr/libexec/helper-scripts/package_installed_check.sh
-   # shellcheck disable=SC1091
-   source /usr/libexec/helper-scripts/package_installed_check.sh
+   source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/package_installed_check.sh
 fi
 ## TODO: Debian forky: remove
 ## Compatibility with bookworm.
 if test -e /usr/libexec/helper-scripts/package_installed_check.bsh; then
    # shellcheck source=../../../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
-   # shellcheck disable=SC1091
-   source /usr/libexec/helper-scripts/package_installed_check.bsh
+   source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/package_installed_check.bsh
 fi
 
 error_handler() {
@@ -243,7 +242,7 @@ export DEBDEBUG=1
 if test -f /usr/share/qubes/marker-vm; then
    true "INFO: Qubes detected."
    qubes_version="$(grep -v '^#' /usr/share/qubes/marker-vm)"
-   if printf "%s\n" "${qubes_version}" | grep -q -e '^4.2' ; then
+   if grep --quiet -e '^4.2' <<< "${qubes_version}" ; then
       true "\
 WARNING:
 
