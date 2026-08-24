@@ -4,18 +4,39 @@
 ## See the file COPYING for copying conditions.
 
 set -x
-set -e
+set -o errexit
+set -o nounset
 set -o pipefail
+set -o errtrace
+shopt -s inherit_errexit
+shopt -s shift_verbose
 shopt -s nullglob
+export LC_ALL=C
 
 true "INFO: START"
 
 ## TODO: Debian forky
 version="3.3"
-[[ -v source_codename ]] || source_codename=bookworm
-[[ -v target_codename ]] || target_codename=trixie
+[ -v source_codename ] || source_codename=bookworm
+[ -v target_codename ] || target_codename=trixie
 
-true "INFO: (release-upgrade version: $version) Release upgrade from Debian $source_codename to Debian $target_codename in progress..."
+## Set by an option, by the caller's environment, or by one block of this
+## script and read in another. Any of them can legitimately be absent, so give
+## them a defined value here rather than let a bare read abort a release
+## upgrade under nounset. derivative_list_contents is the one that matters
+## most: it is assigned only when derivative.sources is missing, yet read
+## unconditionally further down.
+[ -v downloadonly ] || downloadonly=""
+[ -v force ] || force=""
+[ -v old_meta_package ] || old_meta_package=""
+[ -v new_meta_package ] || new_meta_package=""
+[ -v derivative_list_contents ] || derivative_list_contents=""
+[ -v proceed_with_upgrade ] || proceed_with_upgrade=""
+[ -v qubes_version ] || qubes_version=""
+[ -v upgrade_simulate_results ] || upgrade_simulate_results=""
+[ -v DEBIAN_FRONTEND ] || DEBIAN_FRONTEND=""
+
+true "INFO: (release-upgrade version: ${version}) Release upgrade from Debian ${source_codename} to Debian ${target_codename} in progress..."
 
 ## provides function: pkg_installed
 ##
@@ -23,13 +44,13 @@ true "INFO: (release-upgrade version: $version) Release upgrade from Debian $sou
 ## TODO: Debian forky: port to 'package-installed-check'
 if test -e /usr/libexec/helper-scripts/package_installed_check.sh; then
    # shellcheck source=../../../helper-scripts/usr/libexec/helper-scripts/package_installed_check.sh
-   source /usr/libexec/helper-scripts/package_installed_check.sh
+   source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/package_installed_check.sh
 fi
 ## TODO: Debian forky: remove
 ## Compatibility with bookworm.
 if test -e /usr/libexec/helper-scripts/package_installed_check.bsh; then
    # shellcheck source=../../../helper-scripts/usr/libexec/helper-scripts/package_installed_check.bsh
-   source /usr/libexec/helper-scripts/package_installed_check.bsh
+   source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/package_installed_check.bsh
 fi
 
 error_handler() {
@@ -37,13 +58,13 @@ error_handler() {
 ###########################################################
 ## ERROR: Something went wrong. Please report this bug!
 ##
-## BASH_COMMAND: $BASH_COMMAND
+## BASH_COMMAND: ${BASH_COMMAND}
 ###########################################################\
 "
    exit 1
 }
 
-trap "error_handler" ERR
+trap error_handler ERR
 
 override_policy_rc_d() {
    true "INFO: Overriding policy-rc.d..."
@@ -56,14 +77,14 @@ exit 101" > /usr/sbin/policy-rc.d.legacy-dist
 revert_policy_rc_d_override() {
    true "INFO: Removing override of policy-rc.d if necessary..."
    update-alternatives --remove policy-rc.d /usr/sbin/policy-rc.d.legacy-dist || true
-   rm -f /usr/sbin/policy-rc.d.legacy-dist || true
+   safe-rm --force -- /usr/sbin/policy-rc.d.legacy-dist || true
 }
 
 pre_upgrade_error() {
    true "\
 ERROR: An error was encountered during upgrade preparation:
 The following command failed:
-BASH_COMMAND: $BASH_COMMAND
+BASH_COMMAND: ${BASH_COMMAND}
 The system is in a broken state prior upgrade.
 Therefore aborting upgrade."
    revert_policy_rc_d_override
@@ -74,7 +95,7 @@ post_upgrade_failure() {
    true "\
 ERROR: An error was encountered after release upgrade:
 The following command failed:
-BASH_COMMAND: $BASH_COMMAND"
+BASH_COMMAND: ${BASH_COMMAND}"
    revert_policy_rc_d_override
    exit 1
 }
@@ -85,8 +106,8 @@ BASH_COMMAND: $BASH_COMMAND"
 virt_mode="$(systemd-detect-virt)" || true
 
 meta_package_detect() {
-   if [ -n "$old_meta_package" ]; then
-      true "INFO: variable old_meta_package is already set to $old_meta_package"
+   if [ -n "${old_meta_package}" ]; then
+      true "INFO: variable old_meta_package is already set to ${old_meta_package}"
       return 0
    fi
    if test -e /usr/share/qubes/marker-vm ; then
@@ -165,10 +186,10 @@ meta_package_detect() {
 }
 
 meta_package_installed_check() {
-   if pkg_installed "$old_meta_package" ; then
+   if pkg_installed "${old_meta_package}" ; then
       return 0
    fi
-   if pkg_installed "$new_meta_package" ; then
+   if pkg_installed "${new_meta_package}" ; then
       return 0
    fi
    return 1
@@ -176,7 +197,7 @@ meta_package_installed_check() {
 
 if [ "$(id -u)" != "0" ]; then
    true "ERROR: Must run as root. Run:"
-   true "sudo $0"
+   true "sudo ${0}"
    exit 112
 fi
 
@@ -185,7 +206,8 @@ fi
 ## http://mywiki.wooledge.org/BashFAQ/035
 
 while true; do
-   case $1 in
+   ## Called with no arguments at all is the normal case.
+   case "${1-}" in
       --downloadonly)
          downloadonly=true
          shift
@@ -220,7 +242,7 @@ export DEBDEBUG=1
 if test -f /usr/share/qubes/marker-vm; then
    true "INFO: Qubes detected."
    qubes_version="$(grep -v '^#' /usr/share/qubes/marker-vm)"
-   if printf "%s\n" "${qubes_version}" | grep -q -e '^4.2' ; then
+   if grep --quiet -e '^4.2' <<< "${qubes_version}" ; then
       true "\
 WARNING:
 
@@ -231,7 +253,7 @@ WARNING:
 
 [1] https://github.com/QubesOS/qubes-issues/issues/10219
 [2] https://forum.qubes-os.org/t/whonix-18-denied-sdwdate-connectcheck/36098"
-      if [ "$force" = "true" ]; then
+      if [ "${force}" = "true" ]; then
          true "WARNING: Proceeding due to --force."
 
          ## Package 'qubes-core-agent-pcmanfm-qt' is non-existing for
@@ -257,7 +279,7 @@ workflow.
 You should check the configuration after the update and make any needed
 changes before rebooting, to avoid an accidental lockout."
 
-   if [ "$DEBIAN_FRONTEND" = 'noninteractive' ]; then
+   if [ "${DEBIAN_FRONTEND}" = 'noninteractive' ]; then
       true "'DEBIAN_FRONTEND' is 'noninteractive', proceeding automatically, OK."
    else
       true "
@@ -315,7 +337,7 @@ Aborting."
    fi
 
    derivative_list_contents="$(cat -- "/etc/apt/sources.list.d/derivative.list" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
-   if [ "$derivative_list_contents" = "" ]; then
+   if [ "${derivative_list_contents}" = "" ]; then
       true "ERROR: File /etc/apt/sources.list.d/derivative.list has no valid entries.
 
 (Maybe only out commented (#) and empty lines.)
@@ -330,8 +352,8 @@ Aborting."
    fi
 
    ## Not ideal because of hardcoded domain names.
-   if ! printf '%s\n' "$derivative_list_contents" | grep -- "kicksecure.com" >/dev/null 2>/dev/null; then
-      if ! printf '%s\n' "$derivative_list_contents" | grep -- "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
+   if ! printf '%s\n' "${derivative_list_contents}" | grep -- "kicksecure.com" >/dev/null 2>/dev/null; then
+      if ! printf '%s\n' "${derivative_list_contents}" | grep -- "w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
       true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Kicksecure repository.
 Kicksecure repository is not enabled. Enable it first before proceeding.
 
@@ -344,8 +366,8 @@ Aborting."
    fi
 fi
 
-if ! printf '%s\n' "$derivative_list_contents" | grep -- "whonix.org" >/dev/null 2>/dev/null; then
-   if ! printf '%s\n' "$derivative_list_contents" | grep -- "http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
+if ! printf '%s\n' "${derivative_list_contents}" | grep -- "whonix.org" >/dev/null 2>/dev/null; then
+   if ! printf '%s\n' "${derivative_list_contents}" | grep -- "http://deb.w5j6stm77zs6652pgsij4awcjeel3eco7kvipheu6mtr623eyyehj4yd.onion" >/dev/null 2>/dev/null; then
       if test -e /usr/share/whonix/marker ; then
          true "ERROR: File /etc/apt/sources.list.d/derivative.list does not contain the Whonix repository.
 Whonix repository is not enabled. Enable it first before proceeding.
@@ -361,15 +383,15 @@ fi
 
 meta_package_detect
 
-if [ "$old_meta_package" = "" ]; then
+if [ "${old_meta_package}" = "" ]; then
    true "ERROR: no installed meta package detected!"
    exit 1
 fi
 
-true "INFO: old_meta_package: $old_meta_package"
-true "INFO: new_meta_package: $new_meta_package"
+true "INFO: old_meta_package: ${old_meta_package}"
+true "INFO: new_meta_package: ${new_meta_package}"
 
-trap "pre_upgrade_error" ERR
+trap pre_upgrade_error ERR
 
 true "INFO: Checking potential issues and attempt to fix if any (pre)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
@@ -421,25 +443,25 @@ Most likely this system was distribution morphed from Debian to Kicksecure, but 
 Please complete the post-installation steps at https://www.kicksecure.com/wiki/Debian#Post-Installation to prepare this system to be upgraded."
 fi
 
-trap "error_handler" ERR
+trap error_handler ERR
 
 true "INFO: Backports, testing, unstable should be disabled during release upgrade.
 Removing files which are mentioned in the wiki, if any...
 /wiki/Install_Software"
-rm -f /etc/apt/sources.list.d/backports.list
-rm -f /etc/apt/sources.list.d/testing.list
-rm -f /etc/apt/sources.list.d/unstable.list
-rm -f /etc/apt/apt.conf.d/70defaultrelease
+safe-rm --force -- /etc/apt/sources.list.d/backports.list
+safe-rm --force -- /etc/apt/sources.list.d/testing.list
+safe-rm --force -- /etc/apt/sources.list.d/unstable.list
+safe-rm --force -- /etc/apt/apt.conf.d/70defaultrelease
 
-true "INFO: Change APT suite from '$source_codename' to '$target_codename'..."
+true "INFO: Change APT suite from '${source_codename}' to '${target_codename}'..."
 for file_name in /etc/apt/sources.list /etc/apt/sources.list.d/* ; do
-   if ! test -e "$file_name"; then
+   if ! test -e "${file_name}"; then
       continue
    fi
-   str_replace "$source_codename" "$target_codename" "$file_name"
+   str_replace "${source_codename}" "${target_codename}" "${file_name}"
 done
 
-## Get $target_codename apt package lists.
+## Get ${target_codename} apt package lists.
 true "INFO: Fetching package lists (2/2)..."
 if ! apt-get-noninteractive update --allow-releaseinfo-change-origin --allow-releaseinfo-change-label; then
    true "\
@@ -454,7 +476,7 @@ Check all other files in /etc/apt/sources.list.d if any."
 fi
 
 true "INFO: Download release upgrade..."
-if ! apt-get-noninteractive --yes --no-install-recommends --download-only full-upgrade "$new_meta_package" ; then
+if ! apt-get-noninteractive --yes --no-install-recommends --download-only full-upgrade "${new_meta_package}" ; then
    true "\
 ERROR: An error was encountered during download of release upgrade packages. Recommendation:
 Fix network connection and retry."
@@ -462,49 +484,49 @@ Fix network connection and retry."
 fi
 
 true "INFO: Simulating release upgrade..."
-upgrade_simulate_results="$(apt-get-noninteractive --no-install-recommends --simulate full-upgrade "$new_meta_package")"
-true "$upgrade_simulate_results"
+upgrade_simulate_results="$(apt-get-noninteractive --no-install-recommends --simulate full-upgrade "${new_meta_package}")"
+true "${upgrade_simulate_results}"
 true "INFO: Checking if release upgrade is safe or would result in removal of the main meta package... This will take a moment..."
 
 set +x
 old_meta_will_be_removed='false'
 new_meta_will_be_installed='false'
 while read -r -d $'\n' line ; do
-   read -r first_word second_word _ <<< "$line"
-   if [ ! "$second_word" = "$old_meta_package" ] \
-      && [ ! "$second_word" = "$new_meta_package" ]; then
+   read -r first_word second_word _ <<< "${line}"
+   if [ ! "${second_word}" = "${old_meta_package}" ] \
+      && [ ! "${second_word}" = "${new_meta_package}" ]; then
       continue
    fi
-   if [ "$first_word" = 'Remv' ] \
-      && [ "$second_word" = "$old_meta_package" ]; then
+   if [ "${first_word}" = 'Remv' ] \
+      && [ "${second_word}" = "${old_meta_package}" ]; then
       old_meta_will_be_removed='true'
    fi
-   if [ "$first_word" = 'Inst' ] \
-      && [ "$second_word" = "$new_meta_package" ]; then
+   if [ "${first_word}" = 'Inst' ] \
+      && [ "${second_word}" = "${new_meta_package}" ]; then
       new_meta_will_be_installed='true'
    fi
-done <<< "$upgrade_simulate_results"
+done <<< "${upgrade_simulate_results}"
 set -x
 
-if pkg_installed "$new_meta_package" ; then
+if pkg_installed "${new_meta_package}" ; then
   true
 else
-  if [ "$old_meta_package" = "$new_meta_package" ]; then
-    if [ "$old_meta_will_be_removed" = 'true' ] \
-      || [ "$new_meta_will_be_installed" = 'true' ]; then
-        true "ERROR: Release upgrade would remove meta package $old_meta_package. Release upgrade aborted!"
+  if [ "${old_meta_package}" = "${new_meta_package}" ]; then
+    if [ "${old_meta_will_be_removed}" = 'true' ] \
+      || [ "${new_meta_will_be_installed}" = 'true' ]; then
+        true "ERROR: Release upgrade would remove meta package ${old_meta_package}. Release upgrade aborted!"
         exit 1
     fi
   else
-    if [ "$old_meta_will_be_removed" = 'false' ] \
-      || [ "$new_meta_will_be_installed" = 'false' ]; then
-       true "ERROR: Release upgrade would not replace old meta package $old_meta_package with new meta package $new_meta_package. Release upgrade aborted!"
+    if [ "${old_meta_will_be_removed}" = 'false' ] \
+      || [ "${new_meta_will_be_installed}" = 'false' ]; then
+       true "ERROR: Release upgrade would not replace old meta package ${old_meta_package} with new meta package ${new_meta_package}. Release upgrade aborted!"
        exit 1
     fi
   fi
 fi
 
-if [ "$downloadonly" = "true" ]; then
+if [ "${downloadonly}" = "true" ]; then
    true "INFO: --downloadonly. Stop."
    exit 0
 fi
@@ -515,7 +537,7 @@ safe-rm --force -- /etc/dracut.conf.d/30-repart.conf
 override_policy_rc_d
 
 true "INFO: Install release upgrade..."
-if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade "$new_meta_package" ; then
+if ! apt-get-noninteractive --yes --no-install-recommends full-upgrade "${new_meta_package}" ; then
    true "\
 ERROR: An error was encountered during installation of release upgrade. See above."
    exit 1
@@ -566,7 +588,7 @@ ERROR: An error was encountered during the removal of the old 'xscreensaver' pac
    fi
 fi
 
-trap "post_upgrade_failure" ERR
+trap post_upgrade_failure ERR
 
 true "INFO: Checking potential issues and attempt to fix if any (post)..."
 apt-get-noninteractive --yes --no-install-recommends --fix-broken install || true
@@ -614,4 +636,4 @@ apt-forktracer | grep --invert-match -- "whonix:" | grep --invert-match -- "Qube
 
 revert_policy_rc_d_override
 
-true "INFO: OK. (release-upgrade version: $version) Release upgrade success."
+true "INFO: OK. (release-upgrade version: ${version}) Release upgrade success."

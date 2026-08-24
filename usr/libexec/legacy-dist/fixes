@@ -3,12 +3,27 @@
 ## Copyright (C) 2012 - 2025 ENCRYPTED SUPPORT LLC <adrelanos@whonix.org>
 ## See the file COPYING for copying conditions.
 
-set -e
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o errtrace
+shopt -s inherit_errexit
+shopt -s shift_verbose
+export LC_ALL=C
+
 if /usr/libexec/helper-scripts/debug-kicksecure-enabled; then
   set -x
 fi
 
-true "$0: START"
+# shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/has.sh
+source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/has.sh
+
+## Set by dpkg when this runs from a maintainer script, absent when it does
+## not; a bare read would abort every fix under nounset.
+[ -v DPKG_MAINTSCRIPT_PACKAGE ] || DPKG_MAINTSCRIPT_PACKAGE=""
+[ -v DPKG_MAINTSCRIPT_NAME ] || DPKG_MAINTSCRIPT_NAME=""
+
+true "${0}: START"
 
 user_list=()
 user_list_already_loaded='false'
@@ -21,10 +36,10 @@ load_user_list() {
    fi
 
    if ! user_list_str="$(/usr/libexec/helper-scripts/get-user-list)"; then
-      printf "%s\n" "$0: ERROR: Failed to get user list!" >&2
+      printf "%s\n" "${0}: ERROR: Failed to get user list!" >&2
       return 1
    fi
-   readarray -t user_list <<< "$user_list_str" || return 1
+   readarray -t user_list <<< "${user_list_str}" || return 1
 
    user_list_already_loaded='true'
 }
@@ -67,18 +82,21 @@ bisq_desktop_directories_workaround() {
    fi
 
    local user_name qubes_vm_name
+
    user_name="user"
-   if test -f "/home/$user_name/.local/share/Bisq/btc_mainnet/tor/tor" ; then
+   ## Assigned only when qubesdb-read exists, but read unconditionally below.
+   qubes_vm_name=""
+   if test -f "/home/${user_name}/.local/share/Bisq/btc_mainnet/tor/tor" ; then
       return 0
    fi
-   if [ ! -d "/home/$user_name" ]; then
+   if [ ! -d "/home/${user_name}" ]; then
       return 0
    fi
-   if ! id "$user_name" >&/dev/null ; then
+   if ! id "${user_name}" >&/dev/null ; then
       return 0
    fi
 
-   if command -v qubesdb-read >&/dev/null; then
+   if has qubesdb-read; then
       qubes_vm_name="$(qubesdb-read /name)" || return 0
    fi
    if test -f /run/qubes/this-is-templatevm ; then
@@ -86,12 +104,12 @@ bisq_desktop_directories_workaround() {
    fi
    ## Avoid running in Qubes DVM Template.
    ## https://phabricator.whonix.org/T726
-   if printf '%s\n' "$qubes_vm_name" | grep -- "-dvm" >/dev/null 2>/dev/null; then
+   if printf '%s\n' "${qubes_vm_name}" | grep -- "-dvm" >/dev/null 2>/dev/null; then
       return 0
    fi
 
-   sudo --non-interactive -u "$user_name" mkdir -p "/home/$user_name/.local/share/Bisq/btc_mainnet/tor" || true
-   sudo --non-interactive -u "$user_name" touch "/home/$user_name/.local/share/Bisq/btc_mainnet/tor/tor" || true
+   sudo --non-interactive -u "${user_name}" mkdir -p "/home/${user_name}/.local/share/Bisq/btc_mainnet/tor" || true
+   sudo --non-interactive -u "${user_name}" touch "/home/${user_name}/.local/share/Bisq/btc_mainnet/tor/tor" || true
 
    mkdir --parents "/var/lib/whonix/do_once"
    touch "/var/lib/whonix/do_once/${FUNCNAME[0]}_version_1"
@@ -106,32 +124,32 @@ locales_fix() {
 
    local search replace file_name etc_locale_gen_lines
 
-   command -v str_replace >/dev/null
+   has str_replace
 
    search="# en_US.UTF-8 UTF-8"
    replace="en_US.UTF-8 UTF-8"
    file_name="/etc/locale.gen"
 
-   if ! command -v locale-gen &>/dev/null ; then
+   if ! has locale-gen ; then
       ## If the locale-gen program is not available, do not attempt to fix this.
       return 0
    fi
 
-   if ! test -f "$file_name" ; then
+   if ! test -f "${file_name}" ; then
       ## If user deleted that file, do not attempt to fix this.
       ## Could be on purpose.
       return 0
    fi
 
-   etc_locale_gen_lines="$(cat -- "$file_name" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
+   etc_locale_gen_lines="$(cat -- "${file_name}" | grep --invert-match -- '\#' | grep --invert-match -- '^$')" || true
 
-   if ! [ "$etc_locale_gen_lines" = "" ]; then
+   if ! [ "${etc_locale_gen_lines}" = "" ]; then
       ## If file /etc/locale.gen is already non-empty, i.e. has an entry other
       ## blank lines or comments (lines starting with "#") then this should not be needed.
       return 0
    fi
 
-   str_replace "$search" "$replace" "$file_name" || true
+   str_replace "${search}" "${replace}" "${file_name}" || true
 
    ## Using LANG=C because locale-gen is a perl script and as long as this is
    ## not fixed it would show a warning confusing for users:
@@ -153,27 +171,27 @@ zsh_migration() {
    fi
    do_once_file="${do_once_folder}/${FUNCNAME[0]}_version_1"
 
-   if [ -f "$do_once_file" ]; then
+   if [ -f "${do_once_file}" ]; then
       return 0
    fi
 
    local user_name
    user_name="user"
    ## https://github.com/Kicksecure/desktop-config-dist/blob/master/etc/skel/.zshrc
-   if test -f "/home/$user_name/.zshrc" ; then
+   if test -f "/home/${user_name}/.zshrc" ; then
       return 0
    fi
-   if [ ! -d "/home/$user_name" ]; then
+   if [ ! -d "/home/${user_name}" ]; then
       return 0
    fi
-   if ! id "$user_name" >&/dev/null ; then
+   if ! id "${user_name}" >&/dev/null ; then
       return 0
    fi
 
-   sudo --non-interactive -u "$user_name" touch "/home/$user_name/.zshrc" || true
+   sudo --non-interactive -u "${user_name}" touch "/home/${user_name}/.zshrc" || true
 
-   mkdir --parents "$do_once_folder"
-   touch "$do_once_file"
+   mkdir --parents "${do_once_folder}"
+   touch "${do_once_file}"
 }
 
 ## Enables multiline-paste configuration for all active users.
@@ -260,6 +278,8 @@ pcmanfm_qt_archiver() {
       return 0
    fi
 
+   local user_entry config_file config_file_variant_list config_file_variant
+
    load_user_list || return 1
    for user_entry in "${user_list[@]}"; do
       config_file_variant_list=(
@@ -320,23 +340,27 @@ secure_boot_mok_cleanup() {
       ## Vulnerable key is present but may be safely wiped, delete them
 
       # shellcheck source=../../../../helper-scripts/usr/sbin/shim-signed-mok-setup
-      source /usr/sbin/shim-signed-mok-setup
+      source "${HELPER_SCRIPTS_PATH:-}"/usr/sbin/shim-signed-mok-setup
       dkms_mok_variables_set
 
+      ## Both are assigned by dkms_mok_variables_set in the file sourced
+      ## above, which shellcheck cannot follow in an isolated checkout.
+      # shellcheck disable=SC2154
       safe-rm --force -- "${dkms_mok_public_file}"
+      # shellcheck disable=SC2154
       safe-rm --force -- "${dkms_mok_private_file}"
    fi
 }
 
 if ! [ "$(id -u)" = "0" ]; then
-   echo "$0 ERROR: must run as root!" >&2
+   printf '%s\n' "${0} ERROR: must run as root!" >&2
    exit 1
 fi
 
 ## Fix for:
 ## dpkg-maintscript-helper: error: couldn't identify the package
-[ -n "$DPKG_MAINTSCRIPT_PACKAGE" ] || DPKG_MAINTSCRIPT_PACKAGE="legacy-dist"
-[ -n "$DPKG_MAINTSCRIPT_NAME" ] || DPKG_MAINTSCRIPT_NAME="preinst"
+[ -n "${DPKG_MAINTSCRIPT_PACKAGE}" ] || DPKG_MAINTSCRIPT_PACKAGE="legacy-dist"
+[ -n "${DPKG_MAINTSCRIPT_NAME}" ] || DPKG_MAINTSCRIPT_NAME="preinst"
 export DPKG_MAINTSCRIPT_PACKAGE DPKG_MAINTSCRIPT_NAME
 timeout --kill-after 60 60 /var/lib/dpkg/info/legacy-dist.preinst install || true
 
@@ -373,4 +397,4 @@ pcmanfm_qt_archiver || true
 
 secure_boot_mok_cleanup || true
 
-true "$0: END"
+true "${0}: END"

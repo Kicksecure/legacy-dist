@@ -6,34 +6,50 @@
 ## https://forums.whonix.org/t/one-time-popup-notification-of-whonix-15-deprecation-once-whonix-16-was-released/11720
 ## https://forums.whonix.org/t/do-not-show-this-message-again-generic-one-time-popup/8066
 
-#set -x
-set -e
+set -o errexit
+set -o nounset
+set -o pipefail
+set -o errtrace
+shopt -s inherit_errexit
+shopt -s shift_verbose
+export LC_ALL=C
+
+## Read below as booleans, but each is assigned only on ONE branch of the
+## argument dispatch -- so 'cli' is unset whenever 'gui' was chosen and vice
+## versa, and under nounset the final dispatch aborted rather than showing the
+## notice at all. Empty is what they expanded to before.
+cli=""
+gui=""
 
 ## sets: PROJECT_NAME
 ## sets: PROJECT_HOMEPAGE
 ## sets: derivative_major_release_version
-source /usr/libexec/helper-scripts/origins-parser
+# shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/origins-parser
+source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/origins-parser
 
-source /usr/libexec/helper-scripts/log_run_die.sh
+# shellcheck source=../../../../helper-scripts/usr/libexec/helper-scripts/log_run_die.sh
+source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/log_run_die.sh
 
 still_supported_version=18
 status_file=~"/.config/legacy-dist/deprecation-notice/dismissed-version-${still_supported_version}"
 
-if [ "$1" = "cli" ]; then
+## No argument is a supported invocation -- it means both.
+if [ "${1:-}" = "cli" ]; then
   cli=true
-elif [ "$1" = "gui" ]; then
+elif [ "${1:-}" = "gui" ]; then
   gui=true
 else
   cli=true
   gui=true
 fi
 
-if [ "$derivative_major_release_version" = "" ]; then
+# shellcheck disable=SC2154
+if [ "${derivative_major_release_version}" = "" ]; then
   printf '%s\n' "INFO: version file does not exist or is empty. This is expected during initial installation." >&2
   exit 1
 fi
 
-if [ "$derivative_major_release_version" -ge "${still_supported_version}" ]; then
+if [ "${derivative_major_release_version}" -ge "${still_supported_version}" ]; then
   true "INFO: Not yet deprecated, ok."
   exit 0
 fi
@@ -51,9 +67,10 @@ fi
 
 title="DEPRECATION NOTICE"
 
+# shellcheck disable=SC2154
 text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />
-<br />Major release version <u><code>$derivative_major_release_version</code></u> has been deprecated.
+<br />Major release version <u><code>${derivative_major_release_version}</code></u> has been deprecated.
 <br />
 <br />No more security support will be provided.
 <br />
@@ -63,10 +80,20 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />${PROJECT_HOMEPAGE}/wiki/Release_Upgrade
 </p>"
 
-stripped_text="$(strip-markup -- "$text")"
+stripped_text="$(strip-markup -- "${text}")"
 
-if [ "$cli" = "true" ]; then
-  log warn "$stripped_text"
-elif [ "$gui" = "true" ]; then
-  /usr/libexec/msgcollector/one-time-popup.py "$status_file" "$title" "$text"
+## TWO independent 'if's, not an if/elif.
+##
+## No argument means BOTH (see the dispatch above), which is the default
+## invocation -- and with an 'elif' the cli branch matched first, so the GUI
+## popup was never shown. The popup this script exists to display has therefore
+## never appeared in its most common configuration.
+##
+## cli and gui are separate switches; they must be decided separately.
+if [ "${cli}" = "true" ]; then
+  log warn "${stripped_text}"
+fi
+
+if [ "${gui}" = "true" ]; then
+  /usr/libexec/msgcollector/one-time-popup.py "${status_file}" "${title}" "${text}"
 fi
