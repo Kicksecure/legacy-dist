@@ -80,7 +80,7 @@ text="<p>Support Status of this Major Version: <b>Deprecated!</b>
 <br />${PROJECT_HOMEPAGE}/wiki/Release_Upgrade
 </p>"
 
-stripped_text="$(strip-markup -- "${text}")"
+stripped_text="$(sanitize-string -- nolimit "${text}")"
 
 ## TWO independent 'if's, not an if/elif.
 ##
