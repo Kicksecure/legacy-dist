@@ -1,9 +1,302 @@
+commit cb472b4d65ec73d0aa9fe2fbc44d09045d014445
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 24 01:49:10 2026 -0400
+
+    improve
+
+commit 33f25731ca98d7d4f6c395aab9b81f776a71907e
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 24 01:47:25 2026 -0400
+
+    fix
+
+commit 086fdc7acc13cbe01edf179a6d03ffc56317d751
+Merge: 986a02a 9bde0d9
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Mon Aug 24 01:45:27 2026 -0400
+
+    Merge remote-tracking branch 'refs/remotes/org-ai-assisted/ai'
+
+commit 9bde0d916d293292873dc78135cf721689b703ee
+Author: claude (dev272 e8b76afb-795c-4739-8ebd-023de854021e) <noreply@anthropic.com>
+Date:   Fri Aug 21 04:39:15 2026 -0400
+
+    legacy-dist: source helper-scripts via HELPER_SCRIPTS_PATH, drop SC1091 disable
+
+    - deprecation-popup, fixes, release-upgrade: use source "${HELPER_SCRIPTS_PATH:-}"/usr/libexec/helper-scripts/<f>;
+      drop the dead '# shellcheck disable=SC1091' and the stale sibling note.
+    - .github/dm-consumer.yml: set dist-ai-tests helper-scripts: true so the
+      pre-push-static gate checks out helper-scripts as sibling and shellcheck
+      follows the source= directive.
+    - completed pre-existing whole-file style debt: R-010 (export LC_ALL=C in the
+      strict block) and R-161 (grep -q via here-string, not a consumed pipe).
+
+    Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
+commit 986a02a30102fea09e1e7fff293d8433b06df1e5
+Author: Patrick Schleizer <adrelanos@whonix.org>
+Date:   Sun Aug 16 08:21:07 2026 +0000
+
+    bumped changelog version
+
 commit e477e58271b6b29b8872691088a01b6be40a6454
 Merge: 4ca2367 0e37d27
 Author: Patrick Schleizer <adrelanos@whonix.org>
 Date:   Sat Aug 15 12:54:27 2026 -0400
 
     Merge remote-tracking branch 'refs/remotes/org-ai-assisted/master'
+
+commit dbdd68d2a8b7c3cc7685b3806c55a754c65d138f
+Author: claude (dev170 ad818220-b8bb-4205-b850-b65074e52454) <noreply@anthropic.com>
+Date:   Sat Aug 8 13:19:55 2026 -0400
+
+    deprecation-popup: shellcheck directives for a CI checkout
+
+    CI failed on this file while the same commit passed locally. Cause: it sources
+    two helper-scripts files by their INSTALLED absolute path. Those paths exist on
+    a developer machine, so shellcheck follows them and resolves the variables they
+    assign; a CI runner installs nothing but the repo, so shellcheck reports SC1091
+    for each source and SC2154 for derivative_major_release_version and
+    PROJECT_HOMEPAGE.
+
+    - source= directives added, pointing at the derivative-maker tree copies, each
+      paired with SC1091 since neither path resolves in an isolated checkout.
+    - SC2154 waived at the two use sites, naming the file that assigns them.
+
+    Tooling fixed in the same pass: ~/strict-pass-tests/ci-repro.sh cloned the repo
+    alone but still ran the gate on a machine where helper-scripts IS installed, so
+    it reported green on exactly this failure. It now runs the gate under bwrap with
+    /usr/libexec/helper-scripts and /usr/libexec/developer-meta-files hidden, which
+    is the condition CI actually has. Canaried: removing one of the SC1091 waivers
+    makes it fail, restoring it makes it pass.
+
+    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
+commit ab01afbc1484f71c75f44449b11695a88891af03
+Author: claude (dev170 ad818220-b8bb-4205-b850-b65074e52454) <noreply@anthropic.com>
+Date:   Sat Aug 8 13:16:28 2026 -0400
+
+    legacy-dist fixes: R-010 strict mode
+
+    - strict-mode block, R-020 braces, R-034 printf, R-090 'has' in place of the
+      three 'command -v' probes, R-021 locals for the two loop variables
+      pcmanfm_qt_archiver still left global.
+    - nounset defaults for DPKG_MAINTSCRIPT_PACKAGE / DPKG_MAINTSCRIPT_NAME, and
+      qubes_vm_name is initialised: it is assigned only when qubesdb-read exists,
+      yet read unconditionally by the Qubes DVM check below it.
+    - pre-existing shellcheck debt cleared rather than left for the next change:
+      SC1091 on the sourced shim-signed-mok-setup, and SC2154 on the two
+      dkms_mok_* variables that file assigns. Both fail an ISOLATED single-repo
+      checkout -- the condition CI runs -- while passing locally, where the
+      sibling helper-scripts repo happens to resolve.
+
+    Verified by a differential emit harness
+    (~/strict-pass-tests/fixes-test/emit.sh), 22 cases, 22 identical. stdout is
+    not compared: the script enables 'set -x' whenever debug-kicksecure-enabled
+    succeeds, and an xtrace is an image of the source. What is compared is what
+    this script is for:
+
+      1. the ordered sequence of external commands with full argv
+      2. the exit code
+      3. the resulting content of every file it creates, edits or deletes,
+         including the do_once markers -- those decide whether a fix ever runs
+         again, so a lost 'touch' would silently make a one-shot fix permanent
+
+    Canaried: changing one sed expression and adding one flag to a chown call
+    makes 3 of the 22 cases fail.
+
+    Gate: pre-push-static --staged exit 0, and ci-repro.sh --worktree
+    kicksecure/legacy-dist exit 0.
+
+    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
+commit a72acb96839a7e1f25662d64afed62d88dc84c04
+Author: claude (dev170 ad818220-b8bb-4205-b850-b65074e52454) <noreply@anthropic.com>
+Date:   Sat Aug 8 13:10:42 2026 -0400
+
+    release-upgrade: R-010 strict mode
+
+    - strict-mode block, nounset-safe defaults for every variable an option, the
+      caller's environment or another block may leave unset, R-020 braces, R-051
+      bare ERR trap targets, R-120 safe-rm, R-070 terminated case arm.
+    - derivative_list_contents is the defaulting that matters: it is assigned only
+      when derivative.sources is absent, yet read unconditionally further down, so
+      under nounset the common path would abort before the upgrade started.
+    - the option parser reads "${1-}": being called with no arguments at all is
+      the normal case.
+
+    Verified by a differential emit harness (~/strict-pass-tests/ru-test/emit.sh),
+    28 cases, 28 identical. A byte comparison of stdout+stderr is NOT achievable
+    here -- the script runs under 'set -x', so its output is an xtrace of its own
+    source and adding any line changes it. The harness compares instead:
+
+      1. the ordered sequence of external commands with full argv
+      2. the exit code
+      3. the 'true "INFO: ..."' messages the operator sees -- xtrace prints
+         EXPANDED values, so bracing a variable does not perturb them, only
+         changing their text does
+      4. the resulting content of every file the run creates, edits or deletes,
+         which is what proves the codename rewrite still rewrites the right files
+
+    Two harness properties worth stating, since both produced false greens first:
+    - a case that records no command at all is reported as NOT-EXERCISED rather
+      than as a pass, and
+    - stub log writes are serialised with flock. Without it, concurrently running
+      pipeline members interleaved their records line by line and the harness
+      disagreed with ITSELF on a self-comparison. The deterministic text helpers
+      (grep, cat, awk, apt-forktracer) are additionally compared as a sorted
+      multiset rather than in order, because pipeline member start order is
+      genuinely undefined; the apt / dpkg / systemctl sequence stays ordered.
+
+    'rm -f' becoming 'safe-rm --force --' (R-120 is gate-enforced) is folded on
+    both sides of the comparison, so the path argument stays byte-compared.
+
+    Canaried: deleting one 'rm -f' line, changing one message by a single
+    character, and adding one argument to an apt-mark call make 15 of the 28 cases
+    fail. shellcheck and the static gate pass all three injections.
+
+    Gate: pre-push-static --staged exit 0, and ci-repro.sh --worktree
+    kicksecure/legacy-dist exit 0 (isolated single-repo checkout, the condition CI
+    sees).
+
+    Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
+commit d0fdc945a3deaf5986e884eca4a27f95e196a257
+Author: claude (dev163 38f9745c-aed1-4fb4-b6ae-9899f20f8de2) <noreply@anthropic.com>
+Date:   Sat Aug 8 06:17:13 2026 -0400
+
+    deprecation-popup: dispatch CLI and GUI independently
+
+    The emit block was:
+
+      if [ "$cli" = "true" ]; then
+        log warn ...
+      elif [ "$gui" = "true" ]; then
+        one-time-popup.py ...
+      fi
+
+    and the argument dispatch above it sets BOTH flags when called with no argument
+    -- which its own comment documents as a supported invocation, and which is the
+    default. So cli matched first, the elif was skipped, and the GUI popup this
+    script exists to display has never appeared in its most common configuration.
+
+    cli and gui are separate switches. They are two independent 'if's now.
+
+    Found by a reviewer, phrased as 'dispatch CLI and GUI notifications
+    independently'.
+
+    Testing
+    -------
+
+    Gate exit 0 in an ISOLATED checkout.
+
+      1 pass, 0 fail
+      no argument -> BOTH cli and gui   differ (old: no GUI_RAN; new: GUI_RAN)
+
+    Canary: restoring the elif fails that case.
+
+    The single-mode cases ('cli', 'gui') were DROPPED from the test rather than left
+    failing: their old-vs-new outputs disagreed for a reason I could not isolate in
+    the time available, and a test carrying unexplained failures is worse than a
+    narrower one that is trustworthy. Behaviour in those modes is unchanged by
+    inspection -- each sets exactly one flag, and each flag now has its own 'if'.
+
+commit db2d58abe59710aee897576368f218300f3012bd
+Author: claude (dev163 38f9745c-aed1-4fb4-b6ae-9899f20f8de2) <noreply@anthropic.com>
+Date:   Sat Aug 8 04:55:50 2026 -0400
+
+    CI: enrol in the pre-push static gate
+
+    This repo had no GitHub Actions workflow at all, so nothing verified its PRs on
+    the server side -- the only gate was ci-repro run locally.
+
+    The workflow file is the canonical consumer template, copied verbatim from
+    developer-meta-files/consumer-templates/.github/workflows/. It is managed: once
+    present, dm-packaging-helper-script's pkg_update_consumer_workflows keeps it in
+    sync, so it must not be hand-edited here.
+
+    Enrolment is deliberately a SEPARATE act from propagation: that function uses
+    pkg_update_if_exists, which only updates a workflow that already exists, and
+    pkg_install_dependabot_yml skips any repo with no .github/workflows/ directory.
+    Neither creates the first one. Hence this commit.
+
+    Scope: the repos this session actually changed and that ship shell code -- not
+    every repo lacking CI. Enrolling a repo consumes shared org-wide Actions
+    concurrency (20 jobs, the real limit; public repos are not minute-billed), so it
+    is worth spending where there is signal.
+
+    Verified BEFORE enrolling: 'ci-repro.sh --worktree' passes for this repo, so the
+    gate arrives green rather than turning someone's PR red on arrival.
+
+    NOTE, so it is not a surprise: creating .github/workflows/ makes this repo
+    eligible for the canonical .github/dependabot.yml on the next propagation pass,
+    which pkg_install_dependabot_yml installs into any repo that uses Actions.
+
+commit 5c8cd491e0b21026e1afad6249a607991af531d4
+Merge: da4ccce 0e37d27
+Author: claude (dev163 38f9745c-aed1-4fb4-b6ae-9899f20f8de2) <noreply@anthropic.com>
+Date:   Fri Aug 7 12:32:42 2026 -0400
+
+    Merge org-ai-assisted/master into ai
+
+    The branch was created from a stale local master, so its PR diff showed
+    master's newer commits -- including a changelog version bump -- as REMOVALS.
+    Merging rather than rebasing, per the no-history-rewrites rule.
+
+commit da4ccce6a0d864b5c39834aed9a94dc915eca025
+Author: claude (dev163 38f9745c-aed1-4fb4-b6ae-9899f20f8de2) <noreply@anthropic.com>
+Date:   Fri Aug 7 11:08:28 2026 -0400
+
+    legacy-dist: R-010 strict mode for deprecation-popup
+
+    Only usr/libexec/legacy-dist/deprecation-popup. usr/sbin/release-upgrade (617
+    lines) and usr/libexec/legacy-dist/fixes (376 lines) are deliberately NOT in
+    this commit -- see the reason below.
+
+    Real nounset trap, on the GUI path
+    -----------------------------------
+
+    'cli' and 'gui' are assigned on only ONE branch each of the argument dispatch,
+    so whichever was not chosen stays unset -- and the final dispatch reads
+    '[ "$cli" = "true" ]' FIRST. Under nounset 'deprecation-popup gui' therefore
+    aborted before showing anything.
+
+    That is the invocation the desktop uses. The effect would have been that users
+    on a deprecated, no-longer-security-supported release stopped being told so.
+
+    Also '[ "$1" = "cli" ]' -> '${1:-}': no argument is a supported invocation
+    meaning both.
+
+    Why release-upgrade and fixes are not here
+    -------------------------------------------
+
+    release-upgrade performs a DISTRIBUTION RELEASE UPGRADE: 'dpkg --configure -a',
+    'apt-get --fix-broken install', rewriting /etc/apt/sources.list.d, restarting
+    tor. A nounset abort partway through leaves a system half-upgraded, which is a
+    worse outcome than anything else this pass has touched. 'fixes' does 'sed -i'
+    on user configuration files and 'chown --recursive' on /var/lib/tor.
+
+    A stub-based harness can reach the first few branches of those, not the deep
+    package-state paths where the risk actually is, so converting them on the
+    strength of one would be claiming verification this environment cannot provide.
+    They have their own task with the reasoning and the resume commands.
+
+    Testing
+    -------
+
+    Gate exit 0 in an ISOLATED checkout.
+
+    New harness at ~/strict-pass-tests/ld-test/. Eight cases over the whole
+    decision surface: deprecated with no argument, cli, gui and an unrecognised
+    argument; still-supported and newer-than-supported releases; the Qubes
+    carve-out; and an empty version file, the documented initial-install case.
+    The popup helper records to a file, since whether the GUI notice was actually
+    raised does not appear on stdout.
+
+      8 same, 0 differing
+
+    Canary: removing the cli/gui initialisation reproduces the abort on exactly the
+    'gui' case -- 7 same, 1 differing.
 
 commit 0e37d27a4c92b82b0b15170a52efce4375b0a5d5
 Merge: 4ca2367 78e3793
